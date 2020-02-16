@@ -18,12 +18,12 @@ module.exports = (function ()
      *  @readonly
      */
     var _twoPower15 = 32768;
-    
+
     /**
      *  @readonly
      */
     var _twoPower16 = 65536;
-    
+
     /**
      *  @readonly
      */
@@ -62,7 +62,7 @@ module.exports = (function ()
         if(elementCount < 1) {
             this._buffer = [0];
             this._subIndex = 0;
-            
+
             if(!isUndefined(arguments[1])) {
                 this.fill(arguments[1]);
             }
@@ -103,21 +103,21 @@ module.exports = (function ()
     // ByteArray.prototype[karbonator.deepClone] = function () {
     //     return ByteArray.from(this);
     // };
-    
+
     /**
      *  @returns {boolean}
      */
     ByteArray.prototype.isEmpty = function isEmpty() {
         return this._buffer.length < 2 && this._subIndex < 1;
     };
-    
+
     /**
      *  @returns {number}
      */
     ByteArray.prototype.getElementCount = function getElementCount() {
         return ((this._buffer.length - 1) << _bufNdxExp) + this._subIndex;
     };
-    
+
     /**
      *  @returns {Iterator<number>}
      */
@@ -127,12 +127,12 @@ module.exports = (function ()
                 var out = {
                     done : this._index >= this._target.getElementCount()
                 };
-                
+
                 if(!out.done) {
                     out.value = this._target.get(this._index);
                     ++this._index;
                 }
-                
+
                 return out;
             },
             _target : this,
@@ -146,13 +146,13 @@ module.exports = (function ()
      */
     ByteArray.prototype.get = function get(index) {
         this._assertIsValidIndex(index);
-        
+
         var bufNdx = index >>> _bufNdxExp;
         var subNdx = index & _subNdxBm;
-        
+
         return _get(this._buffer, bufNdx, subNdx);
     };
-    
+
     /**
      *  @param {number} index
      *  @param {number} v
@@ -189,7 +189,7 @@ module.exports = (function ()
 
         return this;
     };
-    
+
     /**
      *  @param {number} lhsIndex
      *  @param {number} rhsIndex
@@ -199,14 +199,14 @@ module.exports = (function ()
     {
         this._assertIsValidIndex(lhsIndex);
         this._assertIsValidIndex(rhsIndex);
-        
+
         var lhsElem = this.get(lhsIndex);
         this.set(lhsIndex, this.get(rhsIndex));
         this.set(rhsIndex, lhsElem);
-        
+
         return this;
     };
-    
+
     /**
      *  @returns {ByteArray}
      */
@@ -218,10 +218,10 @@ module.exports = (function ()
             --j;
             this.swapElements(i, j);
         }
-        
+
         return this;
     };
-    
+
     /**
      *  @function
      *  @param {number} v
@@ -234,12 +234,12 @@ module.exports = (function ()
         var elemCount = this.getElementCount();
         index = (isUndefined(index) ? elemCount : index);
         this._assertIsValidIndex(index, elemCount + 1);
-        
+
         if(this._subIndex >= _bytesPerInt) {
             this._buffer.push(0);
             this._subIndex = 0;
         }
-        
+
         var destBufNdx = index >>> _bufNdxExp;
         var destSubNdx = index & _subNdxBm;
 
@@ -385,7 +385,7 @@ module.exports = (function ()
 
         return this;
     };
-    
+
     /**
      *  @param {number} [startIndex]
      *  @param {number} [endIndex]
@@ -404,7 +404,7 @@ module.exports = (function ()
         else if(startIndex >= byteCount) {
             throw new RangeError("");
         }
-        
+
         var endIndex = arguments[1];
         if(isUndefined(endIndex)) {
             endIndex = byteCount;
@@ -415,19 +415,19 @@ module.exports = (function ()
         else if(endIndex > byteCount) {
             endIndex = byteCount;
         }
-        
+
         var slicedByteCount = endIndex - startIndex;
         var newByteArray = new ByteArray(slicedByteCount);
         for(var i = slicedByteCount, j = endIndex; j > startIndex; ) {
             --j;
             --i;
-            
+
             newByteArray.set(i, this.get(j));
         }
-        
+
         return newByteArray;
     };
-    
+
     /**
      *  @param {ByteArray} rhs
      *  @returns {boolean}
@@ -478,7 +478,7 @@ module.exports = (function ()
 
         return str;
     };
-    
+
     /**
      *  @private
      *  @param {number} index
@@ -509,7 +509,7 @@ module.exports = (function ()
     function _get(buffer, bufferIndex, subIndex)
     {
         var shiftCount = _calculateShiftCount(subIndex);
-        
+
         return (buffer[bufferIndex] & (_byteBm << shiftCount)) >>> shiftCount;
     }
 
@@ -522,7 +522,7 @@ module.exports = (function ()
     function _set(buffer, bufferIndex, subIndex, v)
     {
         var shiftCount = _calculateShiftCount(subIndex);
-        
+
         buffer[bufferIndex] &= ~(_byteBm << shiftCount);
         buffer[bufferIndex] |= (v << shiftCount);
     }
@@ -602,7 +602,7 @@ module.exports = (function ()
             i > 0;
         ) {
             --i;
-            
+
             dest.pushBack(0);
         }
 
@@ -610,7 +610,7 @@ module.exports = (function ()
         if(arguments[2]) {
             for(i = destIndex, j = byteCount; j > 0; ++i) {
                 --j;
-    
+
                 dest.set(i, (value & 0xFF));
                 value >>>= 8;
             }
@@ -618,11 +618,11 @@ module.exports = (function ()
         else for(i = destIndex + byteCount, j = byteCount; j > 0; ) {
             --j;
             --i;
-            
+
             dest.set(i, (value & 0xFF));
             value >>>= 8;
         }
-        
+
         return dest;
     }
 
@@ -685,7 +685,7 @@ module.exports = (function ()
                 intValue <<= 8;
                 intValue = bytes.get(++index);
             }
-            
+
             if(signed && intValue >= _twoPower15) {
                 intValue -= _twoPower16;
             }
@@ -709,7 +709,7 @@ module.exports = (function ()
                 intValue <<= 8;
                 intValue = bytes.get(++index);
             }
-            
+
             if(signed && intValue >= _twoPower31) {
                 intValue -= _twoPower32;
             }

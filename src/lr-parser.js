@@ -7,7 +7,7 @@ module.exports = (function ()
 
     function LrParser()
     {
-        
+
     }
 
     /*////////////////////////////////*/
@@ -30,7 +30,7 @@ module.exports = (function ()
     // }
 
     /**
-     * @constructor
+     *  @constructor
      */
     function LrParserGenerator()
     {
@@ -38,10 +38,10 @@ module.exports = (function ()
     }
 
     /**
-     * @function
-     * @param {String} name
-     * @param {String|Array.<String>} syntaxArg
-     * @param {Boolean} [overwrite=false]
+     *  @function
+     *  @param {string} name
+     *  @param {String|Array.<String>} syntaxArg
+     *  @param {boolean} [overwrite=false]
      */
     // eslint-disable-next-line no-unused-vars
     LrParserGenerator.prototype.addRule = function (name, syntaxArg) {
@@ -49,8 +49,8 @@ module.exports = (function ()
     };
 
     /**
-     * @function
-     * @return {karbonator.string.LrParser|null}
+     *  @function
+     *  @returns {karbonator.string.LrParser|null}
      */
     LrParserGenerator.prototype.generate = function () {
 

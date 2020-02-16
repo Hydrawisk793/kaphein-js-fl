@@ -26,13 +26,11 @@ module.exports = (function ()
 
         this._cursor = 0;
         this._thIdSeq = 0;
-        /** @type {RegexVmThread[]} */this._ctxts = [];
+        /**  @type {RegexVmThread[]} */this._ctxts = [];
         this._logStr = "";
     }
 
     /**
-     *  @memberof RegexVm
-     *  @private
      *  @constructor
      */
     RegexVm._IntegerType = MyEnum.create(
@@ -75,7 +73,6 @@ module.exports = (function ()
     );
 
     /**
-     *  @memberof RegexVm
      *  @constructor
      */
     RegexVm.OperandType = MyEnum.create(
@@ -374,8 +371,6 @@ module.exports = (function ()
     );
 
     /**
-     *  @memberof RegexVm
-     *  @function
      *  @param {number} opCode
      *  @returns {RegexVmInstruction}
      */

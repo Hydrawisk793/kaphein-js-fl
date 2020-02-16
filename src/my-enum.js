@@ -20,7 +20,7 @@ module.exports = (function ()
     var _pSymStaticKeys = Symbol("karbonator.util.Enum.keys");
 
     /**
-     * @constructor
+     *  @constructor
      */
     function MyEnum()
     {
@@ -32,29 +32,29 @@ module.exports = (function ()
     }
 
     /**
-     * @type {Symbol}
+     *  @type {Symbol}
      */
     MyEnum.getIndex = Symbol("karbonator.util.Enum.getIndex");
 
     /**
-     * @type {Symbol}
+     *  @type {Symbol}
      */
     MyEnum.getKey = Symbol("karbonator.util.Enum.getKey");
 
     /**
-     * @type {Symbol}
+     *  @type {Symbol}
      */
     MyEnum.getValue = Symbol("karbonator.util.Enum.getValue");
 
     /**
-     * @return {Number}
+     *  @returns {number}
      */
     MyEnum.prototype[MyEnum.getIndex] = function () {
         return this[_pSymMemberIndex];
     };
 
     /**
-     * @return {String|Symbol}
+     *  @returns {String|Symbol}
      */
     MyEnum.prototype[MyEnum.getKey] = function () {
         return this[_pSymMemberKey];
@@ -77,10 +77,10 @@ module.exports = (function ()
      *      [["red", [0, 0.125]], ["green", [1, 0.125]], ["blue", [2, 0.125]], [Symbol("violet"), [123, 0.5]]]
      *  );
      *
-     * @param {Function} protoHandler
-     * @param {Function} ctor
-     * @param {iterable} pairs
-     * @return {karbonator.util.Enum}
+     *  @param {Function} protoHandler
+     *  @param {Function} ctor
+     *  @param {iterable} pairs
+     *  @returns {karbonator.util.Enum}
      */
     MyEnum.create = function (protoHandler, ctor, pairs) {
         if(!isFunction(protoHandler)) {
@@ -158,10 +158,10 @@ module.exports = (function ()
 
         return EnumType;
     };
-    
+
     /**
-     * @param {Function} enumType
-     * @returns {Array.<String|Symbol>}
+     *  @param {Function} enumType
+     *  @returns {Array.<String|Symbol>}
      */
     MyEnum.getKeys = function (enumType) {
         MyEnum._assertIsEnumType(enumType);
@@ -170,9 +170,9 @@ module.exports = (function ()
     };
 
     /**
-     * @param {Function} enumType
-     * @param {Number} index
-     * @return {String|Symbol}
+     *  @param {Function} enumType
+     *  @param {number} index
+     *  @returns {String|Symbol}
      */
     MyEnum.getKeyAt = function (enumType, index) {
         MyEnum._assertIsEnumType(enumType);
@@ -181,9 +181,9 @@ module.exports = (function ()
     };
 
     /**
-     * @param {Function} enumType
-     * @param {Number} index
-     * @return {*}
+     *  @param {Function} enumType
+     *  @param {number} index
+     *  @returns {*}
      */
     MyEnum.getValueAt = function (enumType, index) {
         MyEnum._assertIsEnumType(enumType);
@@ -192,8 +192,8 @@ module.exports = (function ()
     };
 
     /**
-     * @param {Function} enumType
-     * @return {Number}
+     *  @param {Function} enumType
+     *  @returns {number}
      */
     MyEnum.getCount = function (enumType) {
         MyEnum._assertIsEnumType(enumType);
@@ -202,9 +202,9 @@ module.exports = (function ()
     };
 
     /**
-     * @param {Function} enumType
-     * @param {String|Symbol} key
-     * @return {karbonator.util.Enum}
+     *  @param {Function} enumType
+     *  @param {String|Symbol} key
+     *  @returns {karbonator.util.Enum}
      */
     MyEnum.findByKey = function (enumType, key) {
         MyEnum._assertIsEnumType(enumType);
@@ -219,12 +219,10 @@ module.exports = (function ()
 
         return enumType[key];
     };
-    
+
     /**
-     * @memberof karbonator.util.Enum
-     * @private
-     * @param {Object} enumType
-     * @returns {Object}
+     *  @param {Object} enumType
+     *  @returns {Object}
      */
     MyEnum._assertIsEnumType = function (enumType) {
         if(!isFunction(enumType)) {

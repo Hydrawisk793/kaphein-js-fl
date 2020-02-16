@@ -3,7 +3,7 @@ module.exports = (function ()
     /**
      *  @typedef {import("kaphein-js-math").Interval} Interval
      */
-    
+
     /**
      *  @constructor
      *  @param {number} tokenKey

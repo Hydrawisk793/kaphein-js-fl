@@ -16,8 +16,8 @@ module.exports = (function ()
     }
 
     /**
-     *  @param {number} l
-     *  @param {number} r
+     *  @param {number} lhs
+     *  @param {number} rhs
      */
     function integerComparator(lhs, rhs)
     {
@@ -33,7 +33,7 @@ module.exports = (function ()
         if(!isString(l) || !isString(r)) {
             throw new TypeError("Both 'l' and 'r' must be strings.");
         }
-        
+
         var minLen = (l.length < r.length ? l.length : r.length);
         var i = 0;
         for(; i < minLen; ++i) {
@@ -42,14 +42,14 @@ module.exports = (function ()
                 return diff;
             }
         }
-        
+
         if(l.length > minLen) {
             return l.charCodeAt(i);
         }
         else if(r.length > minLen) {
             return r.charCodeAt(i);
         }
-        
+
         return 0;
     }
 
@@ -71,7 +71,7 @@ module.exports = (function ()
         var mapFn = arguments[4];
         var mapFnExist = isFunction(mapFn);
         var thisArg = arguments[5];
-        
+
         if(arrayLike[global.Symbol.iterator]) {
             for(
                 var i = arrayLike[global.Symbol.iterator](), iP = i.next(), j = 0;
@@ -91,7 +91,7 @@ module.exports = (function ()
 //        else if (isArrayLike(arrayLike)) {
 //            
 //        }
-        
+
         return arr;
     }
 
@@ -167,9 +167,9 @@ module.exports = (function ()
 
     var assertion = {
         /**
-         * @param {Boolean} boolExpr
-         * @param {String} [message]
-         * @param {Function} [errorClass]
+         *  @param {boolean} boolExpr
+         *  @param {string} [message]
+         *  @param {Function} [errorClass]
          */
         isTrue : function (boolExpr) {
             if(!boolExpr) {
@@ -178,7 +178,7 @@ module.exports = (function ()
                     ? arguments[2] :
                     Error
                 );
-                
+
                 throw new errorClass((
                     isUndefinedOrNull(arguments[1])
                     ? "Assertion Failed" :
@@ -186,11 +186,11 @@ module.exports = (function ()
                 ));
             }
         },
-        
+
         /**
-         * @param {Boolean} boolExpr
-         * @param {String} [message]
-         * @param {Function} [errorClass]
+         *  @param {boolean} boolExpr
+         *  @param {string} [message]
+         *  @param {Function} [errorClass]
          */
         isFalse : function (boolExpr) {
             return assertion.isTrue(
@@ -199,49 +199,49 @@ module.exports = (function ()
                 arguments[2]
             );
         },
-        
+
         /**
-         * @param {Object} o
-         * @param {String} [message]
-         * @return {Object}
+         *  @param {Object} o
+         *  @param {string} [message]
+         *  @returns {Object}
          */
         isNotUndefined : function (o) {
             if(isUndefined(o)) {
                 throw new TypeError(arguments[1]);
             }
-            
+
             return o;
         },
-        
+
         /**
-         * @param {Object} o
-         * @param {Function} klass
-         * @param {String} [message]
-         * @return {Object}
+         *  @param {Object} o
+         *  @param {Function} klass
+         *  @param {string} [message]
+         *  @returns {Object}
          */
         isInstanceOf : function (o, klass) {
             if(!(o instanceof klass)) {
                 throw new TypeError(arguments[2]);
             }
-            
+
             return o;
         },
-        
+
         /**
-         * @param {Number} n
-         * @param {String} [message]
-         * @return {Number}
+         *  @param {number} n
+         *  @param {string} [message]
+         *  @returns {number}
          */
         isNonNegativeSafeInteger : function (n) {
             var message = arguments[1];
-            
+
             if(Number.isSafeInteger(n)) {
                 throw new TypeError(message);
             }
             else if(n < 0) {
                 throw new RangeError(message);
             }
-            
+
             return n;
         }
     };
