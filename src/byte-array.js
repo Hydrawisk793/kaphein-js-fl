@@ -80,7 +80,8 @@ module.exports = (function ()
      *  @param {*} [thisArg]
      *  @returns {ByteArray}
      */
-    ByteArray.from = function from(numberArrayLike) {
+    ByteArray.from = function from(numberArrayLike)
+    {
         return _arrayFromFunctionBody(
             new ByteArray(), _assertIsUint8,
             "pushBack", numberArrayLike,
@@ -107,21 +108,24 @@ module.exports = (function ()
     /**
      *  @returns {boolean}
      */
-    ByteArray.prototype.isEmpty = function isEmpty() {
+    ByteArray.prototype.isEmpty = function isEmpty()
+    {
         return this._buffer.length < 2 && this._subIndex < 1;
     };
 
     /**
      *  @returns {number}
      */
-    ByteArray.prototype.getElementCount = function getElementCount() {
+    ByteArray.prototype.getElementCount = function getElementCount()
+    {
         return ((this._buffer.length - 1) << _bufNdxExp) + this._subIndex;
     };
 
     /**
      *  @returns {Iterator<number>}
      */
-    ByteArray.prototype[Symbol.iterator] = function () {
+    ByteArray.prototype[Symbol.iterator] = function ()
+    {
         return ({
             next : function () {
                 var out = {
@@ -144,7 +148,8 @@ module.exports = (function ()
      *  @param {number} index
      *  @returns {number}
      */
-    ByteArray.prototype.get = function get(index) {
+    ByteArray.prototype.get = function get(index)
+    {
         this._assertIsValidIndex(index);
 
         var bufNdx = index >>> _bufNdxExp;
@@ -158,7 +163,8 @@ module.exports = (function ()
      *  @param {number} v
      *  @returns {ByteArray}
      */
-    ByteArray.prototype.set = function set(index, v) {
+    ByteArray.prototype.set = function set(index, v)
+    {
         this._assertIsValidIndex(index);
         _assertIsUint8(v); 
 
@@ -460,7 +466,8 @@ module.exports = (function ()
      *  @param {number} [base=10]
      *  @returns {string}
      */
-    ByteArray.prototype.toString = function () {
+    ByteArray.prototype.toString = function ()
+    {
         var base = arguments[0];
         var str = '[';
 
@@ -485,7 +492,8 @@ module.exports = (function ()
      *  @param {number} [maxBound]
      *  @returns {number}
      */
-    ByteArray.prototype._assertIsValidIndex = function (index) {
+    ByteArray.prototype._assertIsValidIndex = function (index)
+    {
         _assertIsNonNegativeSafeInteger(index);
 
         var maxBound = arguments[1];
@@ -573,7 +581,8 @@ module.exports = (function ()
      *  @param {number} [destIndex]
      *  @returns {ByteArray}
      */
-    function integerToBytes(value, byteCount) {
+    function integerToBytes(value, byteCount)
+    {
         if(!Number.isSafeInteger(value)) {
             throw new TypeError("'value' must be a safe integer.");
         }
@@ -634,7 +643,8 @@ module.exports = (function ()
      *  @param {number} [startIndex=0]
      *  @returns {number}
      */
-    function bytesToInteger(bytes, byteCount) {
+    function bytesToInteger(bytes, byteCount)
+    {
         if(!(bytes instanceof ByteArray)) {
             if(isIterable(bytes)) {
                 bytes = ByteArray.from(bytes);

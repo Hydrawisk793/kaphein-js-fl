@@ -63,7 +63,8 @@ module.exports = (function ()
     /**
      *  @param {*} o
      */
-    AstNode._assertIsAstNode = function (o) {
+    AstNode._assertIsAstNode = function (o)
+    {
         if(!(o instanceof AstNode)) {
             throw new TypeError("The parameter must be an instance of AstNode.");
         }
@@ -74,7 +75,8 @@ module.exports = (function ()
      *  @param {AstNode} rootNode
      *  @param {AstNode} currentNode
      */
-    AstNode.CppPrefixIterator = function (rootNode, currentNode) {
+    AstNode.CppPrefixIterator = function (rootNode, currentNode)
+    {
         this._rootNode = rootNode;
         this._currentNode = currentNode;
     };
@@ -83,7 +85,8 @@ module.exports = (function ()
      *  @function
      *  @returns {boolean}
      */
-    AstNode.CppPrefixIterator.prototype.moveToNext = function () {
+    AstNode.CppPrefixIterator.prototype.moveToNext = function ()
+    {
         if(null !== this._currentNode) {
             if(this._currentNode.isLeaf()) {
                 while(null !== this._currentNode) {
@@ -112,7 +115,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode}
      */
-    AstNode.CppPrefixIterator.prototype.dereference = function () {
+    AstNode.CppPrefixIterator.prototype.dereference = function ()
+    {
         assertion.isTrue(null !== this._currentNode);
 
         return this._currentNode;
@@ -123,7 +127,8 @@ module.exports = (function ()
      *  @param {AstNode.CppPrefixIterator} rhs
      *  @returns {boolean}
      */
-    AstNode.CppPrefixIterator.prototype.equals = function (rhs) {
+    AstNode.CppPrefixIterator.prototype.equals = function (rhs)
+    {
         if(this === rhs) {
             return true;
         }
@@ -142,7 +147,8 @@ module.exports = (function ()
      *  @param {AstNode} rootNode
      *  @param {AstNode} currentNode
      */
-    AstNode.CppPostfixIterator = function (rootNode, currentNode) {
+    AstNode.CppPostfixIterator = function (rootNode, currentNode)
+    {
         this._rootNode = rootNode;
         this._currentNode = currentNode;
     };
@@ -151,7 +157,8 @@ module.exports = (function ()
      *  @function
      *  @returns {boolean}
      */
-    AstNode.CppPostfixIterator.prototype.moveToNext = function () {
+    AstNode.CppPostfixIterator.prototype.moveToNext = function ()
+    {
         do {
             var nextSibling = this._currentNode.getNextSibling();
             if(null === nextSibling) {
@@ -171,7 +178,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode}
      */
-    AstNode.CppPostfixIterator.prototype.dereference = function () {
+    AstNode.CppPostfixIterator.prototype.dereference = function ()
+    {
         assertion.isTrue(null !== this._currentNode);
 
         return this._currentNode;
@@ -182,7 +190,8 @@ module.exports = (function ()
      *  @param {AstNode.CppPostfixIterator} rhs
      *  @returns {boolean}
      */
-    AstNode.CppPostfixIterator.prototype.equals = function (rhs) {
+    AstNode.CppPostfixIterator.prototype.equals = function (rhs)
+    {
         if(this === rhs) {
             return true;
         }
@@ -212,7 +221,8 @@ module.exports = (function ()
      *  @function
      *  @returns {boolean}
      */
-    AstNode.prototype.isRootOfGroup = function () {
+    AstNode.prototype.isRootOfGroup = function ()
+    {
         return this._rootOfGroup;
     };
 
@@ -220,7 +230,8 @@ module.exports = (function ()
      *  @function
      *  @param {boolean} flag
      */
-    AstNode.prototype.setRootOfGroup = function (flag) {
+    AstNode.prototype.setRootOfGroup = function (flag)
+    {
         this._rootOfGroup = !!flag;
     };
 
@@ -228,7 +239,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    AstNode.prototype.getType = function () {
+    AstNode.prototype.getType = function ()
+    {
         return this._type;
     };
 
@@ -236,7 +248,8 @@ module.exports = (function ()
      *  @function
      *  @returns {Object}
      */
-    AstNode.prototype.getValue = function () {
+    AstNode.prototype.getValue = function ()
+    {
         return this._value;
     };
 
@@ -244,7 +257,8 @@ module.exports = (function ()
      *  @function
      *  @returns {boolean}
      */
-    AstNode.prototype.isLeaf = function () {
+    AstNode.prototype.isLeaf = function ()
+    {
         return this._children.length < 1;
     };
 
@@ -252,7 +266,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode|null}
      */
-    AstNode.prototype.getRoot = function () {
+    AstNode.prototype.getRoot = function ()
+    {
         var current = this._parent;
         if(null === current) {
             return this;
@@ -271,7 +286,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode|null}
      */
-    AstNode.prototype.getParent = function () {
+    AstNode.prototype.getParent = function ()
+    {
         return this._parent;
     };
 
@@ -279,7 +295,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    AstNode.prototype.getChildIndex = function () {
+    AstNode.prototype.getChildIndex = function ()
+    {
         var index = -1;
         if(null !== this._parent) {
             index = this._parent._children.indexOf(this);
@@ -292,7 +309,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode|null}
      */
-    AstNode.prototype.getNextSibling = function () {
+    AstNode.prototype.getNextSibling = function ()
+    {
         var nextSibling = null;
         if(null !== this._parent) {
             var childIndex = this.getChildIndex() + 1;
@@ -308,7 +326,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    AstNode.prototype.getChildCount = function () {
+    AstNode.prototype.getChildCount = function ()
+    {
         return this._children.length;
     };
 
@@ -317,7 +336,8 @@ module.exports = (function ()
      *  @param {number} index
      *  @returns {AstNode}
      */
-    AstNode.prototype.getChildAt = function (index) {
+    AstNode.prototype.getChildAt = function (index)
+    {
         assertion.isTrue(isNonNegativeSafeInteger(index));
 
         if(index >= this._children.length) {
@@ -331,7 +351,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode}
      */
-    AstNode.prototype.getLastChild = function () {
+    AstNode.prototype.getLastChild = function ()
+    {
         if(this.isLeaf()) {
             throw new Error("The node has no children.");
         }
@@ -343,7 +364,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode}
      */
-    AstNode.prototype.getLeftmostLeaf = function () {
+    AstNode.prototype.getLeftmostLeaf = function ()
+    {
         var current = this;
         while(!current.isLeaf()) {
             current = current._children[0];
@@ -356,7 +378,8 @@ module.exports = (function ()
      *  @function
      *  @param {AstNode} child
      */
-    AstNode.prototype.addChild = function (child) {
+    AstNode.prototype.addChild = function (child)
+    {
         AstNode._assertIsAstNode(child);
 
         if(this === child) {
@@ -379,7 +402,8 @@ module.exports = (function ()
      *  @param {iterable} nodes
      *  @param {number} index
      */
-    AstNode.prototype.insertChildren = function (nodes, index) {
+    AstNode.prototype.insertChildren = function (nodes, index)
+    {
         assertion.isTrue(isIterable(nodes));
         assertion.isTrue(isNonNegativeSafeInteger(index));
 
@@ -409,7 +433,8 @@ module.exports = (function ()
      *  @param {AstNode} child
      *  @returns {number}
      */
-    AstNode.prototype.removeChild = function (child) {
+    AstNode.prototype.removeChild = function (child)
+    {
         assertion.isInstanceOf(child, AstNode);
 
         var index = this._children.indexOf(child);
@@ -425,7 +450,8 @@ module.exports = (function ()
      *  @param {number} index
      *  @returns {AstNode}
      */
-    AstNode.prototype.removeChildAt = function (index) {
+    AstNode.prototype.removeChildAt = function (index)
+    {
         assertion.isTrue(isNonNegativeSafeInteger(index));
 
         if(index > this._children.length) {
@@ -443,7 +469,8 @@ module.exports = (function ()
      *  @function
      *  @returns {Array.<AstNode>}
      */
-    AstNode.prototype.removeAllChildren = function () {
+    AstNode.prototype.removeAllChildren = function ()
+    {
         var removedChildren = this._children.slice();
         for(var i = 0, count = removedChildren.lenght; i < count; ++i) {
             assertion.isTrue(this === removedChildren._parent);
@@ -458,7 +485,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode.CppPrefixIterator}
      */
-    AstNode.prototype.beginPrefix = function () {
+    AstNode.prototype.beginPrefix = function ()
+    {
         return new AstNode.CppPrefixIterator(this.getRoot(), this);
     };
 
@@ -466,7 +494,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode.CppPrefixIterator}
      */
-    AstNode.prototype.endPrefix = function () {
+    AstNode.prototype.endPrefix = function ()
+    {
         return new AstNode.CppPrefixIterator(this.getRoot(), null);
     };
 
@@ -476,7 +505,8 @@ module.exports = (function ()
      *  @param {Object} [thisArg]
      *  @param {boolean}
      */
-    AstNode.prototype.traverseByPrefix = function (callback) {
+    AstNode.prototype.traverseByPrefix = function (callback)
+    {
         if(!isCallable(callback)) {
             throw new TypeError("The callback must be a callable object.");
         }
@@ -505,7 +535,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode.CppPostfixIterator}
      */
-    AstNode.prototype.beginPostfix = function () {
+    AstNode.prototype.beginPostfix = function ()
+    {
         return new AstNode.CppPostfixIterator(this.getRoot(), this.getLeftmostLeaf());
     };
 
@@ -513,7 +544,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode.CppPostfixIterator}
      */
-    AstNode.prototype.endPostfix = function () {
+    AstNode.prototype.endPostfix = function ()
+    {
         return new AstNode.CppPostfixIterator(this.getRoot(), null);
     };
 
@@ -523,7 +555,8 @@ module.exports = (function ()
      *  @param {Object} [thisArg]
      *  @param {boolean}
      */
-    AstNode.prototype.traverseByPostfix = function (callback) {
+    AstNode.prototype.traverseByPostfix = function (callback)
+    {
         if(!isCallable(callback)) {
             throw new TypeError("The callback must be a callable object.");
         }
@@ -562,7 +595,8 @@ module.exports = (function ()
      *  @param {AstNode} rhs
      *  @returns {boolean}
      */
-    AstNode.prototype.equals = function (rhs) {
+    AstNode.prototype.equals = function (rhs)
+    {
         if(this === rhs) {
             return true;
         }
@@ -586,7 +620,8 @@ module.exports = (function ()
      *  @param {AstNode} otherRoot
      *  @returns {boolean}
      */
-    AstNode.prototype.subtreeEquals = function (otherRoot) {
+    AstNode.prototype.subtreeEquals = function (otherRoot)
+    {
         AstNode._assertIsAstNode(otherRoot);
 
         var lhsIter = this.beginPrefix();
@@ -623,7 +658,8 @@ module.exports = (function ()
      *  @function
      *  @returns {string}
      */
-    AstNode.prototype.toString = function () {
+    AstNode.prototype.toString = function ()
+    {
         var context = {
             str : "",
             toStringFunc : AstNode._astNodeToString
@@ -644,7 +680,8 @@ module.exports = (function ()
     /**
      *  @param {AstNode} thisRef
      */
-    AstNode._astNodeToString = function (thisRef) {
+    AstNode._astNodeToString = function (thisRef)
+    {
         var str = "{";
 
         str += "rootOfGroup";
@@ -726,7 +763,8 @@ module.exports = (function ()
      *  @param {number} priority
      *  @param {number} associativity
      */
-    var OperatorType = function (key, name, parameterCount, priority, associativity) {
+    function OperatorType(key, name, parameterCount, priority, associativity)
+    {
         if(!isNonNegativeSafeInteger(key)) {
             throw new TypeError("'key' must be a non negative safe integer.");
         }
@@ -748,7 +786,7 @@ module.exports = (function ()
         this._parameterCount = parameterCount;
         this._priority = priority;
         this._associativity = associativity;
-    };
+    }
 
     /**
      *  @readonly
@@ -769,7 +807,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    OperatorType.prototype.getKey = function () {
+    OperatorType.prototype.getKey = function ()
+    {
         return this._key;
     };
 
@@ -777,7 +816,8 @@ module.exports = (function ()
      *  @function
      *  @returns {string}
      */
-    OperatorType.prototype.getName = function () {
+    OperatorType.prototype.getName = function ()
+    {
         return this._name;
     };
 
@@ -785,7 +825,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    OperatorType.prototype.getParameterCount = function () {
+    OperatorType.prototype.getParameterCount = function ()
+    {
         return this._parameterCount;
     };
 
@@ -794,7 +835,8 @@ module.exports = (function ()
      *  @param {OperatorType} rhs
      *  @returns {boolean}
      */
-    OperatorType.prototype.precedes = function (rhs) {
+    OperatorType.prototype.precedes = function (rhs)
+    {
         return rhs._priority < this._priority;
     };
 
@@ -802,7 +844,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    OperatorType.prototype.getAssociativity = function () {
+    OperatorType.prototype.getAssociativity = function ()
+    {
         return this._associativity;
     };
 
@@ -811,7 +854,8 @@ module.exports = (function ()
      *  @param {OperatorType} rhs
      *  @returns {boolean}
      */
-    OperatorType.prototype.equals = function (rhs) {
+    OperatorType.prototype.equals = function (rhs)
+    {
         if(this === rhs) {
             return true;
         }
@@ -840,7 +884,8 @@ module.exports = (function ()
      *  @function
      *  @returns {string}
      */
-    OperatorType.prototype.toString = function () {
+    OperatorType.prototype.toString = function ()
+    {
         var str = '{';
 
         str += "name";
@@ -899,7 +944,8 @@ module.exports = (function ()
      *  @function
      *  @returns {OperatorType}
      */
-    Operator.prototype.getType = function () {
+    Operator.prototype.getType = function ()
+    {
         return this._type;
     };
 
@@ -907,7 +953,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    Operator.prototype.getStaticArgumentCount = function () {
+    Operator.prototype.getStaticArgumentCount = function ()
+    {
         return this._staticArgs.length;
     };
 
@@ -915,7 +962,8 @@ module.exports = (function ()
      *  @function
      *  @returns {Array.<Object>}
      */
-    Operator.prototype.getStaticArguments = function () {
+    Operator.prototype.getStaticArguments = function ()
+    {
         return this._staticArgs;
     };
 
@@ -924,7 +972,8 @@ module.exports = (function ()
      *  @param {Operator} rhs
      *  @returns {boolean}
      */
-    Operator.prototype.equals = function (rhs) {
+    Operator.prototype.equals = function (rhs)
+    {
         if(this === rhs) {
             return true;
         }
@@ -942,7 +991,8 @@ module.exports = (function ()
      *  @function
      *  @returns {string}
      */
-    Operator.prototype.toString = function () {
+    Operator.prototype.toString = function ()
+    {
         var str = '{';
 
         str += "type";
@@ -1028,7 +1078,8 @@ module.exports = (function ()
              *  @param {OperatorType} current
              *  @returns {Array}
              */
-            function (current) {
+            function (current)
+            {
                 return [current.getKey(), current];
             }
         ),
@@ -1071,12 +1122,15 @@ module.exports = (function ()
         /**
          *  @param {karbonator.util.Enum} proto
          */
-        function (proto) {
-            proto.getRange = function () {
+        function (proto)
+        {
+            proto.getRange = function ()
+            {
                 return this._range;
             };
         },
-        function (min) {
+        function (min)
+        {
             var max = arguments[1];
             if(isUndefined(max)) {
                 max = min;
@@ -1111,14 +1165,17 @@ module.exports = (function ()
          *  @param {karbonator.util.Enum} proto
          *  @param {Function} ctor
          */
-        function (proto, ctor) {
+        function (proto, ctor)
+        {
             proto._ctor = ctor;
 
-            proto.getRanges = function () {
+            proto.getRanges = function ()
+            {
                 return this._ranges;
             };
         },
-        function () {
+        function ()
+        {
             this._ranges = [];
 
             for(var i = 0; i < arguments.length; ++i) {
@@ -1225,7 +1282,8 @@ module.exports = (function ()
      *  @param {number} [startIndex=0]
      *  @returns {ScannerResult}
      */
-    RegexParser._scanInteger = function (str) {
+    RegexParser._scanInteger = function (str)
+    {
         var startIndex = arguments[1];
         if(isUndefined(startIndex)) {
             startIndex = 0;
@@ -1319,7 +1377,8 @@ module.exports = (function ()
      *  @param {number} [startIndex=0]
      *  @returns {ScannerResult}
      */
-    RegexParser._scanEscapedCharacter = function (str) {
+    RegexParser._scanEscapedCharacter = function (str)
+    {
         var startIndex = arguments[1];
         if(isUndefined(startIndex)) {
             startIndex = 0;
@@ -1540,7 +1599,8 @@ module.exports = (function ()
      *  @param {number} [positiveInfinityValue=Number.MAX_SAFE_INTEGER]
      *  @returns {ScannerResult}
      */
-    RegexParser._scanRepetitionOperator = function (str) {
+    RegexParser._scanRepetitionOperator = function (str)
+    {
         var startIndex = _selectNonUndefined(arguments[1], 0);
         var pos = startIndex;
         var errorCode = 0;
@@ -1704,7 +1764,8 @@ module.exports = (function ()
      *  @param {number} [startIndex=0]
      *  @returns {ScannerResult}
      */
-    RegexParser._scanIdInBraces = function (str) {
+    RegexParser._scanIdInBraces = function (str)
+    {
         var startIndex = arguments[1];
         if(isUndefined(startIndex)) {
             startIndex = 0;
@@ -1817,7 +1878,8 @@ module.exports = (function ()
     /**
      *  @constructor
      */
-    RegexParser._CharSetParser = function () {
+    RegexParser._CharSetParser = function ()
+    {
         this._exprCtxts = [];
         this._str = "";
         this._pos = 0;
@@ -1830,7 +1892,8 @@ module.exports = (function ()
      *  @param {number} [startIndex=0]
      *  @returns {ScannerResult}
      */
-    RegexParser._CharSetParser._scanPosixCharSet = function (str) {
+    RegexParser._CharSetParser._scanPosixCharSet = function (str)
+    {
         var startIndex = _selectNonUndefined(arguments[1], 0);
         var pos = startIndex;
 
@@ -1923,7 +1986,8 @@ module.exports = (function ()
      *  @param {Interval} textRange
      *  @param {ScannerError} [error]
      */
-    RegexParser._CharSetParser.Result = function (codeRanges, textRange) {
+    RegexParser._CharSetParser.Result = function (codeRanges, textRange)
+    {
         this.codeRanges = codeRanges;
         this.textRange = textRange;
 
@@ -1938,7 +2002,8 @@ module.exports = (function ()
      *  @param {number} type
      *  @param {Object} value
      */
-    RegexParser._CharSetParser._Term = function (type, value) {
+    RegexParser._CharSetParser._Term = function (type, value)
+    {
         this._type = type;
         this._value = value;
     };
@@ -1947,7 +2012,8 @@ module.exports = (function ()
      *  @constructor
      *  @param {number} returnState
      */
-    RegexParser._CharSetParser._ExprContext = function (returnState) {
+    RegexParser._CharSetParser._ExprContext = function (returnState)
+    {
         if(!isNonNegativeSafeInteger(returnState)) {
             throw new TypeError("'returnState' must be a non-negative safe integer.");
         }
@@ -1961,7 +2027,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    RegexParser._CharSetParser._ExprContext.prototype.isEmpty = function () {
+    RegexParser._CharSetParser._ExprContext.prototype.isEmpty = function ()
+    {
         return this._terms.length < 1;
     };
 
@@ -1969,7 +2036,8 @@ module.exports = (function ()
      *  @function
      *  @returns {RegexParser._CharSetParser._Term}
      */
-    RegexParser._CharSetParser._ExprContext.prototype.getLastTerm = function () {
+    RegexParser._CharSetParser._ExprContext.prototype.getLastTerm = function ()
+    {
         if(this.isEmpty()) {
             throw new Error("Expression context term stack underflow.");
         }
@@ -1981,7 +2049,8 @@ module.exports = (function ()
      *  @function
      *  @param {Object} arg
      */
-    RegexParser._CharSetParser._ExprContext.prototype.pushTerm = function (arg) {
+    RegexParser._CharSetParser._ExprContext.prototype.pushTerm = function (arg)
+    {
         var newTerm = null;
         if(isNonNegativeSafeInteger(arg)) {
             newTerm = new RegexParser._CharSetParser._Term(
@@ -2012,7 +2081,8 @@ module.exports = (function ()
      *  @function
      *  @returns {Array.<Interval>}
      */
-    RegexParser._CharSetParser._ExprContext.prototype.evaluate = function () {
+    RegexParser._CharSetParser._ExprContext.prototype.evaluate = function ()
+    {
         var finalRanges = [];
         for(var i = 0; i < this._terms.length; ++i) {
             var term = this._terms[i];
@@ -2043,7 +2113,8 @@ module.exports = (function ()
      *  @param {number} [startIndex=0]
      *  @returns {RegexParser._CharSetParser.Result}
      */
-    RegexParser._CharSetParser.prototype.parse = function (str) {
+    RegexParser._CharSetParser.prototype.parse = function (str)
+    {
         this._str = str;
 
         var startIndex = _selectNonUndefined(arguments[1], 0);
@@ -2320,7 +2391,8 @@ module.exports = (function ()
      *  @function
      *  @returns {RegexParser._CharSetParser._ExprContext}
      */
-    RegexParser._CharSetParser.prototype._getLastExprContext = function () {
+    RegexParser._CharSetParser.prototype._getLastExprContext = function ()
+    {
         if(this._exprCtxts.length < 1) {
             throw new Error("No more character set contexts left.");
         }
@@ -2334,7 +2406,8 @@ module.exports = (function ()
     /**
      *  @constructor
      */
-    RegexParser._ExprContext = function () {
+    RegexParser._ExprContext = function ()
+    {
         this._opStack = [];
         this._termNodeStack = [];
         this._lastNodeType = -1;
@@ -2344,7 +2417,8 @@ module.exports = (function ()
      *  @function
      *  @returns {number}
      */
-    RegexParser._ExprContext.prototype.getTermNodeCount = function () {
+    RegexParser._ExprContext.prototype.getTermNodeCount = function ()
+    {
         return this._termNodeStack.length;
     };
 
@@ -2353,7 +2427,8 @@ module.exports = (function ()
      *  @param {number} opKey
      *  @param {Array.<Object>} [staticArgs]
      */
-    RegexParser._ExprContext.prototype.pushOperator = function (opKey) {
+    RegexParser._ExprContext.prototype.pushOperator = function (opKey)
+    {
         if(!isNonNegativeSafeInteger(opKey)) {
             throw new TypeError("The parameter 'opKey' must be a non-negative safe integer.");
         }
@@ -2408,7 +2483,8 @@ module.exports = (function ()
      *  @function
      *  @param {Number|Interval|Array.<Interval>|AstNode} arg
      */
-    RegexParser._ExprContext.prototype.pushTerm = function (arg) {
+    RegexParser._ExprContext.prototype.pushTerm = function (arg)
+    {
         var termNode = null;
         if(arg instanceof AstNode) {
             termNode = arg;
@@ -2454,7 +2530,8 @@ module.exports = (function ()
      *  @function
      *  @returns {AstNode|null}
      */
-    RegexParser._ExprContext.prototype.evaluateAll = function () {
+    RegexParser._ExprContext.prototype.evaluateAll = function ()
+    {
         while(this._opStack.length > 0) {
             var op = this._opStack.pop();
             this._createAndPushOperatorNode(op);
@@ -2476,7 +2553,8 @@ module.exports = (function ()
      *  @function
      *  @param {Operator} op
      */
-    RegexParser._ExprContext.prototype._createAndPushOperatorNode = function (op) {
+    RegexParser._ExprContext.prototype._createAndPushOperatorNode = function (op)
+    {
         if(!(op instanceof Operator)) {
             throw new TypeError("'op' must be an instance of 'Operator'.");
         }
@@ -2559,7 +2637,8 @@ module.exports = (function ()
      *  @param {Map<string, number>} [tokenNameKeyMap]
      *  @returns {AstNode}
      */
-    RegexParser.prototype.parse = function (regexStr) {
+    RegexParser.prototype.parse = function (regexStr)
+    {
         if(!isString(regexStr)) {
             throw new TypeError("'regexStr' must be a string that represents a regular expression.");
         }
@@ -2798,19 +2877,15 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @returns {RegexParser._ExprContext}
      */
-    RegexParser.prototype._getLastExpressionContext = function () {
+    RegexParser.prototype._getLastExpressionContext = function ()
+    {
         return this._exprCtxStack[this._exprCtxStack.length - 1];
     };
 
-    /**
-     *  @private
-     *  @function
-     */
-    RegexParser.prototype._processRepetitionOperator = function () {
+    RegexParser.prototype._processRepetitionOperator = function ()
+    {
         var scanResult = RegexParser._scanRepetitionOperator(
             this._regexStr,
             this._pos
@@ -2839,23 +2914,19 @@ module.exports = (function ()
         }
     };
 
-    /**
-     *  @private
-     *  @function
-     */
-    RegexParser.prototype._moveToNextIfNoError = function () {
+    RegexParser.prototype._moveToNextIfNoError = function ()
+    {
         if(!this._error.occured) {
             ++this._pos;
         }
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {string} [message]
      *  @param {number} [position]
      */
-    RegexParser.prototype._cancelParsing = function () {
+    RegexParser.prototype._cancelParsing = function ()
+    {
         this._error = {
             occured : true,
             message : _selectNonUndefined(arguments[0], "An error occured."),
@@ -2874,7 +2945,8 @@ module.exports = (function ()
      *  @constructor
      *  @param {InstructionBuffer|Boolean} arg0
      */
-    var InstructionBuffer = function (arg0) {
+    function InstructionBuffer(arg0)
+    {
         if(arg0 instanceof InstructionBuffer) {
             this._byteOrderReversed = arg0._byteOrderReversed;
             this._lines = new Array(arg0._lines.length);
@@ -2890,32 +2962,31 @@ module.exports = (function ()
 
             this._lineAddrs = null;
         }
-    };
+    }
 
     /**
-     *  @function
      *  @returns {number}
      */
-    InstructionBuffer.prototype.getCount = function () {
+    InstructionBuffer.prototype.getCount = function ()
+    {
         return this._lines.length;
     };
 
     /**
-     *  @function
      *  @param {number} index
      *  @returns {Array}
-     * 
      */
-    InstructionBuffer.prototype.getLineAt = function (index) {
+    InstructionBuffer.prototype.getLineAt = function (index)
+    {
         return this._lines[index];
     };
 
     /**
-     *  @function
      *  @param {InstructionBuffer} rhs
      *  @returns {InstructionBuffer}
      */
-    InstructionBuffer.prototype.add = function (rhs) {
+    InstructionBuffer.prototype.add = function (rhs)
+    {
         if(!(rhs instanceof InstructionBuffer)) {
             throw new TypeError("'rhs' must be an instanceof 'InstructionBuffer'.");
         }
@@ -2928,11 +2999,11 @@ module.exports = (function ()
     };
 
     /**
-     *  @function
      *  @param {InstructionBuffer} rhs
      *  @returns {InstructionBuffer}
      */
-    InstructionBuffer.prototype.consume = function (rhs) {
+    InstructionBuffer.prototype.consume = function (rhs)
+    {
         this.add(rhs);
 
         rhs.clear();
@@ -2941,12 +3012,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @function
      *  @param {RegexVmInstruction} inst
      *  @param {...Number} [operands]
      *  @returns {InstructionBuffer}
      */
-    InstructionBuffer.prototype.putFront = function (inst) {
+    InstructionBuffer.prototype.putFront = function (inst)
+    {
         if(!(inst instanceof RegexVmInstruction)) {
             throw new TypeError("The parameter 'inst' must be an instance of 'RegexVmInstruction.'.");
         }
@@ -2968,12 +3039,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @function
      *  @param {RegexVmInstruction} inst
      *  @param {...Number} [operands]
      *  @returns {InstructionBuffer}
      */
-    InstructionBuffer.prototype.put = function (inst) {
+    InstructionBuffer.prototype.put = function (inst)
+    {
         if(!(inst instanceof RegexVmInstruction)) {
             throw new TypeError("The parameter 'inst' must be an instance of 'RegexVmInstruction.'.");
         }
@@ -2995,10 +3066,10 @@ module.exports = (function ()
     };
 
     /**
-     *  @function
      *  @returns {InstructionBuffer}
      */
-    InstructionBuffer.prototype.clear = function () {
+    InstructionBuffer.prototype.clear = function ()
+    {
         this._lines.length = 0;
 
         return this;
@@ -3009,7 +3080,8 @@ module.exports = (function ()
      *  @param {number[]} rangeIndexSets
      *  @returns {RegexVmBytecode}
      */
-    InstructionBuffer.prototype.printBytecode = function (ranges, rangeIndexSets) {
+    InstructionBuffer.prototype.printBytecode = function (ranges, rangeIndexSets)
+    {
         var i = 0, j = 0;
         var line = null;
         var inst = null;
@@ -3064,11 +3136,8 @@ module.exports = (function ()
         );
     };
 
-    /**
-     *  @function
-     *  @returns {string}
-     */
-    InstructionBuffer.prototype.toString = function () {
+    InstructionBuffer.prototype.toString = function ()
+    {
         var str = "";
 
         var offset = 0;
@@ -3103,7 +3172,8 @@ module.exports = (function ()
     InstructionBuffer.prototype._calculateByteCount = function (
         startLineIndex,
         endLineIndex
-    ) {
+    )
+    {
         if(startLineIndex < 0) {
             throw new RangeError("'startLineIndex' can not be less than zero.");
         }
@@ -3166,12 +3236,12 @@ module.exports = (function ()
     }
 
     /**
-     *  @function
      *  @param {AstNode} rootNode
      *  @param {ArrayMap} keyTokenMap
      *  @returns {RegexVmBytecode}
      */
-    CodeEmitter.prototype.emitCode = function (rootNode, keyTokenMap) {
+    CodeEmitter.prototype.emitCode = function (rootNode, keyTokenMap)
+    {
         if(!(rootNode instanceof AstNode)) {
             throw new TypeError("The parameter must be an instance of 'AstNode'.");
         }
@@ -3207,11 +3277,10 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {AstNode} node
      */
-    CodeEmitter.prototype._processNode = function (node) {
+    CodeEmitter.prototype._processNode = function (node)
+    {
         if(this._nodeCodeMap.has(node)) {
             throw new Error("The node has been already processed.");
         }
@@ -3290,13 +3359,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {AstNode} node
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._visitRegexAlternation = function (buffer, node) {
+    CodeEmitter.prototype._visitRegexAlternation = function (buffer, node)
+    {
         var offsetInfo = this._caculateSumOfChildCodeOffset(node);
         var offset = offsetInfo.sum;
         var childCount = node.getChildCount();
@@ -3340,14 +3408,13 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {AstNode} node
      *  @param {Array.<Number>} staticArgs
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._visitAccept = function (buffer, node, staticArgs) {
+    CodeEmitter.prototype._visitAccept = function (buffer, node, staticArgs)
+    {
         var tokenKey = staticArgs[0];
 
         this._createTokenSubRoutine(node, tokenKey);
@@ -3360,14 +3427,13 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {AstNode} node
      *  @param {Array.<Number>} staticArgs
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._visitTokenExpressionCall = function (buffer, node, staticArgs) {
+    CodeEmitter.prototype._visitTokenExpressionCall = function (buffer, node, staticArgs)
+    {
         node;
 
         buffer.put(RegexVmInstruction.jsr, 0.2, staticArgs[0]);
@@ -3376,13 +3442,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {AstNode} node
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._visitAlternation = function (buffer, node) {
+    CodeEmitter.prototype._visitAlternation = function (buffer, node)
+    {
         var offsetInfo = this._caculateSumOfChildCodeOffset(node);
         var offset = offsetInfo.sum;
         var childCount = node.getChildCount();
@@ -3402,13 +3467,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {AstNode} node
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._visitConcatenation = function (buffer, node) {
+    CodeEmitter.prototype._visitConcatenation = function (buffer, node)
+    {
         var childCount = node.getChildCount();
         for(var i = 0; i < childCount; ++i) {
             buffer.consume(this._getAndWrapChildCode(node, i));
@@ -3418,14 +3482,13 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {AstNode} node
      *  @param {Array.<Number>} staticArgs
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._visitRepetition = function (buffer, node, staticArgs) {
+    CodeEmitter.prototype._visitRepetition = function (buffer, node, staticArgs)
+    {
         var i = 0;
 
         var repType = staticArgs[0];
@@ -3490,13 +3553,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {AstNode} node
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._visitTerminal = function (buffer, node) {
+    CodeEmitter.prototype._visitTerminal = function (buffer, node)
+    {
         var ranges = node.getValue();
 
         var range = null;
@@ -3540,13 +3602,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {AstNode} node
      *  @param {number} tokenKey
      *  @returns {number}
      */
-    CodeEmitter.prototype._createTokenSubRoutine = function (node, tokenKey) {
+    CodeEmitter.prototype._createTokenSubRoutine = function (node, tokenKey)
+    {
         var buffer = new InstructionBuffer(this._byteOrderReversed);
 
         var srNdx = this._tokenSrBuffers.length;
@@ -3568,11 +3629,10 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      */
-    CodeEmitter.prototype._mergeAllTokenSubRoutines = function (buffer) {
+    CodeEmitter.prototype._mergeAllTokenSubRoutines = function (buffer)
+    {
         var i = 0;
 
         var offset = buffer.getCount();
@@ -3599,13 +3659,12 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {AstNode} parentNode
      *  @param {number} childIndex
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._getAndWrapChildCode = function (parentNode, childIndex) {
+    CodeEmitter.prototype._getAndWrapChildCode = function (parentNode, childIndex)
+    {
         var childNode = parentNode.getChildAt(childIndex);
         var childCode = this._nodeCodeMap.get(childNode);
 
@@ -3618,8 +3677,6 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @param {number} labelAddress
      *  @param {number} placeholderValue
@@ -3630,7 +3687,8 @@ module.exports = (function ()
         buffer,
         labelAddress,
         placeholderValue
-    ) {
+    )
+    {
         var epsilon = arguments[3];
         if(isUndefined(epsilon)) {
             epsilon = _epsilon;
@@ -3659,12 +3717,11 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._wrapWithGroupBoundary = function (buffer) {
+    CodeEmitter.prototype._wrapWithGroupBoundary = function (buffer)
+    {
         buffer.putFront(RegexVmInstruction.beginGroup, 0);
         buffer.put(RegexVmInstruction.endGroup, 0);
 
@@ -3672,12 +3729,11 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {InstructionBuffer} buffer
      *  @returns {InstructionBuffer}
      */
-    CodeEmitter.prototype._labelGroups = function (buffer) {
+    CodeEmitter.prototype._labelGroups = function (buffer)
+    {
         var startIndex = 0;
 
         var beginGroupOpCode = RegexVmInstruction.beginGroup.getOpCode();
@@ -3713,12 +3769,11 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {AstNode} node
      *  @returns {Object}
      */
-    CodeEmitter.prototype._caculateSumOfChildCodeOffset = function (node) {
+    CodeEmitter.prototype._caculateSumOfChildCodeOffset = function (node)
+    {
         var childCodeLens = [];
         var sumOfOffset = 0;
         for(var i = 0, childCount = node.getChildCount(); i < childCount; ++i) {
@@ -3739,7 +3794,8 @@ module.exports = (function ()
     function charCodesToString(codes)
     {
         return codes.reduce(
-            function (str, code) {
+            function (str, code)
+            {
                 return str + String.fromCharCode(code);
             },
             ""

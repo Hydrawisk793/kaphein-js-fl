@@ -44,7 +44,8 @@ module.exports = (function ()
      *  @param {boolean} [overwrite=false]
      */
     // eslint-disable-next-line no-unused-vars
-    LrParserGenerator.prototype.addRule = function (name, syntaxArg) {
+    LrParserGenerator.prototype.addRule = function (name, syntaxArg)
+    {
 
     };
 
@@ -52,7 +53,8 @@ module.exports = (function ()
      *  @function
      *  @returns {karbonator.string.LrParser|null}
      */
-    LrParserGenerator.prototype.generate = function () {
+    LrParserGenerator.prototype.generate = function ()
+    {
 
     };
 

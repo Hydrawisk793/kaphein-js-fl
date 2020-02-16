@@ -171,7 +171,8 @@ module.exports = (function ()
          *  @param {string} [message]
          *  @param {Function} [errorClass]
          */
-        isTrue : function (boolExpr) {
+        isTrue : function (boolExpr)
+        {
             if(!boolExpr) {
                 var errorClass = (
                     isFunction(arguments[2])
@@ -192,7 +193,8 @@ module.exports = (function ()
          *  @param {string} [message]
          *  @param {Function} [errorClass]
          */
-        isFalse : function (boolExpr) {
+        isFalse : function (boolExpr)
+        {
             return assertion.isTrue(
                 !boolExpr,
                 arguments[1],
@@ -205,7 +207,8 @@ module.exports = (function ()
          *  @param {string} [message]
          *  @returns {Object}
          */
-        isNotUndefined : function (o) {
+        isNotUndefined : function (o)
+        {
             if(isUndefined(o)) {
                 throw new TypeError(arguments[1]);
             }
@@ -219,7 +222,8 @@ module.exports = (function ()
          *  @param {string} [message]
          *  @returns {Object}
          */
-        isInstanceOf : function (o, klass) {
+        isInstanceOf : function (o, klass)
+        {
             if(!(o instanceof klass)) {
                 throw new TypeError(arguments[2]);
             }
@@ -232,7 +236,8 @@ module.exports = (function ()
          *  @param {string} [message]
          *  @returns {number}
          */
-        isNonNegativeSafeInteger : function (n) {
+        isNonNegativeSafeInteger : function (n)
+        {
             var message = arguments[1];
 
             if(Number.isSafeInteger(n)) {

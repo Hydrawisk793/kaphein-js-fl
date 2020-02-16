@@ -37,12 +37,15 @@ module.exports = (function ()
         /**
          *  @param {Object} proto
          */
-        function (proto) {
-            proto.getByteCount = function () {
+        function (proto)
+        {
+            proto.getByteCount = function ()
+            {
                 return this._byteCount;
             };
 
-            proto.bytesToValue = function (bytes) {
+            proto.bytesToValue = function (bytes)
+            {
                 return bytesToInteger(
                     bytes,
                     this._byteCount, this._signed,
@@ -51,7 +54,8 @@ module.exports = (function ()
                 );
             };
 
-            proto.valueToBytes = function (v) {
+            proto.valueToBytes = function (v)
+            {
                 return integerToBytes(
                     v, this._byteCount,
                     arguments[1],
@@ -59,7 +63,8 @@ module.exports = (function ()
                 );
             };
         },
-        function (byteCount, signed) {
+        function (byteCount, signed)
+        {
             this._byteCount = byteCount;
             this._signed = signed;
         },
@@ -79,12 +84,15 @@ module.exports = (function ()
         /**
          *  @param {Object} proto
          */
-        function (proto) {
-            proto.getByteCount = function () {
+        function (proto)
+        {
+            proto.getByteCount = function ()
+            {
                 return this._typeMeta.getByteCount();
             };
 
-            proto.valueToBytes = function (v) {
+            proto.valueToBytes = function (v)
+            {
                 return this._typeMeta.valueToBytes(
                     v,
                     arguments[1],
@@ -92,7 +100,8 @@ module.exports = (function ()
                 );
             };
 
-            proto.toString = function () {
+            proto.toString = function ()
+            {
                 var str = '{';
 
                 str += "name";
@@ -104,7 +113,8 @@ module.exports = (function ()
                 return str;
             };
         },
-        function (typeMeta) {
+        function (typeMeta)
+        {
             this._typeMeta = typeMeta;
         },
         [
@@ -124,12 +134,14 @@ module.exports = (function ()
         /**
          *  @param {Object} proto
          */
-        function (proto) {
+        function (proto)
+        {
             /**
              *  @function
              *  @returns {number}
              */
-            proto.getOpCode = function () {
+            proto.getOpCode = function ()
+            {
                 return this._opCode;
             };
 
@@ -137,7 +149,8 @@ module.exports = (function ()
              *  @function
              *  @returns {number}
              */
-            proto.getOperandCount = function () {
+            proto.getOperandCount = function ()
+            {
                 return this._operandTypes.length;
             };
 
@@ -146,7 +159,8 @@ module.exports = (function ()
              *  @param {number} index
              *  @returns {RegexVm.OperandType}
              */
-            proto.getOperandTypeAt = function (index) {
+            proto.getOperandTypeAt = function (index)
+            {
                 if(
                     !isNonNegativeSafeInteger(index)
                     || index >= this._operandTypes.length
@@ -162,7 +176,8 @@ module.exports = (function ()
              *  @param {number} index
              *  @returns {number}
              */
-            proto.getOperandSizeAt = function (index) {
+            proto.getOperandSizeAt = function (index)
+            {
                 return this.getOperandTypeAt(index).getByteCount();
             };
 
@@ -170,7 +185,8 @@ module.exports = (function ()
              *  @function
              *  @returns {number}
              */
-            proto.getSize = function () {
+            proto.getSize = function ()
+            {
                 return 1 + this._operandTypes.reduce(
                     function (acc, current) {
                         return acc + current.getByteCount();
@@ -183,7 +199,8 @@ module.exports = (function ()
              *  @function
              *  @returns {string}
              */
-            proto.getMnemonic = function () {
+            proto.getMnemonic = function ()
+            {
                 return this._mnemonic;
             };
 
@@ -191,7 +208,8 @@ module.exports = (function ()
              *  @function
              *  @returns {string}
              */
-            proto.toString = function () {
+            proto.toString = function ()
+            {
                 var str = "{";
 
                 str += "opCode";
@@ -213,7 +231,8 @@ module.exports = (function ()
                 return str;
             };
         },
-        function (mnemonic, opCode, operandTypes) {
+        function (mnemonic, opCode, operandTypes)
+        {
             if(!isString(mnemonic)) {
                 throw new TypeError("The parameter 'mnemonic' must be a string.");
             }
@@ -337,11 +356,13 @@ module.exports = (function ()
                     [RegexVm.OperandType.index]
                 ]
             ],
-            function (current) {
+            function (current)
+            {
                 return ([
                     current[0].replace(
                         /(\.[A-Za-z0-9]+)/g,
-                        function (text) {
+                        function (text)
+                        {
                             return text[1].toUpperCase() + text.substring(2);
                         }
                     ),
@@ -374,7 +395,8 @@ module.exports = (function ()
      *  @param {number} opCode
      *  @returns {RegexVmInstruction}
      */
-    RegexVm.findInstructionByOpCode = function (opCode) {
+    RegexVm.findInstructionByOpCode = function (opCode)
+    {
         if(!isNonNegativeSafeInteger(opCode)) {
             throw new TypeError("'opCode' must be a non-negative safe integer.");
         }
@@ -395,7 +417,8 @@ module.exports = (function ()
      *  @function
      *  @param {RegexVmBytecode} bytecode
      */
-    RegexVm.prototype.setBytecode = function (bytecode) {
+    RegexVm.prototype.setBytecode = function (bytecode)
+    {
         this._bytecode = bytecode;
     };
 
@@ -405,7 +428,8 @@ module.exports = (function ()
      *  @param {number} [start=0]
      *  @returns {MatchResult|null}
      */
-    RegexVm.prototype.find = function (str) {
+    RegexVm.prototype.find = function (str)
+    {
         if(isUndefinedOrNull(this._bytecode)) {
             throw new Error("Set the bytecode of the regex first.");
         }
@@ -433,7 +457,8 @@ module.exports = (function ()
      *  @param {number} [end]
      *  @returns {Array<MatchResult>}
      */
-    RegexVm.prototype.findAll = function (str) {
+    RegexVm.prototype.findAll = function (str)
+    {
         if(isUndefinedOrNull(this._bytecode)) {
             throw new Error("Set the bytecode of the regex first.");
         }
@@ -487,12 +512,11 @@ module.exports = (function ()
     };
 
     /**
-     *  @private
-     *  @function
      *  @param {number} startIndex
      *  @returns {MatchResult}
      */
-    RegexVm.prototype._run = function (startIndex) {
+    RegexVm.prototype._run = function (startIndex)
+    {
         this._cursor = startIndex;
 
         this._thIdSeq = 0;
@@ -661,7 +685,8 @@ module.exports = (function ()
      *  @param {number[][]} values
      *  @returns {string}
      */
-    var _createConsumedValuesDebugString = function (values) {
+    var _createConsumedValuesDebugString = function (values)
+    {
         var str = "";
 
         for(var i = 0; i < values.length; ++i) {
@@ -692,7 +717,8 @@ module.exports = (function ()
      *  @param {noolean} [prioritize=false]
      *  @returns {RegexVmThread}
      */
-    RegexVm.prototype.createThread = function (pc) {
+    RegexVm.prototype.createThread = function (pc)
+    {
         var parent = arguments[1];
 
         var newThreadId = this._thIdSeq;
@@ -717,7 +743,8 @@ module.exports = (function ()
      *  @param {number} code
      *  @returns {boolean}
      */
-    RegexVm.prototype.inputMatchesCode = function (code) {
+    RegexVm.prototype.inputMatchesCode = function (code)
+    {
         return code === this.getCurrentCharacterCode();
     };
 
@@ -726,7 +753,8 @@ module.exports = (function ()
      *  @param {number} index
      *  @returns {boolean}
      */
-    RegexVm.prototype.inputIsInRange = function (index) {
+    RegexVm.prototype.inputIsInRange = function (index)
+    {
         if(index >= this._bytecode._ranges.length) {
             return false;
         }
@@ -737,11 +765,11 @@ module.exports = (function ()
     };
 
     /**
-     *  @function
      *  @param {number} index
      *  @returns {boolean}
      */
-    RegexVm.prototype.inputIsInRangeSet = function (index) {
+    RegexVm.prototype.inputIsInRangeSet = function (index)
+    {
         if(index >= this._bytecode._rangeIndexSets.length) {
             return false;
         }
@@ -759,10 +787,10 @@ module.exports = (function ()
     };
 
     /**
-     *  @function
      *  @returns {number}
      */
-    RegexVm.prototype.getCurrentCharacterCode = function () {
+    RegexVm.prototype.getCurrentCharacterCode = function ()
+    {
         var code = (
             this._cursor < this._inStr.length
             ? this._inStr.charCodeAt(this._cursor)
@@ -776,7 +804,8 @@ module.exports = (function ()
      *  @param {RegexVmThread} matchThread
      *  @returns {string}
      */
-    RegexVm.prototype.createMatchResultDebugMessage = function (matchThread) {
+    RegexVm.prototype.createMatchResultDebugMessage = function (matchThread)
+    {
         return 'T' + matchThread._id
             + '(' + '[' + _createConsumedValuesDebugString(matchThread._consumedValues) + ']' + ')'
             + "."
@@ -789,7 +818,8 @@ module.exports = (function ()
      *  @param {RegexVmThread} th
      *  @returns {string}
      */
-    RegexVm.prototype.createExecInfoDebugMessage = function (th) {
+    RegexVm.prototype.createExecInfoDebugMessage = function (th)
+    {
         var inst = RegexVm.findInstructionByOpCode(th._lastOpCode);
         if(isUndefined(inst)) {
             throw new Error("An invalid opcode has been found.");
@@ -903,7 +933,8 @@ module.exports = (function ()
     /**
      *  @returns {MatchResult}
      */
-    RegexVmThread.prototype.getMatchResult = function () {
+    RegexVmThread.prototype.getMatchResult = function ()
+    {
         return this._matchResult;
     };
 
@@ -911,7 +942,8 @@ module.exports = (function ()
      *  @param {RegexVmThread} rhs
      *  @returns {boolean}
      */
-    RegexVmThread.prototype.comparePriorityTo = function (rhs) {
+    RegexVmThread.prototype.comparePriorityTo = function (rhs)
+    {
         var thisPath = this._path;
         var rhsPath = rhs._path;
         var thisPathLen = thisPath.length;
@@ -983,7 +1015,8 @@ module.exports = (function ()
      *  @param {RegexVmThread} rhs
      *  @returns {boolean}
      */
-    RegexVmThread.prototype.isPriorTo = function (rhs) {
+    RegexVmThread.prototype.isPriorTo = function (rhs)
+    {
         return this.comparePriorityTo(rhs) > 0;
     };
 
@@ -991,7 +1024,8 @@ module.exports = (function ()
      *  @param {RegexVmThread} rhs
      *  @returns {boolean}
      */
-    RegexVmThread.prototype.hasSamePathPostfixWith = function (rhs) {
+    RegexVmThread.prototype.hasSamePathPostfixWith = function (rhs)
+    {
         var lhsPath = this._path;
         var rhsPath = rhs._path;
 
@@ -1025,7 +1059,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.execute = function () {
+    RegexVmThread.prototype.execute = function ()
+    {
         var opCode = this.readOpCode();
         switch(opCode) {
         case 0x00:
@@ -1090,7 +1125,8 @@ module.exports = (function ()
      * 
      *  @returns {number}
      */
-    RegexVmThread.prototype.readOpCode = function () {
+    RegexVmThread.prototype.readOpCode = function ()
+    {
         this._instAddr = this._pc;
 
         var opCode = this.readInteger(false, 1);
@@ -1106,7 +1142,8 @@ module.exports = (function ()
      *  @param {number} byteCount
      *  @returns {number}
      */
-    RegexVmThread.prototype.readInteger = function (signed, byteCount) {
+    RegexVmThread.prototype.readInteger = function (signed, byteCount)
+    {
         var intValue = this._vm._bytecode.readInteger(this._pc, signed, byteCount);
 
         this._pc += byteCount;
@@ -1114,11 +1151,13 @@ module.exports = (function ()
         return intValue;
     };
 
-    RegexVmThread.prototype.isDead = function () {
+    RegexVmThread.prototype.isDead = function ()
+    {
         return this._frameStack.length < 1;
     };
 
-    RegexVmThread.prototype.branch = function () {
+    RegexVmThread.prototype.branch = function ()
+    {
         var offset = this.readInteger(true, 2);
 
         this._pc += offset;
@@ -1138,7 +1177,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.jumpToSubroutine = function () {
+    RegexVmThread.prototype.jumpToSubroutine = function ()
+    {
         var addr = this.readInteger(false, 4);
 
         this._frameStack.push(new RegexVmFrame(this._pc));
@@ -1148,7 +1188,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.returnFromSubroutine = function () {
+    RegexVmThread.prototype.returnFromSubroutine = function ()
+    {
         this._pc = this.getCurrentFrame()._returnAddress;
         this._frameStack.pop();
     };
@@ -1157,7 +1198,8 @@ module.exports = (function ()
      *  @function
      *  @param {boolean} prioritize
      */
-    RegexVmThread.prototype.fork = function (prioritize) {
+    RegexVmThread.prototype.fork = function (prioritize)
+    {
         var goToOffset = this.readInteger(true, 2);
         var newThreadPcOffset = this.readInteger(true, 2);
 
@@ -1188,7 +1230,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.accept = function () {
+    RegexVmThread.prototype.accept = function ()
+    {
         var tokenKey = this.readInteger(false, 4);
 
         this._matchResult = new MatchResult(
@@ -1228,7 +1271,8 @@ module.exports = (function ()
      *  @function
      *  @param {boolean} consume
      */
-    RegexVmThread.prototype.moveConsumePointer = function (consume) {
+    RegexVmThread.prototype.moveConsumePointer = function (consume)
+    {
         if(!consume) {
             this._consumeRanges.push(RegexVmThread._skipDelimiter);
         }
@@ -1238,7 +1282,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.beginGroup = function () {
+    RegexVmThread.prototype.beginGroup = function ()
+    {
         var groupIndex = this.readInteger(false, 1);
 
         this._groupNdxStack.push(groupIndex);
@@ -1248,7 +1293,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.endGroup = function () {
+    RegexVmThread.prototype.endGroup = function ()
+    {
         var groupIndex = this.readInteger(false, 1);
 
         this._groupNdxStack.pop();
@@ -1258,7 +1304,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.testCode = function () {
+    RegexVmThread.prototype.testCode = function ()
+    {
         var charCode = this.readInteger(false, 4);
 
         if(!this._vm.inputMatchesCode(charCode)) {
@@ -1276,7 +1323,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.testRange = function () {
+    RegexVmThread.prototype.testRange = function ()
+    {
         var rangeIndex = this.readInteger(false, 4);
 
         if(!this._vm.inputIsInRange(rangeIndex)) {
@@ -1294,7 +1342,8 @@ module.exports = (function ()
     /**
      *  @function
      */
-    RegexVmThread.prototype.testRanges = function () {
+    RegexVmThread.prototype.testRanges = function ()
+    {
         var rangeSetIndex = this.readInteger(false, 4);
 
         if(!this._vm.inputIsInRangeSet(rangeSetIndex)) {
@@ -1368,7 +1417,8 @@ module.exports = (function ()
      *  @param {number} byteCount
      *  @returns {number}
      */
-    RegexVmBytecode.prototype.readInteger = function (addr, signed, byteCount) {
+    RegexVmBytecode.prototype.readInteger = function (addr, signed, byteCount)
+    {
         return bytesToInteger(
             this._codeBlock,
             byteCount, signed,
