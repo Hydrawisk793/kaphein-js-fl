@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/Hydrawisk793/kaphein-js-fl#readme",
   "dependencies": {
-    "kaphein-js": "^0.1.5",
+    "kaphein-js": "^0.2.0",
     "kaphein-js-math": "^0.1.2"
   },
   "devDependencies": {
@@ -29,8 +29,8 @@
     "@typescript-eslint/parser": "^2.19.2",
     "copy-webpack-plugin": "^5.1.1",
     "eslint": "^6.8.0",
-    "typescript": "^3.7.5",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "terser-webpack-plugin": "^2.3.5",
+    "typescript": "^3.8.2",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
     "webpack-node-externals": "^1.7.2"

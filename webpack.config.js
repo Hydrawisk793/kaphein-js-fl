@@ -1,7 +1,7 @@
 var path = require("path");
 
 var CopyWebpackPlugin = require("copy-webpack-plugin");
-var UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+var TerserPlugin = require("terser-webpack-plugin");
 var nodeExternals = require('webpack-node-externals');
 
 module.exports = (function ()
@@ -19,7 +19,7 @@ module.exports = (function ()
             globalObject: "this"
         },
         optimization : {
-            minimizer : [new UglifyJsPlugin()]
+            minimizer : [new TerserPlugin()]
         },
         plugins : [
             new CopyWebpackPlugin([
