@@ -65,7 +65,8 @@ module.exports = (function ()
      */
     AstNode._assertIsAstNode = function (o)
     {
-        if(!(o instanceof AstNode)) {
+        if(!(o instanceof AstNode))
+        {
             throw new TypeError("The parameter must be an instance of AstNode.");
         }
     };
@@ -87,11 +88,15 @@ module.exports = (function ()
      */
     AstNode.CppPrefixIterator.prototype.moveToNext = function ()
     {
-        if(null !== this._currentNode) {
-            if(this._currentNode.isLeaf()) {
-                while(null !== this._currentNode) {
+        if(null !== this._currentNode)
+        {
+            if(this._currentNode.isLeaf())
+            {
+                while(null !== this._currentNode)
+                {
                     var nextSibling = this._currentNode.getNextSibling();
-                    if(null !== nextSibling) {
+                    if(null !== nextSibling)
+                    {
                         this._currentNode = nextSibling;
                         break;
                     }
@@ -99,11 +104,12 @@ module.exports = (function ()
                     this._currentNode = this._currentNode.getParent();
                 }
             }
-            else {
+            else
+            {
                 this._currentNode = (
                     this._currentNode.getChildCount() > 0
-                    ? this._currentNode.getChildAt(0)
-                    : null
+                        ? this._currentNode.getChildAt(0)
+                        : null
                 );
             }
         }
@@ -129,11 +135,13 @@ module.exports = (function ()
      */
     AstNode.CppPrefixIterator.prototype.equals = function (rhs)
     {
-        if(this === rhs) {
+        if(this === rhs)
+        {
             return true;
         }
 
-        if(isUndefinedOrNull(rhs)) {
+        if(isUndefinedOrNull(rhs))
+        {
             return false;
         }
 
@@ -159,15 +167,19 @@ module.exports = (function ()
      */
     AstNode.CppPostfixIterator.prototype.moveToNext = function ()
     {
-        do {
+        do
+        {
             var nextSibling = this._currentNode.getNextSibling();
-            if(null === nextSibling) {
+            if(null === nextSibling)
+            {
                 this._currentNode = this._currentNode.getParent();
-                if(null === this._currentNode) {
+                if(null === this._currentNode)
+                {
                     break;
                 }
             }
-            else {
+            else
+            {
                 this._currentNode = nextSibling.getLeftmostLeaf();
             }
         }
@@ -192,11 +204,13 @@ module.exports = (function ()
      */
     AstNode.CppPostfixIterator.prototype.equals = function (rhs)
     {
-        if(this === rhs) {
+        if(this === rhs)
+        {
             return true;
         }
 
-        if(isUndefinedOrNull(rhs)) {
+        if(isUndefinedOrNull(rhs))
+        {
             return false;
         }
 
@@ -269,12 +283,14 @@ module.exports = (function ()
     AstNode.prototype.getRoot = function ()
     {
         var current = this._parent;
-        if(null === current) {
+        if(null === current)
+        {
             return this;
         }
 
         var previous = null;
-        while(null !== current) {
+        while(null !== current)
+        {
             previous = current;
             current = current._parent;
         }
@@ -298,7 +314,8 @@ module.exports = (function ()
     AstNode.prototype.getChildIndex = function ()
     {
         var index = -1;
-        if(null !== this._parent) {
+        if(null !== this._parent)
+        {
             index = this._parent._children.indexOf(this);
         }
 
@@ -312,9 +329,11 @@ module.exports = (function ()
     AstNode.prototype.getNextSibling = function ()
     {
         var nextSibling = null;
-        if(null !== this._parent) {
+        if(null !== this._parent)
+        {
             var childIndex = this.getChildIndex() + 1;
-            if(childIndex < this._parent.getChildCount()) {
+            if(childIndex < this._parent.getChildCount())
+            {
                 nextSibling = this._parent.getChildAt(childIndex);
             }
         }
@@ -340,7 +359,8 @@ module.exports = (function ()
     {
         assertion.isTrue(isNonNegativeSafeInteger(index));
 
-        if(index >= this._children.length) {
+        if(index >= this._children.length)
+        {
             throw new Error("Index out of range.");
         }
 
@@ -353,7 +373,8 @@ module.exports = (function ()
      */
     AstNode.prototype.getLastChild = function ()
     {
-        if(this.isLeaf()) {
+        if(this.isLeaf())
+        {
             throw new Error("The node has no children.");
         }
 
@@ -367,7 +388,8 @@ module.exports = (function ()
     AstNode.prototype.getLeftmostLeaf = function ()
     {
         var current = this;
-        while(!current.isLeaf()) {
+        while(!current.isLeaf())
+        {
             current = current._children[0];
         }
 
@@ -382,15 +404,18 @@ module.exports = (function ()
     {
         AstNode._assertIsAstNode(child);
 
-        if(this === child) {
+        if(this === child)
+        {
             throw new Error("'this' node cannot be of a child of 'this'.");
         }
 
-        if(this._children.includes(child)) {
+        if(this._children.includes(child))
+        {
             throw new Error("The node already has the 'child' node.");
         }
 
-        if(null !== child.getParent()) {
+        if(null !== child.getParent())
+        {
             child.getParent().removeChild(child);
         }
         this._children.push(child);
@@ -407,7 +432,8 @@ module.exports = (function ()
         assertion.isTrue(isIterable(nodes));
         assertion.isTrue(isNonNegativeSafeInteger(index));
 
-        if(index > this._children.length) {
+        if(index > this._children.length)
+        {
             throw new Error("Index out of range.");
         }
 
@@ -415,11 +441,13 @@ module.exports = (function ()
             var iter = nodes[Symbol.iterator](), iterPair = iter.next();
             !iterPair.done;
             iterPair = iter.next(), ++index
-        ) {
+        )
+        {
             var child = iterPair.value;
             AstNode._assertIsAstNode(child);
 
-            if(null !== child.getParent()) {
+            if(null !== child.getParent())
+            {
                 child.getParent().removeChild(child);
             }
 
@@ -438,7 +466,8 @@ module.exports = (function ()
         assertion.isInstanceOf(child, AstNode);
 
         var index = this._children.indexOf(child);
-        if(index >= 0) {
+        if(index >= 0)
+        {
             this.removeChildAt(index);
         }
 
@@ -454,7 +483,8 @@ module.exports = (function ()
     {
         assertion.isTrue(isNonNegativeSafeInteger(index));
 
-        if(index > this._children.length) {
+        if(index > this._children.length)
+        {
             throw new Error("Index out of range.");
         }
 
@@ -472,7 +502,8 @@ module.exports = (function ()
     AstNode.prototype.removeAllChildren = function ()
     {
         var removedChildren = this._children.slice();
-        for(var i = 0, count = removedChildren.lenght; i < count; ++i) {
+        for(var i = 0, count = removedChildren.lenght; i < count; ++i)
+        {
             assertion.isTrue(this === removedChildren._parent);
             removedChildren[i]._parent = null;
         }
@@ -507,7 +538,8 @@ module.exports = (function ()
      */
     AstNode.prototype.traverseByPrefix = function (callback)
     {
-        if(!isCallable(callback)) {
+        if(!isCallable(callback))
+        {
             throw new TypeError("The callback must be a callable object.");
         }
 
@@ -516,12 +548,15 @@ module.exports = (function ()
         var nodeStack = [this];
 
         var continueTraversal = true;
-        while(continueTraversal && nodeStack.length > 0) {
+        while(continueTraversal && nodeStack.length > 0)
+        {
             var currentNode = nodeStack.pop();
             continueTraversal = !callback.call(thisArg, currentNode);
 
-            if(continueTraversal) {
-                for(var i = currentNode._children.length; i > 0; ) {
+            if(continueTraversal)
+            {
+                for(var i = currentNode._children.length; i > 0; )
+                {
                     --i;
                     nodeStack.push(currentNode._children[i]);
                 }
@@ -557,7 +592,8 @@ module.exports = (function ()
      */
     AstNode.prototype.traverseByPostfix = function (callback)
     {
-        if(!isCallable(callback)) {
+        if(!isCallable(callback))
+        {
             throw new TypeError("The callback must be a callable object.");
         }
 
@@ -569,18 +605,22 @@ module.exports = (function ()
         for(
             var lastTraversedNode = null;
             continueTraversal && nodeStack.length > 0;
-        ) {
+        )
+        {
             var currentNode = nodeStack[nodeStack.length - 1];
             if(
-                !currentNode.isLeaf()                                           
+                !currentNode.isLeaf()
                 && currentNode.getLastChild() !== lastTraversedNode
-            ) {
-                for(var i = currentNode._children.length; i > 0; ) {
+            )
+            {
+                for(var i = currentNode._children.length; i > 0; )
+                {
                     --i;
                     nodeStack.push(currentNode._children[i]);
                 }
             }
-            else {
+            else
+            {
                 continueTraversal = !callback.call(thisArg, currentNode);
                 lastTraversedNode = currentNode;
                 nodeStack.pop();
@@ -597,18 +637,21 @@ module.exports = (function ()
      */
     AstNode.prototype.equals = function (rhs)
     {
-        if(this === rhs) {
+        if(this === rhs)
+        {
             return true;
         }
 
-        if(isUndefinedOrNull(rhs)) {
+        if(isUndefinedOrNull(rhs))
+        {
             return false;
         }
 
         if(
             this._type !== rhs._type
             || this._rootOfGroup !== rhs._rootOfGroup
-        ) {
+        )
+        {
             return false;
         }
 
@@ -630,22 +673,28 @@ module.exports = (function ()
         var rhsEndIter = otherRoot.endPrefix();
         var result = false;
 
-        for(var loop = true; loop; ) {
+        for(var loop = true; loop; )
+        {
             var lhsHasNext = !lhsIter.equals(lhsEndIter);
             var rhsHasNext = !rhsIter.equals(rhsEndIter);
-            if(lhsHasNext !== rhsHasNext) {
+            if(lhsHasNext !== rhsHasNext)
+            {
                 loop = false;
             }
-            else if(lhsHasNext) {
-                if(!lhsIter.dereference().equals(rhsIter.dereference())) {
+            else if(lhsHasNext)
+            {
+                if(!lhsIter.dereference().equals(rhsIter.dereference()))
+                {
                     loop = false;
                 }
-                else {
+                else
+                {
                     lhsIter.moveToNext();
                     rhsIter.moveToNext();
                 }
             }
-            else {
+            else
+            {
                 result = true;
                 loop = false;
             }
@@ -669,7 +718,8 @@ module.exports = (function ()
             var iter = this.beginPostfix(), endIter = this.endPostfix();
             !iter.equals(endIter);
             iter.moveToNext()
-        ) {
+        )
+        {
             context.str += context.toStringFunc(iter.dereference());
             context.str += "\r\n";
         }
@@ -721,12 +771,14 @@ module.exports = (function ()
     function ScannerError()
     {
         this.code = arguments[0];
-        if(isUndefinedOrNull(this.code)) {
+        if(isUndefinedOrNull(this.code))
+        {
             this.code = 0;
         }
 
         this.message = arguments[1];
-        if(isUndefinedOrNull(this.message)) {
+        if(isUndefinedOrNull(this.message))
+        {
             this.message = "";
         }
     }
@@ -745,7 +797,8 @@ module.exports = (function ()
         this.range = range;
 
         this.error = arguments[3];
-        if(isUndefinedOrNull(this.error)) {
+        if(isUndefinedOrNull(this.error))
+        {
             this.error = new ScannerError();
         }
     }
@@ -765,19 +818,24 @@ module.exports = (function ()
      */
     function OperatorType(key, name, parameterCount, priority, associativity)
     {
-        if(!isNonNegativeSafeInteger(key)) {
+        if(!isNonNegativeSafeInteger(key))
+        {
             throw new TypeError("'key' must be a non negative safe integer.");
         }
-        if(!isString(name)) {
+        if(!isString(name))
+        {
             throw new TypeError("'name' must be a strin.");
         }
-        if(!isNonNegativeSafeInteger(parameterCount)) {
+        if(!isNonNegativeSafeInteger(parameterCount))
+        {
             throw new TypeError("'parameterCount' must be a non negative safe integer.");
         }
-        if(!isNonNegativeSafeInteger(priority)) {
+        if(!isNonNegativeSafeInteger(priority))
+        {
             throw new TypeError("'priority' must be a non negative safe integer.");
         }
-        if(!isNonNegativeSafeInteger(associativity)) {
+        if(!isNonNegativeSafeInteger(associativity))
+        {
             throw new TypeError("'associativity' must be a non negative safe integer.");
         }
 
@@ -856,23 +914,27 @@ module.exports = (function ()
      */
     OperatorType.prototype.equals = function (rhs)
     {
-        if(this === rhs) {
+        if(this === rhs)
+        {
             return true;
         }
 
-        if(isUndefinedOrNull(rhs)) {
+        if(isUndefinedOrNull(rhs))
+        {
             return false;
         }
 
         var result = this._key === rhs._key;
-        if(result) {
+        if(result)
+        {
             if(
                 this._name !== rhs._name
                 || this._parameterCount !== rhs._parameterCount
                 || this._priority !== rhs._priority
                 || this._associativity !== rhs._associativity
                 || this._action !== rhs._action
-            ) {
+            )
+            {
                 throw new Error("Operators that have the same key must have same properties and values.");
             }
         }
@@ -886,7 +948,7 @@ module.exports = (function ()
      */
     OperatorType.prototype.toString = function ()
     {
-        var str = '{';
+        var str = "{";
 
         str += "name";
         str += " : ";
@@ -902,7 +964,7 @@ module.exports = (function ()
         str += " : ";
         str += this._priority;
 
-        str += '}';
+        str += "}";
 
         return str;
     };
@@ -924,8 +986,8 @@ module.exports = (function ()
         this._type = type;
         this._staticArgs = (
             isUndefined(arguments[1])
-            ? []
-            : Array.from(arguments[1])
+                ? []
+                : Array.from(arguments[1])
         );
     }
 
@@ -974,11 +1036,13 @@ module.exports = (function ()
      */
     Operator.prototype.equals = function (rhs)
     {
-        if(this === rhs) {
+        if(this === rhs)
+        {
             return true;
         }
 
-        if(isUndefinedOrNull(rhs)) {
+        if(isUndefinedOrNull(rhs))
+        {
             return false;
         }
 
@@ -993,7 +1057,7 @@ module.exports = (function ()
      */
     Operator.prototype.toString = function ()
     {
-        var str = '{';
+        var str = "{";
 
         str += "type";
         str += " : ";
@@ -1002,11 +1066,11 @@ module.exports = (function ()
         str += ", ";
         str += "staticArgs";
         str += " : ";
-        str += '[';
+        str += "[";
         str += this._staticArgs;
-        str += ']';
+        str += "]";
 
-        str += '}';
+        str += "}";
 
         return str;
     };
@@ -1132,7 +1196,8 @@ module.exports = (function ()
         function (min)
         {
             var max = arguments[1];
-            if(isUndefined(max)) {
+            if(isUndefined(max))
+            {
                 max = min;
             }
 
@@ -1178,21 +1243,25 @@ module.exports = (function ()
         {
             this._ranges = [];
 
-            for(var i = 0; i < arguments.length; ++i) {
+            for(var i = 0; i < arguments.length; ++i)
+            {
                 var arg = arguments[i];
-                if(isString(arg)) {
+                if(isString(arg))
+                {
                     this._ranges = this._ranges.concat((
-                        arg[0] === '!'
-                        ? Interval.negate(
-                            this._ctor[arg.substring(1)].getRanges(),
-                            _minInt,
-                            _maxInt
-                        )
-                        : this._ctor[arg].getRanges()
+                        arg[0] === "!"
+                            ? Interval.negate(
+                                this._ctor[arg.substring(1)].getRanges(),
+                                _minInt,
+                                _maxInt
+                            )
+                            : this._ctor[arg].getRanges()
                     ));
                 }
-                else {
-                    if(!(arg instanceof Interval)) {
+                else
+                {
+                    if(!(arg instanceof Interval))
+                    {
                         throw new TypeError("");
                     }
 
@@ -1285,10 +1354,12 @@ module.exports = (function ()
     RegexParser._scanInteger = function (str)
     {
         var startIndex = arguments[1];
-        if(isUndefined(startIndex)) {
+        if(isUndefined(startIndex))
+        {
             startIndex = 0;
         }
-        else if(!isNonNegativeSafeInteger(startIndex)) {
+        else if(!isNonNegativeSafeInteger(startIndex))
+        {
             throw new RangeError("'startIndex' must be an non-negative safe integer.");
         }
 
@@ -1306,55 +1377,60 @@ module.exports = (function ()
             state < 2
             && pos < str.length
             && errorCode === 0
-        ) {
+        )
+        {
             var ch = str.charAt(pos);
 
-            switch(state) {
+            switch(state)
+            {
             case 0:
-                switch(ch) {
-                case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
+                switch(ch)
+                {
+                case "1": case "2": case "3": case "4":
+                case "5": case "6": case "7": case "8": case "9":
                     value.push(ch.charCodeAt(0));
 
                     ++pos;
                     ++state;
-                break;
-                case '0':
-                case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-                case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+                    break;
+                case "0":
+                case "A": case "B": case "C": case "D": case "E": case "F":
+                case "a": case "b": case "c": case "d": case "e": case "f":
                     valueType = 1;
                     value.push(ch.charCodeAt(0));
 
                     ++pos;
                     ++state;
-                break;
+                    break;
                 default:
                     state = 2;
                 }
-            break;
+                break;
             case 1:
-                switch(ch) {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
+                switch(ch)
+                {
+                case "0": case "1": case "2": case "3": case "4":
+                case "5": case "6": case "7": case "8": case "9":
                     value.push(ch.charCodeAt(0));
 
                     ++pos;
-                break;
-                case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-                case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+                    break;
+                case "A": case "B": case "C": case "D": case "E": case "F":
+                case "a": case "b": case "c": case "d": case "e": case "f":
                     valueType = 1;
                     value.push(ch.charCodeAt(0));
 
                     ++pos;
-                break;
+                    break;
                 default:
                     state = 2;
                 }
-            break;
+                break;
             }
         }
 
-        if(errorCode === 0 && !valid) {
+        if(errorCode === 0 && !valid)
+        {
             errorCode = 2;
             errorMessage = "";
         }
@@ -1380,10 +1456,12 @@ module.exports = (function ()
     RegexParser._scanEscapedCharacter = function (str)
     {
         var startIndex = arguments[1];
-        if(isUndefined(startIndex)) {
+        if(isUndefined(startIndex))
+        {
             startIndex = 0;
         }
-        else if(!isNonNegativeSafeInteger(startIndex)) {
+        else if(!isNonNegativeSafeInteger(startIndex))
+        {
             throw new RangeError("'startIndex' must be an non-negative safe integer.");
         }
 
@@ -1403,23 +1481,28 @@ module.exports = (function ()
             state < 10
             && errorCode === 0
             && pos < str.length
-        ) {
+        )
+        {
             var ch = str.charAt(pos);
 
-            switch(state) {
+            switch(state)
+            {
             case 0:
-                if(ch !== '\\') {
+                if(ch !== "\\")
+                {
                     errorCode = 1;
                     errorMessage = "An escaped character must start with '\\'.";
                 }
-                else {
+                else
+                {
                     ++pos;
                     ++state;
                 }
-            break;
+                break;
             case 1:
-                switch(ch) {
-                case 's':
+                switch(ch)
+                {
+                case "s":
                     valueType = 2;
                     value.push(
                         RegexParser._CharRangeSet.space[
@@ -1430,8 +1513,8 @@ module.exports = (function ()
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case 'S':
+                    break;
+                case "S":
                     valueType = 2;
                     value.push(
                         RegexParser._CharRangeSet.nonWhiteSpaces[
@@ -1442,8 +1525,8 @@ module.exports = (function ()
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case 'w':
+                    break;
+                case "w":
                     valueType = 2;
                     value.push(
                         RegexParser._CharRangeSet.word[
@@ -1454,8 +1537,8 @@ module.exports = (function ()
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case 'W':
+                    break;
+                case "W":
                     valueType = 2;
                     value.push(
                         RegexParser._CharRangeSet.nonWord[
@@ -1466,15 +1549,17 @@ module.exports = (function ()
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
+                    break;
+                case "0": case "1": case "2": case "3": case "4":
+                case "5": case "6": case "7": case "8": case "9":
                     scanResult = RegexParser._scanInteger(str, pos);
-                    if(scanResult.error.code !== 0) {
+                    if(scanResult.error.code !== 0)
+                    {
                         errorCode = scanResult.error.code + 10;
                         errorMessage = scanResult.error.message;
                     }
-                    else {
+                    else
+                    {
                         valueType = 3;
                         var index = Number.parseInt(
                             charCodesToString(scanResult.value),
@@ -1485,71 +1570,71 @@ module.exports = (function ()
                         valid = true;
                         state = 10;
                     }
-                break;
-                case 'd':
+                    break;
+                case "d":
                     ++pos;
                     state = 2;
-                break;
-                case 'x':
+                    break;
+                case "x":
                     ++pos;
                     state = 3;
-                break;
-                case 'u':
+                    break;
+                case "u":
                     valueType = 0;
                     errorCode = 5;
                     errorMessage = "Unicode code point is not implemented yet...";
-                break;
-                case 'p':
+                    break;
+                case "p":
                     valueType = 2;
                     errorCode = 5;
                     errorMessage = "Unicode category is not implemented yet...";
-                break;
-                case 't':
+                    break;
+                case "t":
                     valueType = 0;
                     value.push(0x09);
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case 'n':
+                    break;
+                case "n":
                     valueType = 0;
                     value.push(0x0A);
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case 'v':
+                    break;
+                case "v":
                     valueType = 0;
                     value.push(0x0B);
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case 'f':
+                    break;
+                case "f":
                     valueType = 0;
                     value.push(0x0C);
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-                case 'r':
+                    break;
+                case "r":
                     valueType = 0;
                     value.push(0x0D);
                     ++pos;
                     valid = true;
                     state = 10;
-                break;
-//                case '^': case '$':
-//                case '[': case ']': case '-':
-//                case '(': case ')':
-//                case '*': case '+': case '?':
-//                case '{': case '}':
-//                case '|':
-//                case '.':
-//                case '/':
-//                case '\\':
-//                case '#':
-//                case '"': case '\'':
+                    break;
+                    //                case '^': case '$':
+                    //                case '[': case ']': case '-':
+                    //                case '(': case ')':
+                    //                case '*': case '+': case '?':
+                    //                case '{': case '}':
+                    //                case '|':
+                    //                case '.':
+                    //                case '/':
+                    //                case '\\':
+                    //                case '#':
+                    //                case '"': case '\'':
                 default:
                     valueType = 0;
                     value.push(ch.charCodeAt(0));
@@ -1557,15 +1642,17 @@ module.exports = (function ()
                     valid = true;
                     state = 10;
                 }
-            break;
+                break;
             case 2:
             case 3:
                 scanResult = RegexParser._scanInteger(str, pos);
-                if(scanResult.error.code !== 0) {
+                if(scanResult.error.code !== 0)
+                {
                     errorCode = scanResult.error.code + 10;
                     errorMessage = scanResult.error.message;
                 }
-                else {
+                else
+                {
                     valueType = 0;
                     value.push(
                         Number.parseInt(
@@ -1577,11 +1664,12 @@ module.exports = (function ()
                     valid = true;
                     state = 10;
                 }
-            break;
+                break;
             }
         }
 
-        if(errorCode === 0 && !valid) {
+        if(errorCode === 0 && !valid)
+        {
             errorCode = 4;
             errorMessage = "";
         }
@@ -1616,130 +1704,144 @@ module.exports = (function ()
         var state = 0;
 
         var scanning = true;
-        while(scanning && pos < len) {
-            switch(state) {
+        while(scanning && pos < len)
+        {
+            switch(state)
+            {
             case 0:
-                switch(str.charAt(pos)) {
-                case '{':
+                switch(str.charAt(pos))
+                {
+                case "{":
                     ++pos;
                     ++state;
-                break;
-                case '*':
+                    break;
+                case "*":
                     min = 0;
                     max = _maxInt;
 
                     ++pos;
                     valid = true;
                     state = 5;
-                break;
-                case '+':
+                    break;
+                case "+":
                     min = 1;
                     max = _maxInt;
 
                     ++pos;
                     valid = true;
                     state = 5;
-                break;
-                case '?':
+                    break;
+                case "?":
                     min = 0;
                     max = 1;
 
                     ++pos;
                     valid = true;
                     state = 5;
-                break;
+                    break;
                 default:
                     errorCode = 1;
                     errorMessage = "A repetition operator must start with '*', '+', '?' or '{'.";
                     scanning = false;
                 }
-            break;
+                break;
             case 1:
                 scanResult = RegexParser._scanInteger(str, pos);
-                if(scanResult.error.code === 0) {
+                if(scanResult.error.code === 0)
+                {
                     min = Number.parseInt(
                         charCodesToString(scanResult.value),
                         (
                             scanResult.valueType === 0
-                            ? 10
-                            : 16
+                                ? 10
+                                : 16
                         )
                     );
                     pos = scanResult.range.getMaximum();
                     ++state;
                 }
-                else {
+                else
+                {
                     errorCode = 2;
                     errorMessage = scanResult.error.message;
                     scanning = false;
                 }
-            break;
+                break;
             case 2:
-                if(str.charAt(pos) === ',') {
+                if(str.charAt(pos) === ",")
+                {
                     ++pos;
                     ++state;
                 }
-                else {
+                else
+                {
                     max = min;
                     state = 4;
                 }
-            break;
+                break;
             case 3:
                 scanResult = RegexParser._scanInteger(str, pos);
                 var valueStr = charCodesToString(scanResult.value);
-                if(scanResult.error.code === 0 && valueStr !== "") {
+                if(scanResult.error.code === 0 && valueStr !== "")
+                {
                     max = Number.parseInt(
                         valueStr,
                         (
                             scanResult.valueType === 0
-                            ? 10
-                            : 16
+                                ? 10
+                                : 16
                         )
                     );
 
-                    if(min <= max) {
+                    if(min <= max)
+                    {
                         pos = scanResult.range.getMaximum();
                         ++state;
                     }
-                    else {
+                    else
+                    {
                         errorCode = 4;
                         errorMessage = "The minimum value must be equal to or less than the maximum value.";
                         scanning = false;
                     }
                 }
-                else {
+                else
+                {
                     ++state;
                 }
-            break;
+                break;
             case 4:
-                if(str.charAt(pos) === '}') {
+                if(str.charAt(pos) === "}")
+                {
                     ++pos;
                     ++state;
                     valid = true;
                 }
-                else {
+                else
+                {
                     errorCode = 5;
                     errorMessage = "A repetition operator must end with '}'.";
                     scanning = false;
                 }
-            break;
+                break;
             case 5:
-                switch(str.charAt(pos)) {
-                case '+':
+                switch(str.charAt(pos))
+                {
+                case "+":
                     valueType = 1;
 
                     ++pos;
-                break;
-                case '?':
+                    break;
+                case "?":
                     valueType = 2;
 
                     ++pos;
-                break;
+                    break;
                 }
 
                 valid = true;
                 scanning = false;
-            break;
+                break;
             default:
                 errorCode = 7;
                 errorMessage = "A fatal error occured when scanning a repetition operator.";
@@ -1747,7 +1849,8 @@ module.exports = (function ()
             }
         }
 
-        if(scanning && !valid) {
+        if(scanning && !valid)
+        {
             errorCode = 6;
             errorMessage = "Not enough characters for parsing a repetition operator.";
         }
@@ -1767,10 +1870,12 @@ module.exports = (function ()
     RegexParser._scanIdInBraces = function (str)
     {
         var startIndex = arguments[1];
-        if(isUndefined(startIndex)) {
+        if(isUndefined(startIndex))
+        {
             startIndex = 0;
         }
-        else if(!isNonNegativeSafeInteger(startIndex)) {
+        else if(!isNonNegativeSafeInteger(startIndex))
+        {
             throw new TypeError("'startIndex' must be a non-negative integer.");
         }
 
@@ -1787,83 +1892,92 @@ module.exports = (function ()
             state < 10
             && pos < str.length
             && errorCode === 0
-        ) {
+        )
+        {
             var ch = str.charAt(pos);
 
-            switch(state) {
+            switch(state)
+            {
             case 0:
-                if(ch === '{') {
+                if(ch === "{")
+                {
                     ++pos;
                     state = 1;
                 }
-                else {
+                else
+                {
                     errorCode = 1;
                     errorMessage = "An id in braces term must start with '{'.";
                 }
-            break;
+                break;
             case 1:
-                switch(ch) {
-                case '_': case '$':
-                case 'a': case 'b': case 'c': case 'd': case 'e':
-                case 'f': case 'g': case 'h': case 'i': case 'j':
-                case 'k': case 'l': case 'm': case 'n': case 'o':
-                case 'p': case 'q': case 'r': case 's': case 't':
-                case 'u': case 'v': case 'w': case 'x': case 'y':
-                case 'z':
-                case 'A': case 'B': case 'C': case 'D': case 'E':
-                case 'F': case 'G': case 'H': case 'I': case 'J':
-                case 'K': case 'L': case 'M': case 'N': case 'O':
-                case 'P': case 'Q': case 'R': case 'S': case 'T':
-                case 'U': case 'V': case 'W': case 'X': case 'Y':
-                case 'Z':
+                switch(ch)
+                {
+                case "_": case "$":
+                case "a": case "b": case "c": case "d": case "e":
+                case "f": case "g": case "h": case "i": case "j":
+                case "k": case "l": case "m": case "n": case "o":
+                case "p": case "q": case "r": case "s": case "t":
+                case "u": case "v": case "w": case "x": case "y":
+                case "z":
+                case "A": case "B": case "C": case "D": case "E":
+                case "F": case "G": case "H": case "I": case "J":
+                case "K": case "L": case "M": case "N": case "O":
+                case "P": case "Q": case "R": case "S": case "T":
+                case "U": case "V": case "W": case "X": case "Y":
+                case "Z":
                     value.push(ch.charCodeAt(0));
                     ++pos;
                     state = 2;
-                break;
+                    break;
                 default:
                     errorCode = 2;
                     errorMessage = "An invalid character has been found in the identifier.";
                 }
-            break;
+                break;
             case 2:
-                switch(ch) {
-                case '_': case '$':
-                case 'a': case 'b': case 'c': case 'd': case 'e':
-                case 'f': case 'g': case 'h': case 'i': case 'j':
-                case 'k': case 'l': case 'm': case 'n': case 'o':
-                case 'p': case 'q': case 'r': case 's': case 't':
-                case 'u': case 'v': case 'w': case 'x': case 'y':
-                case 'z':
-                case 'A': case 'B': case 'C': case 'D': case 'E':
-                case 'F': case 'G': case 'H': case 'I': case 'J':
-                case 'K': case 'L': case 'M': case 'N': case 'O':
-                case 'P': case 'Q': case 'R': case 'S': case 'T':
-                case 'U': case 'V': case 'W': case 'X': case 'Y':
-                case 'Z':
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
+                switch(ch)
+                {
+                case "_": case "$":
+                case "a": case "b": case "c": case "d": case "e":
+                case "f": case "g": case "h": case "i": case "j":
+                case "k": case "l": case "m": case "n": case "o":
+                case "p": case "q": case "r": case "s": case "t":
+                case "u": case "v": case "w": case "x": case "y":
+                case "z":
+                case "A": case "B": case "C": case "D": case "E":
+                case "F": case "G": case "H": case "I": case "J":
+                case "K": case "L": case "M": case "N": case "O":
+                case "P": case "Q": case "R": case "S": case "T":
+                case "U": case "V": case "W": case "X": case "Y":
+                case "Z":
+                case "0": case "1": case "2": case "3": case "4":
+                case "5": case "6": case "7": case "8": case "9":
                     value.push(ch.charCodeAt(0));
                     ++pos;
-                break;
+                    break;
                 default:
                     state = 3;
                 }
-            break;
+                break;
             case 3:
-                if(ch === '}') {
+                if(ch === "}")
+                {
                     valid = true;
                     ++pos;
                     state = 10;
                 }
-                else {
+                else
+                {
                     errorCode = 5;
                     errorMessage = "An id in braces term must end with '}'.";
                 }
-            break;
+                break;
             }
         }
 
-        if(errorCode === 0 && !valid) {
+        if(errorCode === 0 && !valid)
+        {
             errorCode = 10;
             errorMessage = "";
         }
@@ -1898,7 +2012,7 @@ module.exports = (function ()
         var pos = startIndex;
 
         var state = 0;
-        var ch = '';
+        var ch = "";
         var className = "";
 
         var valueType = 0;
@@ -1909,66 +2023,79 @@ module.exports = (function ()
             state < 5
             && errorCode === 0
             && pos < str.length
-        ) {
-            switch(state) {
+        )
+        {
+            switch(state)
+            {
             case 0:
-                if(str.charAt(pos) === '[') {
+                if(str.charAt(pos) === "[")
+                {
                     ++pos;
                     ++state;
                 }
-                else {
+                else
+                {
                     errorCode = 1;
                     errorMessage = "";
                 }
-            break;
+                break;
             case 1:
-                if(str.charAt(pos) === ':') {
+                if(str.charAt(pos) === ":")
+                {
                     ++pos;
                     ++state;
                 }
-                else {
+                else
+                {
                     errorCode = 2;
                     errorMessage = "";
                 }
-            break;
+                break;
             case 2:
                 ch = str.charAt(pos);
-                if(ch === '^') {
+                if(ch === "^")
+                {
                     valueType = 1;
                     ++pos;
                 }
 
                 ++state;
-            break;
+                break;
             case 3:
                 ch = str.charAt(pos);
-                if(ch >= 'A' && ch <= 'z') {
+                if(ch >= "A" && ch <= "z")
+                {
                     className += ch;
                     ++pos;
                 }
-                else if(ch === ':') {
+                else if(ch === ":")
+                {
                     ++pos;
                     ++state;
                 }
-                else {
+                else
+                {
                     errorCode = 3;
                     errorMessage = "";
                 }
-            break;
+                break;
             case 4:
-                if(str.charAt(pos) === ']') {
+                if(str.charAt(pos) === "]")
+                {
                     ++pos;
                     ++state;
                 }
-                else {
+                else
+                {
                     errorCode = 4;
                     errorMessage = "";
                 }
-            break;
+                break;
             }
         }
 
-        if(state < 5) {
+        if(state < 5)
+        {
             errorCode = 5;
             errorMessage = "";
         }
@@ -1992,7 +2119,8 @@ module.exports = (function ()
         this.textRange = textRange;
 
         this.error = arguments[3];
-        if(isUndefinedOrNull(this.error)) {
+        if(isUndefinedOrNull(this.error))
+        {
             this.error = new ScannerError();
         }
     };
@@ -2014,7 +2142,8 @@ module.exports = (function ()
      */
     RegexParser._CharSetParser._ExprContext = function (returnState)
     {
-        if(!isNonNegativeSafeInteger(returnState)) {
+        if(!isNonNegativeSafeInteger(returnState))
+        {
             throw new TypeError("'returnState' must be a non-negative safe integer.");
         }
 
@@ -2038,7 +2167,8 @@ module.exports = (function ()
      */
     RegexParser._CharSetParser._ExprContext.prototype.getLastTerm = function ()
     {
-        if(this.isEmpty()) {
+        if(this.isEmpty())
+        {
             throw new Error("Expression context term stack underflow.");
         }
 
@@ -2052,25 +2182,29 @@ module.exports = (function ()
     RegexParser._CharSetParser._ExprContext.prototype.pushTerm = function (arg)
     {
         var newTerm = null;
-        if(isNonNegativeSafeInteger(arg)) {
+        if(isNonNegativeSafeInteger(arg))
+        {
             newTerm = new RegexParser._CharSetParser._Term(
                 0,
                 arg
             );
         }
-        else if(arg instanceof Interval) {
+        else if(arg instanceof Interval)
+        {
             newTerm = new RegexParser._CharSetParser._Term(
                 1,
                 [arg]
             );
         }
-        else if(Array.isArray(arg)) {
+        else if(Array.isArray(arg))
+        {
             newTerm = new RegexParser._CharSetParser._Term(
                 1,
                 arg
             );
         }
-        else {
+        else
+        {
             throw new TypeError("");
         }
 
@@ -2084,25 +2218,27 @@ module.exports = (function ()
     RegexParser._CharSetParser._ExprContext.prototype.evaluate = function ()
     {
         var finalRanges = [];
-        for(var i = 0; i < this._terms.length; ++i) {
+        for(var i = 0; i < this._terms.length; ++i)
+        {
             var term = this._terms[i];
-            switch(term._type) {
+            switch(term._type)
+            {
             case 0:
                 finalRanges.push(
                     new Interval(term._value, term._value)
                 );
-            break;
+                break;
             case 1:
                 finalRanges = finalRanges.concat(term._value);
-            break;
+                break;
             }
         }
 
         return (
             (
                 !this._negated
-                ? Interval.merge(finalRanges, _minInt, _maxInt)
-                : Interval.negate(finalRanges, _minInt, _maxInt)
+                    ? Interval.merge(finalRanges, _minInt, _maxInt)
+                    : Interval.negate(finalRanges, _minInt, _maxInt)
             )
         );
     };
@@ -2133,13 +2269,16 @@ module.exports = (function ()
             this._state < 10
             && this._pos < this._str.length
             && errorCode === 0
-        ) {
+        )
+        {
             var exprCtxt = null;
             var ch = this._str.charAt(this._pos);
 
-            switch(this._state) {
+            switch(this._state)
+            {
             case 0:
-                if(ch === '[') {
+                if(ch === "[")
+                {
                     this._exprCtxts.push(
                         new RegexParser._CharSetParser._ExprContext(this._state)
                     );
@@ -2147,39 +2286,43 @@ module.exports = (function ()
                     ++this._pos;
                     this._state = 1;
                 }
-                else {
+                else
+                {
                     errorCode = 1;
                     errorMessage = "";
                 }
-            break;
+                break;
             case 1:
-                if(ch === '^') {
+                if(ch === "^")
+                {
                     exprCtxt = this._getLastExprContext();
                     exprCtxt._negated = true;
                 }
 
                 this._state = 2;
-            break;
+                break;
             case 2:
-                switch(ch) {
-                case '[':
+                switch(ch)
+                {
+                case "[":
                     ++this._pos;
                     this._state = 3;
-                break;
-                case ']':
-                    switch(this._exprCtxts.length) {
+                    break;
+                case "]":
+                    switch(this._exprCtxts.length)
+                    {
                     case 0:
                         errorCode = 11;
                         errorMessage = "There's no character sets to close.";
-                    break;
+                        break;
                     case 1:
                         exprCtxt = this._exprCtxts.pop();
                         finalRanges = exprCtxt.evaluate();
 
                         valid = true;
                         ++this._pos;
-                        this._state = 10;                        
-                    break;
+                        this._state = 10;
+                        break;
                     default:
                         var ctxtToEval = this._exprCtxts.pop();
                         this._getLastExprContext().pushTerm(ctxtToEval.evaluate());
@@ -2187,38 +2330,42 @@ module.exports = (function ()
                         ++this._pos;
                         this._state = ctxtToEval._returnState;
                     }
-                break;
-                case '-':
+                    break;
+                case "-":
                     exprCtxt = this._getLastExprContext();
-                    if(!exprCtxt.isEmpty()) {
+                    if(!exprCtxt.isEmpty())
+                    {
                         ++this._pos;
                         this._state = 4;
                     }
-                    else {
+                    else
+                    {
                         errorCode = 7;
                         errorMessage = "Range operators or "
                             + "character set difference operators "
                             + "must be appered after a left hand side term."
                         ;
                     }
-                break;
-                case '&':
+                    break;
+                case "&":
                     errorCode = 2;
                     errorMessage = "Character set intersection operator"
                         + " is not implemented yet..."
                     ;
-                break;
-                case '\\':
+                    break;
+                case "\\":
                     scanResult = RegexParser._scanEscapedCharacter(this._str, this._pos);
-                    if(scanResult.error.code === 0) {
+                    if(scanResult.error.code === 0)
+                    {
                         exprCtxt = this._getLastExprContext();
 
-                        switch(scanResult.valueType) {
+                        switch(scanResult.valueType)
+                        {
                         case 0:
                             exprCtxt.pushTerm(scanResult.value[0]);
 
                             this._pos = scanResult.range.getMaximum();
-                        break;
+                            break;
                         case 1:
                             exprCtxt.pushTerm(
                                 Enum.getValueAt(
@@ -2228,7 +2375,7 @@ module.exports = (function ()
                             );
 
                             this._pos = scanResult.range.getMaximum();
-                        break;
+                            break;
                         case 2:
                             exprCtxt.pushTerm(
                                 Enum.getValueAt(
@@ -2238,40 +2385,44 @@ module.exports = (function ()
                             );
 
                             this._pos = scanResult.range.getMaximum();
-                        break;
+                            break;
                         case 3:
                             errorCode = 2;
                             errorMessage = "Referencing captures in character set is not valid.";
-                        break;
+                            break;
                         }
                     }
-                    else {
+                    else
+                    {
                         errorCode = scanResult.error.code + 20;
                         errorMessage = scanResult.error.message;
                     }
-                break;
+                    break;
                 default:
                     exprCtxt = this._getLastExprContext();
                     exprCtxt.pushTerm(ch.charCodeAt(0));
 
                     ++this._pos;
                 }
-            break;
+                break;
             case 3:
-                switch(ch) {
-                case ':':
+                switch(ch)
+                {
+                case ":":
                     --this._pos;
                     scanResult = RegexParser
                         ._CharSetParser
                         ._scanPosixCharSet(this._str, this._pos)
                     ;
-                    if(scanResult.error.code === 0) {
+                    if(scanResult.error.code === 0)
+                    {
                         exprCtxt = this._getLastExprContext();
 
                         var charSet = RegexParser._CharRangeSet[
                             charCodesToString(scanResult.value)
                         ].getRanges();
-                        if(scanResult.valueType !== 0) {
+                        if(scanResult.valueType !== 0)
+                        {
                             charSet = Interval.negate(
                                 charSet,
                                 _minInt,
@@ -2283,98 +2434,109 @@ module.exports = (function ()
                         this._pos = scanResult.range.getMaximum();
                         this._state = 2;
                     }
-                    else {
+                    else
+                    {
                         errorCode = scanResult.error.code + 10;
                         errorMessage = scanResult.error.message;
                     }
-                break;
-                case '=':
+                    break;
+                case "=":
                     errorCode = 3;
                     errorMessage = "Posix collation sequences are not supported.";
-                break;
-                case '.':
+                    break;
+                case ".":
                     errorCode = 4;
-                    errorMessage = "Posix character equivalences are not supported.";                    
-                break;
+                    errorMessage = "Posix character equivalences are not supported.";
+                    break;
                 default:
                     --this._pos;
                     this._state = 0;
                 }
-            break;
+                break;
             case 4:
                 exprCtxt = this._getLastExprContext();
                 var rangeMax = 0;
                 var lastTerm = exprCtxt._terms[exprCtxt._terms.length - 1];
-                if(lastTerm._type === 0) {
-                    switch(ch) {
-                    case '['://Character set difference operator
+                if(lastTerm._type === 0)
+                {
+                    switch(ch)
+                    {
+                    case "["://Character set difference operator
                         //TODO : Write some proper codes...
                         throw new Error("Write some proper codes!");
                     // break;
-                    case '\\'://Range operator
+                    case "\\"://Range operator
                         scanResult = RegexParser._scanEscapedCharacter(this._str, this._pos);
-                        if(scanResult.error.code === 0) {
-                            switch(scanResult.valueType) {
+                        if(scanResult.error.code === 0)
+                        {
+                            switch(scanResult.valueType)
+                            {
                             case 0:
                                 rangeMax = scanResult.value[0];
 
                                 this._pos = scanResult.range.getMaximum();
-                            break;
+                                break;
                             case 1:
                             case 2:
                             case 3:
                                 errorCode = 2;
                                 errorMessage = "The right hand side of range operators must be a single character.";
-                            break;
+                                break;
                             }
                         }
-                        else {
+                        else
+                        {
                             errorCode = scanResult.error.code + 20;
                             errorMessage = scanResult.error.message;
                         }
-                    break;
+                        break;
                     default://Range operator
                         rangeMax = ch.charCodeAt(0);
 
                         ++this._pos;
                     }
 
-                    if(errorCode === 0) {
+                    if(errorCode === 0)
+                    {
                         exprCtxt._terms.pop();
                         exprCtxt.pushTerm(new Interval(lastTerm._value, rangeMax));
 
                         this._state = 2;
                     }
                 }
-                else {
+                else
+                {
                     errorCode = 80;
                     errorMessage = "The left hand side of range operators"
                         + " must be a single character."
                     ;
                 }
-            break;
+                break;
             case 5:
                 //TODO : Do character set operation
                 //after the rhs character set has been parsed.
 
-            break;
+                break;
             case 6:
-                if(ch === ']') {
+                if(ch === "]")
+                {
                     //TODO : Create final ranges.
                     throw new Error("Write some proper codes!");
                 }
-                else {
+                else
+                {
                     errorCode = 90;
                     errorMessage = "More terms"
                         + " after character set operation"
                         + " is not allowed."
                     ;
                 }
-            break;
+                break;
             }
         }
 
-        if(errorCode === 0 && !valid) {
+        if(errorCode === 0 && !valid)
+        {
             errorCode = 50;
             errorMessage = "";
         }
@@ -2393,7 +2555,8 @@ module.exports = (function ()
      */
     RegexParser._CharSetParser.prototype._getLastExprContext = function ()
     {
-        if(this._exprCtxts.length < 1) {
+        if(this._exprCtxts.length < 1)
+        {
             throw new Error("No more character set contexts left.");
         }
 
@@ -2429,34 +2592,41 @@ module.exports = (function ()
      */
     RegexParser._ExprContext.prototype.pushOperator = function (opKey)
     {
-        if(!isNonNegativeSafeInteger(opKey)) {
+        if(!isNonNegativeSafeInteger(opKey))
+        {
             throw new TypeError("The parameter 'opKey' must be a non-negative safe integer.");
         }
 
         var opType = _opTypeMap.get(opKey);
-        if(isUndefinedOrNull(opType)) {
+        if(isUndefinedOrNull(opType))
+        {
             throw new Error("A fatal error has occured. Cannot find the operator type information.");
         }
 
         var op = new Operator(opType, arguments[1]);
         //TODO : tokenExpressionCall을 term 취급하기 위한 임시 조치.
-        if(opType.getParameterCount() < 2) {
+        if(opType.getParameterCount() < 2)
+        {
             //TODO : 임시 조치
-            if(opType.getKey() === OperatorTypeKeys.tokenExpressionCall) {
+            if(opType.getKey() === OperatorTypeKeys.tokenExpressionCall)
+            {
                 if(
                     this._termNodeStack.length >= 1
                     && this._lastNodeType === RegexParser.AstNodeType.terminal
-                ) {
+                )
+                {
                     this.pushOperator(OperatorTypeKeys.concatenation);
                 }
             }
 
             this._createAndPushOperatorNode(op);
         }
-        else {
+        else
+        {
             while(
                 this._opStack.length > 0
-            ) {
+            )
+            {
                 var lastOp = this._opStack[this._opStack.length - 1];
                 var lastOpType = lastOp.getType();
                 if(
@@ -2465,11 +2635,13 @@ module.exports = (function ()
                         opType.getAssociativity() === OperatorType.Associativity.leftToRight
                         && !opType.precedes(lastOpType)
                     )
-                ) {
+                )
+                {
                     this._createAndPushOperatorNode(lastOp);
                     this._opStack.pop();
                 }
-                else {
+                else
+                {
                     break;
                 }
             }
@@ -2486,28 +2658,33 @@ module.exports = (function ()
     RegexParser._ExprContext.prototype.pushTerm = function (arg)
     {
         var termNode = null;
-        if(arg instanceof AstNode) {
+        if(arg instanceof AstNode)
+        {
             termNode = arg;
         }
-        else if(isNonNegativeSafeInteger(arg)) {
+        else if(isNonNegativeSafeInteger(arg))
+        {
             termNode = new AstNode(
                 RegexParser.AstNodeType.terminal,
                 [new Interval(arg, arg)]
             );
         }
-        else if(arg instanceof Interval) {
+        else if(arg instanceof Interval)
+        {
             termNode = new AstNode(
                 RegexParser.AstNodeType.terminal,
                 [arg]
             );
         }
-        else if(Array.isArray(arg)) {
+        else if(Array.isArray(arg))
+        {
             termNode = new AstNode(
                 RegexParser.AstNodeType.terminal,
                 arg
             );
         }
-        else {
+        else
+        {
             throw new TypeError(
                 "The argument must be either "
                 + "'AstNode', 'Interval', an array of 'Interval'"
@@ -2518,7 +2695,8 @@ module.exports = (function ()
         if(
             this._termNodeStack.length >= 1
             && this._lastNodeType === RegexParser.AstNodeType.terminal
-        ) {
+        )
+        {
             this.pushOperator(OperatorTypeKeys.concatenation);
         }
 
@@ -2532,18 +2710,21 @@ module.exports = (function ()
      */
     RegexParser._ExprContext.prototype.evaluateAll = function ()
     {
-        while(this._opStack.length > 0) {
+        while(this._opStack.length > 0)
+        {
             var op = this._opStack.pop();
             this._createAndPushOperatorNode(op);
         }
 
-        if(this._termNodeStack.length !== 1) {
+        if(this._termNodeStack.length !== 1)
+        {
             //Error
             throw new Error("There are some not calculated term nodes.");
 
             //return null;
         }
-        else {
+        else
+        {
             return this._termNodeStack.pop();
         }
     };
@@ -2555,7 +2736,8 @@ module.exports = (function ()
      */
     RegexParser._ExprContext.prototype._createAndPushOperatorNode = function (op)
     {
-        if(!(op instanceof Operator)) {
+        if(!(op instanceof Operator))
+        {
             throw new TypeError("'op' must be an instance of 'Operator'.");
         }
 
@@ -2563,13 +2745,15 @@ module.exports = (function ()
 
         var termNodeCount = this._termNodeStack.length;
         var paramCount = opType.getParameterCount();
-        if(termNodeCount < paramCount) {
+        if(termNodeCount < paramCount)
+        {
             throw new Error("Not enough parameters.");
         }
 
         var opNode = new AstNode(RegexParser.AstNodeType.operator, op);
         var startTermNodeIndex = termNodeCount - paramCount;
-        for(var i = startTermNodeIndex; i < termNodeCount; ++i) {
+        for(var i = startTermNodeIndex; i < termNodeCount; ++i)
+        {
             opNode.addChild(this._termNodeStack[i]);
         }
         this._termNodeStack.splice(startTermNodeIndex, paramCount);
@@ -2577,12 +2761,14 @@ module.exports = (function ()
         this._termNodeStack.push(opNode);
 
         //TODO : 코드 최적화
-        if(paramCount === 2) {
+        if(paramCount === 2)
+        {
             var childNode = null;
 
-            switch(opType.getAssociativity()) {
+            switch(opType.getAssociativity())
+            {
             case OperatorType.Associativity.none:
-            break;
+                break;
             case OperatorType.Associativity.leftToRight:
                 childNode = opNode.getChildAt(0);
                 if(
@@ -2594,14 +2780,15 @@ module.exports = (function ()
                         op.getStaticArgumentCount() === 0
                         && childNode.getValue().getStaticArgumentCount() === 0
                     )
-                ) {
+                )
+                {
                     opNode.removeChildAt(0);
                     opNode.insertChildren(
                         childNode.removeAllChildren(),
                         0
                     );
                 }
-            break;
+                break;
             //TODO : 코드 검증
             case OperatorType.Associativity.rightToLeft:
                 childNode = opNode.getChildAt(1);
@@ -2614,14 +2801,15 @@ module.exports = (function ()
                         op.getStaticArgumentCount() === 0
                         && childNode.getValue().getStaticArgumentCount() === 0
                     )
-                ) {
+                )
+                {
                     opNode.removeChildAt(1);
                     opNode.insertChildren(
                         childNode.removeAllChildren(),
                         opNode.getChildCount()
                     );
                 }
-            break;
+                break;
             default:
                 throw new Error("An unknown associativity value of an operator has been found.");
             }
@@ -2639,20 +2827,24 @@ module.exports = (function ()
      */
     RegexParser.prototype.parse = function (regexStr)
     {
-        if(!isString(regexStr)) {
+        if(!isString(regexStr))
+        {
             throw new TypeError("'regexStr' must be a string that represents a regular expression.");
         }
 
         var tokenKey = arguments[1];
-        if(isUndefined(tokenKey)) {
+        if(isUndefined(tokenKey))
+        {
             tokenKey = 0;
         }
-        else if(!isNonNegativeSafeInteger(tokenKey)) {
+        else if(!isNonNegativeSafeInteger(tokenKey))
+        {
             throw new TypeError("'tokenKey' must be a non-negative safe integer.");
         }
 
         var tokenNameKeyMap = arguments[2];
-        if(isUndefined(tokenNameKeyMap)) {
+        if(isUndefined(tokenNameKeyMap))
+        {
             throw new TypeError(
                 "'tokenNameKeyMap'"
                 + " must be a "
@@ -2685,74 +2877,83 @@ module.exports = (function ()
         for(
             var regexLen = this._regexStr.length;
             this._parsing && this._pos < regexLen;
-        ) {
+        )
+        {
             var groupRootNode = null;
             var scanResult = null;
 
             var exprCtx = this._getLastExpressionContext();
             var ch = this._regexStr.charAt(this._pos);
 
-            switch(this._state) {
+            switch(this._state)
+            {
             case 0:
-                switch(ch) {
-                case '\r': case '\n':
-                break;
-                case '^':
+                switch(ch)
+                {
+                case "\r": case "\n":
+                    break;
+                case "^":
                     this._cancelParsing("Start of string anchor is not implemented yet...");
-                break;
-                case '$':
+                    break;
+                case "$":
                     this._cancelParsing("End of string anchor is not implemented yet...");
-                break;
-                case '(':
+                    break;
+                case "(":
                     this._exprCtxStack.push(new RegexParser._ExprContext());
 
                     this._moveToNextIfNoError();
-                break;
-                case ')':
-                    if(this._exprCtxStack.length >= 1) {
+                    break;
+                case ")":
+                    if(this._exprCtxStack.length >= 1)
+                    {
                         groupRootNode = exprCtx.evaluateAll();
-                        if(null !== groupRootNode) {
+                        if(null !== groupRootNode)
+                        {
                             groupRootNode.setRootOfGroup(true);
                             this._exprCtxStack.pop();
                             this._getLastExpressionContext().pushTerm(groupRootNode);
 
                             this._moveToNextIfNoError();
                         }
-                        else {
+                        else
+                        {
                             this._cancelParsing("There are some errors in the grouped expression.");
                         }
                     }
-                    else {
+                    else
+                    {
                         this._cancelParsing("There is no open parenthesis.");
                     }
-                break;
-                case '{':
+                    break;
+                case "{":
                     ++this._pos;
                     this._state = 1;
-                break;
-                case '*': case '+': case '?':
+                    break;
+                case "*": case "+": case "?":
                     this._processRepetitionOperator();
-                break;
-                case '}':
+                    break;
+                case "}":
                     this._cancelParsing("An invalid token that specifies end of constrained repetition has been found.");
-                break;
-                case '|':
+                    break;
+                case "|":
                     exprCtx.pushOperator(OperatorTypeKeys.alternation);
 
                     this._moveToNextIfNoError();
-                break;
-                case '\\':
+                    break;
+                case "\\":
                     scanResult = RegexParser._scanEscapedCharacter(
                         this._regexStr,
                         this._pos
                     );
-                    if(scanResult.error.code === 0) {
-                        switch(scanResult.valueType) {
+                    if(scanResult.error.code === 0)
+                    {
+                        switch(scanResult.valueType)
+                        {
                         case 0:
                             exprCtx.pushTerm(scanResult.value[0]);
 
                             this._pos = scanResult.range.getMaximum();
-                        break;
+                            break;
                         case 1:
                             exprCtx.pushTerm(
                                 Enum.getValueAt(
@@ -2762,7 +2963,7 @@ module.exports = (function ()
                             );
 
                             this._pos = scanResult.range.getMaximum();
-                        break;
+                            break;
                         case 2:
                             exprCtx.pushTerm(
                                 Enum.getValueAt(
@@ -2772,63 +2973,69 @@ module.exports = (function ()
                             );
 
                             this._pos = scanResult.range.getMaximum();
-                        break;
+                            break;
                         case 3:
                             this._cancelParsing("Back referencing is not supported.");
-                        break;
+                            break;
                         }
                     }
-                    else {
+                    else
+                    {
                         this._cancelParsing(scanResult.error.message);
                     }
-                break;
-                case '[':
+                    break;
+                case "[":
                     var charSetResult = charSetParser.parse(
                         this._regexStr,
                         this._pos
                     );
-                    if(charSetResult.error.code === 0) {
+                    if(charSetResult.error.code === 0)
+                    {
                         exprCtx.pushTerm(charSetResult.codeRanges);
 
                         this._pos = charSetResult.textRange.getMaximum();
                     }
-                    else {
+                    else
+                    {
                         this._cancelParsing(charSetResult.error.message);
                     }
-                break;
-                case ']':
+                    break;
+                case "]":
                     this._cancelParsing("An invalid token that specifies end of a character set has been found.");
-                break;
-                case '.':
+                    break;
+                case ".":
                     exprCtx.pushTerm(RegexParser._CharRange.anyChars.getRange());
 
                     this._moveToNextIfNoError();
-                break;
+                    break;
                 default:
                     exprCtx.pushTerm(this._regexStr.charCodeAt(this._pos));
 
                     this._moveToNextIfNoError();
                 }
-            break;
+                break;
             case 1://Starts with '{'.
-                switch(ch) {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
+                switch(ch)
+                {
+                case "0": case "1": case "2": case "3": case "4":
+                case "5": case "6": case "7": case "8": case "9":
                     --this._pos;
                     this._processRepetitionOperator();
 
                     this._state = 0;
-                break;
+                    break;
                 default:
                     --this._pos;
                     scanResult = RegexParser._scanIdInBraces(
                         this._regexStr,
                         this._pos
                     );
-                    if(scanResult.error.code === 0) {
+                    if(scanResult.error.code === 0)
+                    {
                         var targetTokenName = charCodesToString(scanResult.value);
                         var targetTokenKey = tokenNameKeyMap.get(targetTokenName);
-                        if(!isUndefined(targetTokenKey)) {
+                        if(!isUndefined(targetTokenKey))
+                        {
                             exprCtx.pushOperator(
                                 OperatorTypeKeys.tokenExpressionCall,
                                 [targetTokenKey]
@@ -2837,29 +3044,33 @@ module.exports = (function ()
                             this._pos = scanResult.range.getMaximum();
                             this._state = 0;
                         }
-                        else {
+                        else
+                        {
                             this._cancelParsing("'" + targetTokenName + "' is not defined.");
                         }
                     }
-                    else {
+                    else
+                    {
                         this._cancelParsing(scanResult.error.message);
                     }
                 }
-            break;
+                break;
             case 2://Starts with '('.
 
-            break;
+                break;
             }
         }
 
         var astRootNode = null;
         var exprRootNode = null;
-        if(this._parsing) {
+        if(this._parsing)
+        {
             this._parsing = false;
             exprRootNode = this._getLastExpressionContext().evaluateAll();
         }
 
-        if(null !== exprRootNode) {
+        if(null !== exprRootNode)
+        {
             astRootNode = new AstNode(
                 RegexParser.AstNodeType.operator,
                 new Operator(
@@ -2869,7 +3080,8 @@ module.exports = (function ()
             );
             astRootNode.addChild(exprRootNode);
         }
-        else {
+        else
+        {
             this._cancelParsing(this._error.message);
         }
 
@@ -2890,17 +3102,20 @@ module.exports = (function ()
             this._regexStr,
             this._pos
         );
-        if(scanResult.error.code === 0) {
-            if(scanResult.valueType === 1) {
+        if(scanResult.error.code === 0)
+        {
+            if(scanResult.valueType === 1)
+            {
                 this._cancelParsing("Possessive quantifiers are not supported.");
             }
-            else {
+            else
+            {
                 this._getLastExpressionContext().pushOperator(
                     OperatorTypeKeys.repetition,
                     [
                         scanResult.valueType,
                         new Interval(
-                            scanResult.value[0], 
+                            scanResult.value[0],
                             scanResult.value[1]
                         )
                     ]
@@ -2909,14 +3124,16 @@ module.exports = (function ()
                 this._pos = scanResult.range.getMaximum();
             }
         }
-        else {
+        else
+        {
             this._cancelParsing(scanResult.error.message);
         }
     };
 
     RegexParser.prototype._moveToNextIfNoError = function ()
     {
-        if(!this._error.occured) {
+        if(!this._error.occured)
+        {
             ++this._pos;
         }
     };
@@ -2947,16 +3164,19 @@ module.exports = (function ()
      */
     function InstructionBuffer(arg0)
     {
-        if(arg0 instanceof InstructionBuffer) {
+        if(arg0 instanceof InstructionBuffer)
+        {
             this._byteOrderReversed = arg0._byteOrderReversed;
             this._lines = new Array(arg0._lines.length);
-            for(var i = 0; i < arg0._lines.length; ++i) {
+            for(var i = 0; i < arg0._lines.length; ++i)
+            {
                 this._lines[i] = arg0._lines[i].slice();
             }
 
             this._lineAddrs = null;
         }
-        else {
+        else
+        {
             this._byteOrderReversed = !!arg0;
             this._lines = [];
 
@@ -2987,11 +3207,13 @@ module.exports = (function ()
      */
     InstructionBuffer.prototype.add = function (rhs)
     {
-        if(!(rhs instanceof InstructionBuffer)) {
+        if(!(rhs instanceof InstructionBuffer))
+        {
             throw new TypeError("'rhs' must be an instanceof 'InstructionBuffer'.");
         }
 
-        for(var i = 0, len = rhs._lines.length; i < len; ++i) {
+        for(var i = 0, len = rhs._lines.length; i < len; ++i)
+        {
             this._lines.push(_copyIntArray(rhs._lines[i]));
         }
 
@@ -3018,15 +3240,18 @@ module.exports = (function ()
      */
     InstructionBuffer.prototype.putFront = function (inst)
     {
-        if(!(inst instanceof RegexVmInstruction)) {
+        if(!(inst instanceof RegexVmInstruction))
+        {
             throw new TypeError("The parameter 'inst' must be an instance of 'RegexVmInstruction.'.");
         }
 
         var line = [inst.getOpCode()];
         var args = Array.prototype.slice.call(arguments);
-        for(var i = 1; i < args.length; ++i) {
+        for(var i = 1; i < args.length; ++i)
+        {
             var arg = args[i];
-            if(!isNumber(arg)) {
+            if(!isNumber(arg))
+            {
                 throw new TypeError("Optional arguments must be numbers.");
             }
 
@@ -3045,15 +3270,18 @@ module.exports = (function ()
      */
     InstructionBuffer.prototype.put = function (inst)
     {
-        if(!(inst instanceof RegexVmInstruction)) {
+        if(!(inst instanceof RegexVmInstruction))
+        {
             throw new TypeError("The parameter 'inst' must be an instance of 'RegexVmInstruction.'.");
         }
 
         var line = [inst.getOpCode()];
         var args = Array.prototype.slice.call(arguments);
-        for(var i = 1; i < args.length; ++i) {
+        for(var i = 1; i < args.length; ++i)
+        {
             var arg = args[i];
-            if(!isNumber(arg)) {
+            if(!isNumber(arg))
+            {
                 throw new TypeError("Optional arguments must be numbers.");
             }
 
@@ -3087,21 +3315,25 @@ module.exports = (function ()
         var inst = null;
 
         var lineLen = this._lines.length;
-        for(i = 0; i < lineLen; ++i) {
+        for(i = 0; i < lineLen; ++i)
+        {
             line = this._lines[i];
 
             inst = RegexVm.findInstructionByOpCode(line[0]);
-            for(j = 0; j < inst.getOperandCount(); ++j) {
-                if(inst.getOperandTypeAt(j) === RegexVm.OperandType.offset) {
+            for(j = 0; j < inst.getOperandCount(); ++j)
+            {
+                if(inst.getOperandTypeAt(j) === RegexVm.OperandType.offset)
+                {
                     var offset = line[j + 1];
 
                     line[j + 1] = (
                         offset < 0
-                        ? -this._calculateByteCount(i + offset + 1, i + 1)
-                        : this._calculateByteCount(i + 1, i + offset + 1)
+                            ? -this._calculateByteCount(i + offset + 1, i + 1)
+                            : this._calculateByteCount(i + 1, i + offset + 1)
                     );
                 }
-                else if(inst.getOperandTypeAt(j) === RegexVm.OperandType.address) {
+                else if(inst.getOperandTypeAt(j) === RegexVm.OperandType.address)
+                {
                     line[j + 1] = this._calculateByteCount(0, line[j + 1]);
                 }
             }
@@ -3109,7 +3341,8 @@ module.exports = (function ()
 
         this._lineAddrs = new Array(this._lines.length);
         var codeBlock = new ByteArray();
-        for(i = 0; i < lineLen; ++i) {
+        for(i = 0; i < lineLen; ++i)
+        {
             line = this._lines[i];
             this._lineAddrs[i] = codeBlock.getElementCount();
 
@@ -3117,7 +3350,8 @@ module.exports = (function ()
             codeBlock.pushBack(opCode);
 
             inst = RegexVm.findInstructionByOpCode(opCode);
-            for(j = 0; j < inst.getOperandCount(); ++j) {
+            for(j = 0; j < inst.getOperandCount(); ++j)
+            {
                 var opType = inst.getOperandTypeAt(j);
                 opType.valueToBytes(
                     line[j + 1],
@@ -3141,18 +3375,20 @@ module.exports = (function ()
         var str = "";
 
         var offset = 0;
-        for(var i = 0, len = this._lines.length; i < len; ++i) {
+        for(var i = 0, len = this._lines.length; i < len; ++i)
+        {
             var line = this._lines[i];
             var inst = RegexVm.findInstructionByOpCode(line[0]);
 
-            str += offset + '\t';
+            str += offset + "\t";
 
-            str += i + '\t';
+            str += i + "\t";
 
             str += inst.getMnemonic();
 
-            for(var j = 1; j < line.length; ++j) {
-                str += ' ';
+            for(var j = 1; j < line.length; ++j)
+            {
+                str += " ";
                 str += line[j];
             }
 
@@ -3174,14 +3410,16 @@ module.exports = (function ()
         endLineIndex
     )
     {
-        if(startLineIndex < 0) {
+        if(startLineIndex < 0)
+        {
             throw new RangeError("'startLineIndex' can not be less than zero.");
         }
 
         return this._lines
             .slice(startLineIndex, endLineIndex)
             .reduce(
-                function (acc, line) {
+                function (acc, line)
+                {
                     return acc + RegexVm.findInstructionByOpCode(line[0]).getSize();
                 },
                 0
@@ -3212,13 +3450,16 @@ module.exports = (function ()
                 function diff(l, r)
                 {
                     var lenDiff = l.length - r.length;
-                    if(lenDiff !== 0) {
+                    if(lenDiff !== 0)
+                    {
                         return lenDiff;
                     }
 
-                    for(var i = 0; i < l.length; ++i) {
+                    for(var i = 0; i < l.length; ++i)
+                    {
                         var ndxDiff = l[i] - r[i];
-                        if(ndxDiff !== 0) {
+                        if(ndxDiff !== 0)
+                        {
                             return ndxDiff;
                         }
                     }
@@ -3242,7 +3483,8 @@ module.exports = (function ()
      */
     CodeEmitter.prototype.emitCode = function (rootNode, keyTokenMap)
     {
-        if(!(rootNode instanceof AstNode)) {
+        if(!(rootNode instanceof AstNode))
+        {
             throw new TypeError("The parameter must be an instance of 'AstNode'.");
         }
 
@@ -3257,10 +3499,11 @@ module.exports = (function ()
 
         for(
             var iter = this._rootNode.beginPostfix(),
-            endIter= this._rootNode.endPostfix();
+                endIter = this._rootNode.endPostfix();
             !iter.equals(endIter);
             iter.moveToNext()
-        ) {
+        )
+        {
             this._processNode(iter.dereference());
         }
 
@@ -3269,7 +3512,7 @@ module.exports = (function ()
         var bytecode = instBuffer.printBytecode(
             Array.from(this._ranges),
             Array.from(this._rangeIndexSets)
-        ); 
+        );
 
         this._keyTokenMap = null;
 
@@ -3281,77 +3524,82 @@ module.exports = (function ()
      */
     CodeEmitter.prototype._processNode = function (node)
     {
-        if(this._nodeCodeMap.has(node)) {
+        if(this._nodeCodeMap.has(node))
+        {
             throw new Error("The node has been already processed.");
         }
 
         var buffer = new InstructionBuffer(this._byteOrderReversed);
 
-        if(node.isRootOfGroup()) {
+        if(node.isRootOfGroup())
+        {
             buffer.put(RegexVmInstruction.beginGroup, 0);
         }
 
-        switch(node.getType()) {
+        switch(node.getType())
+        {
         case RegexParser.AstNodeType.operator:
             var op = node.getValue();
-            switch(op.getType().getKey()) {
+            switch(op.getType().getKey())
+            {
             case OperatorTypeKeys.accept:
                 buffer = this._visitAccept(
                     buffer,
                     node,
                     op.getStaticArguments()
                 );
-            break;
+                break;
             case OperatorTypeKeys.tokenExpressionCall:
                 buffer = this._visitTokenExpressionCall(
                     buffer,
                     node,
                     op.getStaticArguments()
                 );
-            break;
+                break;
             case OperatorTypeKeys.regexAlternation:
                 buffer = this._visitRegexAlternation(
                     buffer,
                     node,
                     op.getStaticArguments()
                 );
-            break;
+                break;
             case OperatorTypeKeys.alternation:
                 buffer = this._visitAlternation(
                     buffer,
                     node,
                     op.getStaticArguments()
                 );
-            break;
+                break;
             case OperatorTypeKeys.concatenation:
                 buffer = this._visitConcatenation(
                     buffer,
                     node,
                     op.getStaticArguments()
                 );
-            break;
+                break;
             case OperatorTypeKeys.repetition:
                 buffer = this._visitRepetition(
                     buffer,
                     node,
                     op.getStaticArguments()
                 );
-            break;
+                break;
             default:
                 throw new Error("An unknown operator has been found.");
             }
-        break;
+            break;
         case RegexParser.AstNodeType.terminal:
             buffer = this._visitTerminal(
                 buffer,
                 node
             );
-        break;
+            break;
         default:
             throw new Error("An unknown ast node type has been detected.");
         }
 
-        if(node.isRootOfGroup()) {
+        if(node.isRootOfGroup())
+        {
             buffer.put(RegexVmInstruction.endGroup, 0);
         }
 
@@ -3370,35 +3618,41 @@ module.exports = (function ()
         var childCount = node.getChildCount();
         var codeLen = 2;
         var calledTokenCount = 0;
-        for(var i = 0; i < childCount; ++i) {
+        for(var i = 0; i < childCount; ++i)
+        {
             var childNode = node.getChildAt(i);
             if(
                 childNode.getType() !== RegexParser.AstNodeType.operator
                 || childNode.getValue().getType().getKey() !== OperatorTypeKeys.accept
-            ) {
+            )
+            {
                 throw new Error("Parameter nodes of 'regexAlternation' operator must be 'accept' operator nodes.");
             }
 
             var token = this._keyTokenMap.get(childNode.getValue().getStaticArguments()[0]);
-            if(token._subRoutineOnly) {
+            if(token._subRoutineOnly)
+            {
                 continue;
             }
 
-            if(i < childCount - 1) {
+            if(i < childCount - 1)
+            {
                 offset -= offsetInfo.lengths[i];
                 buffer.put(RegexVmInstruction.fork, 0, offsetInfo.lengths[i] + 1);
             }
 
             buffer.consume(this._nodeCodeMap.get(childNode));
 
-            if(i < childCount - 1) {
+            if(i < childCount - 1)
+            {
                 buffer.put(RegexVmInstruction.bra, (childCount - 2 - i) * codeLen + offset);
             }
 
             ++calledTokenCount;
         }
 
-        if(calledTokenCount < 1) {
+        if(calledTokenCount < 1)
+        {
             buffer.put(RegexVmInstruction.rts);
         }
 
@@ -3452,14 +3706,16 @@ module.exports = (function ()
         var offset = offsetInfo.sum;
         var childCount = node.getChildCount();
         var codeLen = 2;
-        for(var i = 0; i < childCount - 1; ++i) {
+        for(var i = 0; i < childCount - 1; ++i)
+        {
             offset -= offsetInfo.lengths[i];
 
             buffer.put(RegexVmInstruction.pfork, 0, offsetInfo.lengths[i] + 1);
             buffer.consume(this._getAndWrapChildCode(node, i));
             buffer.put(RegexVmInstruction.bra, (childCount - 2 - i) * codeLen + offset);
         }
-        if(i < childCount) {
+        if(i < childCount)
+        {
             buffer.consume(this._getAndWrapChildCode(node, i));
         }
 
@@ -3474,7 +3730,8 @@ module.exports = (function ()
     CodeEmitter.prototype._visitConcatenation = function (buffer, node)
     {
         var childCount = node.getChildCount();
-        for(var i = 0; i < childCount; ++i) {
+        for(var i = 0; i < childCount; ++i)
+        {
             buffer.consume(this._getAndWrapChildCode(node, i));
         }
 
@@ -3498,16 +3755,18 @@ module.exports = (function ()
         var childCode = this._nodeCodeMap.get(childNode);
 
         var minRep = repRange.getMinimum();
-        switch(minRep) {
+        switch(minRep)
+        {
         case 0:
-        break;
+            break;
         case 1:
             buffer.add(childCode);
-        break;
+            break;
         default:
             // TODO : A stub.
             // Should be optimized by using repetition bytecodes if possible.
-            for(i = 0; i < minRep; ++i) {
+            for(i = 0; i < minRep; ++i)
+            {
                 buffer.add(childCode);
             }
         }
@@ -3515,11 +3774,14 @@ module.exports = (function ()
         var childCodeLen = childCode.getCount();
         var isNonGreedy = repType === 2;
         var maxRep = repRange.getMaximum();
-        if(maxRep >= _maxInt) {
-            if(isNonGreedy) {
+        if(maxRep >= _maxInt)
+        {
+            if(isNonGreedy)
+            {
                 buffer.put(RegexVmInstruction.pfork, childCodeLen + 1, 0);
             }
-            else {
+            else
+            {
                 buffer.put(RegexVmInstruction.pfork, 0, childCodeLen + 1);
             }
 
@@ -3527,23 +3789,29 @@ module.exports = (function ()
 
             buffer.put(RegexVmInstruction.bra, -(childCodeLen + 2));
         }
-        else if(minRep !== maxRep) {
+        else if(minRep !== maxRep)
+        {
             var optRepCount = repRange.getMaximum() - repRange.getMinimum();
 
             // TODO : A stub.
             // Should be optimized by using repetition bytecodes if possible.
-            for(i = 0; i < optRepCount; ++i) {
-                if(isNonGreedy) {
+            for(i = 0; i < optRepCount; ++i)
+            {
+                if(isNonGreedy)
+                {
                     buffer.put(RegexVmInstruction.pfork, childCodeLen, 0);
                 }
-                else {
+                else
+                {
                     buffer.put(RegexVmInstruction.pfork, 0, childCodeLen);
                 }
 
-                if(i < optRepCount - 1) {
+                if(i < optRepCount - 1)
+                {
                     buffer.add(childCode);
                 }
-                else {
+                else
+                {
                     buffer.consume(childCode);
                 }
             }
@@ -3562,29 +3830,33 @@ module.exports = (function ()
         var ranges = node.getValue();
 
         var range = null;
-        switch(ranges.length) {
+        switch(ranges.length)
+        {
         case 0:
             throw new Error("A list of terminal input range must have at least 1 range.");
         //break;
         case 1:
             range = ranges[0];
-            if(range.getMinimum() === range.getMaximum()) {
+            if(range.getMinimum() === range.getMaximum())
+            {
                 buffer.put(
                     RegexVmInstruction.testCode,
                     range.getMinimum()
                 );
             }
-            else {
+            else
+            {
                 this._ranges.add(range);
                 buffer.put(
                     RegexVmInstruction.testRange,
                     this._ranges.indexOf(range)
                 );
             }
-        break;
+            break;
         default:
             var rangeSet = [];
-            for(var i = 0; i < ranges.length; ++i) {
+            for(var i = 0; i < ranges.length; ++i)
+            {
                 range = ranges[i];
                 this._ranges.add(range);
                 var rangeNdx = this._ranges.indexOf(range);
@@ -3637,7 +3909,8 @@ module.exports = (function ()
 
         var offset = buffer.getCount();
         var tokenSrAddrs = [];
-        for(i = 0; i < this._tokenSrBuffers.length; ++i) {
+        for(i = 0; i < this._tokenSrBuffers.length; ++i)
+        {
             var tokenSrBuffer = this._tokenSrBuffers[i];
             var tokenSrLineCount = tokenSrBuffer.getCount();
 
@@ -3649,9 +3922,11 @@ module.exports = (function ()
         this._tokenSrBuffers.length = 0;
 
         var jsrOpCode = RegexVmInstruction.jsr.getOpCode();
-        for(i = 0; i < buffer.getCount(); ++i) {
+        for(i = 0; i < buffer.getCount(); ++i)
+        {
             var line = buffer.getLineAt(i);
-            if(line[0] === jsrOpCode && line[1] === 0.2) {
+            if(line[0] === jsrOpCode && line[1] === 0.2)
+            {
                 line[1] = tokenSrAddrs[this._tokenKeySrNdxMap.get(line[2])];
                 line.pop();
             }
@@ -3669,9 +3944,9 @@ module.exports = (function ()
         var childCode = this._nodeCodeMap.get(childNode);
 
         //this._fillLabelAddress(childCode, childCode.getCount(), 0.1);
-//        if(childNode.isRootOfGroup()) {
-//            this._wrapWithGroupBoundary(childCode);
-//        }
+        //        if(childNode.isRootOfGroup()) {
+        //            this._wrapWithGroupBoundary(childCode);
+        //        }
 
         return childCode;
     };
@@ -3690,24 +3965,28 @@ module.exports = (function ()
     )
     {
         var epsilon = arguments[3];
-        if(isUndefined(epsilon)) {
+        if(isUndefined(epsilon))
+        {
             epsilon = _epsilon;
         }
 
-        for(var i = 0, lineCount = buffer.getCount(); i < lineCount; ++i) {
+        for(var i = 0, lineCount = buffer.getCount(); i < lineCount; ++i)
+        {
             --labelAddress;
 
             var line = buffer.getLineAt(i);
 
             //함수 마지막 부분으로 점프하는 모든 레이블 조사
             var inst = RegexVm.findInstructionByOpCode(line[0]);
-            for(var j = 0; j < inst.getOperandCount(); ++j) {
+            for(var j = 0; j < inst.getOperandCount(); ++j)
+            {
                 var param = line[j + 1];
                 if(
                     inst.getOperandTypeAt(j) === RegexVm.OperandType.offset
                     && !isNonNegativeSafeInteger(param)
                     && relativelyEquals(param, placeholderValue, epsilon)
-                ) {
+                )
+                {
                     line[j + 1] = labelAddress;
                 }
             }
@@ -3737,31 +4016,35 @@ module.exports = (function ()
         var startIndex = 0;
 
         var beginGroupOpCode = RegexVmInstruction.beginGroup.getOpCode();
-        var endGroupOpCode = RegexVmInstruction.endGroup.getOpCode();        
+        var endGroupOpCode = RegexVmInstruction.endGroup.getOpCode();
 
         var lineCount = buffer.getCount();
         var groupIndex = startIndex;
 
         var groupIndexStack = [];
-        for(var i = 0; i < lineCount; ++i) {
+        for(var i = 0; i < lineCount; ++i)
+        {
             var line = buffer.getLineAt(i);
 
-            switch(line[0]) {
+            switch(line[0])
+            {
             case beginGroupOpCode:
                 groupIndexStack.push(groupIndex);
                 line[1] = groupIndex;
                 ++groupIndex;
-            break;
+                break;
             case endGroupOpCode:
-                if(groupIndexStack.length < 1) {
+                if(groupIndexStack.length < 1)
+                {
                     throw new Error("Some group pairs lack an open or close parenthesis.");
                 }
                 line[1] = groupIndexStack.pop();
-            break;
+                break;
             }
         }
 
-        if(groupIndexStack.length > 0) {
+        if(groupIndexStack.length > 0)
+        {
             throw new Error("Some group pairs lack an open or close parenthesis.");
         }
 
@@ -3776,7 +4059,8 @@ module.exports = (function ()
     {
         var childCodeLens = [];
         var sumOfOffset = 0;
-        for(var i = 0, childCount = node.getChildCount(); i < childCount; ++i) {
+        for(var i = 0, childCount = node.getChildCount(); i < childCount; ++i)
+        {
             var len = this._nodeCodeMap.get(node.getChildAt(i)).getCount();
             childCodeLens.push(len);
             sumOfOffset += len;
@@ -3808,7 +4092,8 @@ module.exports = (function ()
     function stringToCharCodes(str)
     {
         /**  @type {number[]} */var codes = new Array(str.length);
-        for(var i = 0; i < str.length; ++i) {
+        for(var i = 0; i < str.length; ++i)
+        {
             codes[i] = str.charCodeAt(i);
         }
 

@@ -1,5 +1,5 @@
 var isUndefined = require("kaphein-js").isUndefined;
-var isUndefinedOrNull= require("kaphein-js").isUndefinedOrNull;
+var isUndefinedOrNull = require("kaphein-js").isUndefinedOrNull;
 var isIterable = require("kaphein-js").isIterable;
 
 var isUint8 = require("./utils").isUint8;
@@ -55,19 +55,22 @@ module.exports = (function ()
     {
         var elementCount = (
             isUndefined(arguments[0])
-            ? 0
-            : _assertIsNonNegativeSafeInteger(arguments[0])
+                ? 0
+                : _assertIsNonNegativeSafeInteger(arguments[0])
         );
 
-        if(elementCount < 1) {
+        if(elementCount < 1)
+        {
             this._buffer = [0];
             this._subIndex = 0;
 
-            if(!isUndefined(arguments[1])) {
+            if(!isUndefined(arguments[1]))
+            {
                 this.fill(arguments[1]);
             }
         }
-        else {
+        else
+        {
             this._buffer = new Array(((elementCount - 1) >>> _bufNdxExp) + 1);
             this._subIndex = ((elementCount - 1) & _subNdxBm) + 1;
             this.fill((isUndefined(arguments[1]) ? 0 : arguments[1]));
@@ -127,12 +130,14 @@ module.exports = (function ()
     ByteArray.prototype[Symbol.iterator] = function ()
     {
         return ({
-            next : function () {
+            next : function ()
+            {
                 var out = {
                     done : this._index >= this._target.getElementCount()
                 };
 
-                if(!out.done) {
+                if(!out.done)
+                {
                     out.value = this._target.get(this._index);
                     ++this._index;
                 }
@@ -166,7 +171,7 @@ module.exports = (function ()
     ByteArray.prototype.set = function set(index, v)
     {
         this._assertIsValidIndex(index);
-        _assertIsUint8(v); 
+        _assertIsUint8(v);
 
         var bufNdx = index >>> _bufNdxExp;
         var subNdx = index & _subNdxBm;
@@ -189,7 +194,8 @@ module.exports = (function ()
         var elemCount = this.getElementCount();
         var end = (isUndefined(arguments[2]) ? elemCount : this._assertIsValidIndex(arguments[2], elemCount + 1));
 
-        for(var i = start; i < end; ++i) {
+        for(var i = start; i < end; ++i)
+        {
             this.set(i, v);
         }
 
@@ -220,7 +226,8 @@ module.exports = (function ()
     {
         var count = this.getElementCount();
         var halfCount = count >>> 1;
-        for(var i = 0, j = count; i < halfCount; ++i) {
+        for(var i = 0, j = count; i < halfCount; ++i)
+        {
             --j;
             this.swapElements(i, j);
         }
@@ -241,7 +248,8 @@ module.exports = (function ()
         index = (isUndefined(index) ? elemCount : index);
         this._assertIsValidIndex(index, elemCount + 1);
 
-        if(this._subIndex >= _bytesPerInt) {
+        if(this._subIndex >= _bytesPerInt)
+        {
             this._buffer.push(0);
             this._subIndex = 0;
         }
@@ -250,7 +258,8 @@ module.exports = (function ()
         var destSubNdx = index & _subNdxBm;
 
         var i = 0;
-        for(i = this._buffer.length - 1; i > destBufNdx; --i) {
+        for(i = this._buffer.length - 1; i > destBufNdx; --i)
+        {
             this._buffer[i] >>>= _bitsPerByte;
             _set(
                 this._buffer,
@@ -259,11 +268,14 @@ module.exports = (function ()
             );
         }
 
-        if(destSubNdx === 0) {
+        if(destSubNdx === 0)
+        {
             this._buffer[destBufNdx] >>>= _bitsPerByte;
         }
-        else if(destSubNdx < _bytesPerInt - 1) {
-            for(i = _bytesPerInt - 1; i > destSubNdx; --i) {
+        else if(destSubNdx < _bytesPerInt - 1)
+        {
+            for(i = _bytesPerInt - 1; i > destSubNdx; --i)
+            {
                 _set(
                     this._buffer,
                     destBufNdx, i,
@@ -284,7 +296,8 @@ module.exports = (function ()
      */
     ByteArray.prototype.removeAt = function removeAt(index)
     {
-        if(this.isEmpty()) {
+        if(this.isEmpty())
+        {
             throw new Error("No more bytes left.");
         }
 
@@ -296,14 +309,18 @@ module.exports = (function ()
         var value = _get(this._buffer, destBufNdx, destSubNdx);
 
         var i = 0, len = 0;
-        if(destSubNdx === 0) {
+        if(destSubNdx === 0)
+        {
             this._buffer[destBufNdx] <<= _bitsPerByte;
         }
-        else if(destSubNdx >= _bytesPerInt - 1) {
+        else if(destSubNdx >= _bytesPerInt - 1)
+        {
             this._buffer[destBufNdx] &= ~_byteBm;
         }
-        else {
-            for(i = destSubNdx + 1; i < _bytesPerInt; ++i) {
+        else
+        {
+            for(i = destSubNdx + 1; i < _bytesPerInt; ++i)
+            {
                 _set(
                     this._buffer,
                     destBufNdx, i - 1,
@@ -312,7 +329,8 @@ module.exports = (function ()
             }
         }
 
-        for(i = destBufNdx + 1, len = this._buffer.length; i < len; ++i) {
+        for(i = destBufNdx + 1, len = this._buffer.length; i < len; ++i)
+        {
             _set(this._buffer,
                 i - 1, _bytesPerInt - 1,
                 _get(this._buffer, i, 0)
@@ -321,7 +339,8 @@ module.exports = (function ()
         }
 
         --this._subIndex;
-        if(this._subIndex < 1 && this._buffer.length > 1) {
+        if(this._subIndex < 1 && this._buffer.length > 1)
+        {
             this._buffer.pop();
             this._subIndex = _bytesPerInt;
         }
@@ -401,30 +420,37 @@ module.exports = (function ()
     {
         var byteCount = this.getElementCount();
         var startIndex = arguments[0];
-        if(isUndefined(startIndex)) {
+        if(isUndefined(startIndex))
+        {
             startIndex = 0;
         }
-        else if(!isNonNegativeSafeInteger(startIndex)) {
+        else if(!isNonNegativeSafeInteger(startIndex))
+        {
             throw new TypeError("");
         }
-        else if(startIndex >= byteCount) {
+        else if(startIndex >= byteCount)
+        {
             throw new RangeError("");
         }
 
         var endIndex = arguments[1];
-        if(isUndefined(endIndex)) {
+        if(isUndefined(endIndex))
+        {
             endIndex = byteCount;
         }
-        else if(!isNonNegativeSafeInteger(endIndex)) {
+        else if(!isNonNegativeSafeInteger(endIndex))
+        {
             throw new TypeError("");
         }
-        else if(endIndex > byteCount) {
+        else if(endIndex > byteCount)
+        {
             endIndex = byteCount;
         }
 
         var slicedByteCount = endIndex - startIndex;
         var newByteArray = new ByteArray(slicedByteCount);
-        for(var i = slicedByteCount, j = endIndex; j > startIndex; ) {
+        for(var i = slicedByteCount, j = endIndex; j > startIndex; )
+        {
             --j;
             --i;
 
@@ -440,21 +466,26 @@ module.exports = (function ()
      */
     ByteArray.prototype.equals = function equals(rhs)
     {
-        if(this === rhs) {
+        if(this === rhs)
+        {
             return true;
         }
 
-        if(isUndefinedOrNull(rhs)) {
+        if(isUndefinedOrNull(rhs))
+        {
             return false;
         }
 
         var elemCount = this.getElementCount();
-        if(elemCount !== rhs.getElementCount()) {
+        if(elemCount !== rhs.getElementCount())
+        {
             return false;
         }
 
-        for(var i = 0; i < elemCount; ++i) {
-            if(this.get(i) !== rhs.get(i)) {
+        for(var i = 0; i < elemCount; ++i)
+        {
+            if(this.get(i) !== rhs.get(i))
+            {
                 return false;
             }
         }
@@ -469,19 +500,21 @@ module.exports = (function ()
     ByteArray.prototype.toString = function ()
     {
         var base = arguments[0];
-        var str = '[';
+        var str = "[";
 
         var count = this.getElementCount();
-        if(count > 0) {
+        if(count > 0)
+        {
             str += this.get(0).toString(base);
         }
 
-        for(var i = 1; i < count; ++i) {
+        for(var i = 1; i < count; ++i)
+        {
             str += ", ";
             str += this.get(i).toString(base);
         }
 
-        str += ']';
+        str += "]";
 
         return str;
     };
@@ -497,11 +530,13 @@ module.exports = (function ()
         _assertIsNonNegativeSafeInteger(index);
 
         var maxBound = arguments[1];
-        if(isUndefined(maxBound)) {
+        if(isUndefined(maxBound))
+        {
             maxBound = this.getElementCount();
         }
 
-        if(index >= maxBound) {
+        if(index >= maxBound)
+        {
             throw new RangeError("Index out of range.");
         }
 
@@ -550,7 +585,8 @@ module.exports = (function ()
      */
     function _assertIsUint8(v)
     {
-        if(!isUint8(v)) {
+        if(!isUint8(v))
+        {
             throw new TypeError("The value must be in range [0, 255].");
         }
 
@@ -563,10 +599,12 @@ module.exports = (function ()
      */
     function _assertByteCountInRange(byteCount)
     {
-        if(!isNonNegativeSafeInteger(byteCount)) {
+        if(!isNonNegativeSafeInteger(byteCount))
+        {
             throw new TypeError("'byteCount' must be a non-negative safe integer.");
         }
-        if(!([1, 2, 4].includes(byteCount))) {
+        if(!([1, 2, 4].includes(byteCount)))
+        {
             _throwRangeErrorOfByteCount();
         }
 
@@ -583,25 +621,30 @@ module.exports = (function ()
      */
     function integerToBytes(value, byteCount)
     {
-        if(!Number.isSafeInteger(value)) {
+        if(!Number.isSafeInteger(value))
+        {
             throw new TypeError("'value' must be a safe integer.");
         }
 
         _assertByteCountInRange(byteCount);
 
         var dest = arguments[3];
-        if(isUndefined(dest)) {
+        if(isUndefined(dest))
+        {
             dest = new ByteArray(byteCount);
         }
-        else if(!(dest instanceof ByteArray)) {
+        else if(!(dest instanceof ByteArray))
+        {
             throw new TypeError("'dest' must be an instance of 'karboantor.ByteArray'.");
         }
 
         var destIndex = arguments[4];
-        if(isUndefined(destIndex)) {
+        if(isUndefined(destIndex))
+        {
             destIndex = dest.getElementCount();
         }
-        else if(!isNonNegativeSafeInteger(destIndex)) {
+        else if(!isNonNegativeSafeInteger(destIndex))
+        {
             throw new RangeError("'destIndex' must be a non-negative safe integer.");
         }
 
@@ -609,22 +652,26 @@ module.exports = (function ()
         for(
             i = destIndex + byteCount - dest.getElementCount();
             i > 0;
-        ) {
+        )
+        {
             --i;
 
             dest.pushBack(0);
         }
 
         var j = 0;
-        if(arguments[2]) {
-            for(i = destIndex, j = byteCount; j > 0; ++i) {
+        if(arguments[2])
+        {
+            for(i = destIndex, j = byteCount; j > 0; ++i)
+            {
                 --j;
 
                 dest.set(i, (value & 0xFF));
                 value >>>= 8;
             }
         }
-        else for(i = destIndex + byteCount, j = byteCount; j > 0; ) {
+        else for(i = destIndex + byteCount, j = byteCount; j > 0; )
+        {
             --j;
             --i;
 
@@ -645,11 +692,14 @@ module.exports = (function ()
      */
     function bytesToInteger(bytes, byteCount)
     {
-        if(!(bytes instanceof ByteArray)) {
-            if(isIterable(bytes)) {
+        if(!(bytes instanceof ByteArray))
+        {
+            if(isIterable(bytes))
+            {
                 bytes = ByteArray.from(bytes);
             }
-            else {
+            else
+            {
                 throw new TypeError(
                     "'byteArray' must be an instance of 'ByteArray'"
                     + " or "
@@ -658,59 +708,69 @@ module.exports = (function ()
             }
         }
 
-        if(!isNonNegativeSafeInteger(byteCount)) {
+        if(!isNonNegativeSafeInteger(byteCount))
+        {
             throw new TypeError("'byteCount' must be a non-negative integer.");
         }
 
         var signed = !!arguments[2];
         var byteOrderReversed = !!arguments[3];
         var index = arguments[4];
-        if(isUndefined(index)) {
+        if(isUndefined(index))
+        {
             index = 0;
         }
-        else if(!isNonNegativeSafeInteger(index)) {
+        else if(!isNonNegativeSafeInteger(index))
+        {
             throw new TypeError("The parameter 'startIndex' must be a non-negative safe integer.");
         }
 
         var intValue = 0;
 
-        switch(byteCount) {
+        switch(byteCount)
+        {
         case 0:
             _throwRangeErrorOfByteCount();
-        break;
+            break;
         case 1:
             intValue = bytes.get(index);
 
-            if(signed && intValue >= _twoPower7) {
+            if(signed && intValue >= _twoPower7)
+            {
                 intValue -= 256;
             }
-        break;
+            break;
         case 2:
-            if(byteOrderReversed) {
+            if(byteOrderReversed)
+            {
                 intValue = bytes.get(index);
                 intValue |= (bytes.get(++index) << 8);
             }
-            else {
+            else
+            {
                 intValue = bytes.get(index);
                 intValue <<= 8;
                 intValue = bytes.get(++index);
             }
 
-            if(signed && intValue >= _twoPower15) {
+            if(signed && intValue >= _twoPower15)
+            {
                 intValue -= _twoPower16;
             }
-        break;
+            break;
         case 3:
             _throwRangeErrorOfByteCount();
-        break;
+            break;
         case 4:
-            if(byteOrderReversed) {
+            if(byteOrderReversed)
+            {
                 intValue = bytes.get(index);
                 intValue |= (bytes.get(++index) << 8);
                 intValue |= (bytes.get(++index) << 16);
                 intValue |= (bytes.get(++index) << 24);
             }
-            else {
+            else
+            {
                 intValue = bytes.get(index);
                 intValue <<= 8;
                 intValue = bytes.get(++index);
@@ -720,10 +780,11 @@ module.exports = (function ()
                 intValue = bytes.get(++index);
             }
 
-            if(signed && intValue >= _twoPower31) {
+            if(signed && intValue >= _twoPower31)
+            {
                 intValue -= _twoPower32;
             }
-        break;
+            break;
         default:
             _throwRangeErrorOfByteCount();
         }

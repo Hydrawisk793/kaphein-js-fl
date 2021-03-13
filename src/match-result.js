@@ -23,7 +23,8 @@ module.exports = (function ()
         equals : function equals(rhs)
         {
             var result = this === rhs;
-            if(!result) {
+            if(!result)
+            {
                 result = rhs instanceof MatchResult
                     && this.tokenKey === rhs.tokenKey
                     && this.text === rhs.text
@@ -34,7 +35,7 @@ module.exports = (function ()
 
         toString : function toString()
         {
-            var str = '{';
+            var str = "{";
 
             str += "tokenKey";
             str += " : ";
@@ -50,7 +51,7 @@ module.exports = (function ()
             str += " : ";
             str += this.range;
 
-            str += '}';
+            str += "}";
 
             return str;
         }

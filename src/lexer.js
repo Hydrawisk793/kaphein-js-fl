@@ -3,7 +3,7 @@ var isString = require("kaphein-js").isString;
 var isFunction = require("kaphein-js").isFunction;
 var forOf = require("kaphein-js").forOf;
 var RbTreeMap = require("kaphein-js").RbTreeMap;
-var ArrayMap= require("kaphein-js").ArrayMap;
+var ArrayMap = require("kaphein-js").ArrayMap;
 
 var integerComparator = require("./utils").integerComparator;
 // var stringComparator = require("./utils").stringComparator;
@@ -43,18 +43,22 @@ module.exports = (function ()
         getToken : function getToken(arg0)
         {
             var key = arg0;
-            if(isString(arg0)) {
+            if(isString(arg0))
+            {
                 key = this._nameKeyMap.get(arg0);
-                if(isUndefined(key)) {
+                if(isUndefined(key))
+                {
                     return null;
                 }
             }
-            else if(!isNonNegativeSafeInteger(arg0)) {
+            else if(!isNonNegativeSafeInteger(arg0))
+            {
                 throw new TypeError("A non-negative integer or a string must be passed.");
             }
 
             var token = this._keyTokenMap.get(key);
-            if(isUndefined(token)) {
+            if(isUndefined(token))
+            {
                 token = null;
             }
 
@@ -66,7 +70,8 @@ module.exports = (function ()
          */
         setInput : function (str)
         {
-            if(!isString(str)) {
+            if(!isString(str))
+            {
                 throw new TypeError("'str' must be a string.");
             }
             this._inStr = str;
@@ -78,18 +83,21 @@ module.exports = (function ()
          */
         scanNext : function scanNext(callback)
         {
-            if(!isFunction(callback)) {
+            if(!isFunction(callback))
+            {
                 throw new TypeError("'callback' must be a function.");
             }
 
             var hasNext = true;
 
             var result = this._regexVm.find(this._inStr, this._pos);
-            if(null !== result) {
+            if(null !== result)
+            {
                 if(
                     null === this._prevResult
                     || !this._prevResult.equals(result)
-                ) {
+                )
+                {
                     this._pos = result.range.getMaximum();
 
                     callback(result, this._scannedTokenCount, this);
@@ -97,14 +105,17 @@ module.exports = (function ()
                     this._prevResult = result;
                     ++this._scannedTokenCount;
                 }
-                else {
+                else
+                {
                     hasNext = false;
                 }
             }
-            else {
+            else
+            {
                 ++this._pos;
 
-                if(this._pos >= this._inStr.length) {
+                if(this._pos >= this._inStr.length)
+                {
                     hasNext = false;
                 }
             }
@@ -129,13 +140,16 @@ module.exports = (function ()
      */
     function LexerToken(key, name, regexText, subRoutineOnly)
     {
-        if(!isNonNegativeSafeInteger(key)) {
+        if(!isNonNegativeSafeInteger(key))
+        {
             throw new TypeError("'key' must be a non-negative safe integer.");
         }
-        if(!isString(name)) {
+        if(!isString(name))
+        {
             throw new TypeError("'name' must be a string.");
         }
-        if(!isString(regexText)) {
+        if(!isString(regexText))
+        {
             throw new TypeError("'regexText' must be a string.");
         }
 
@@ -150,28 +164,28 @@ module.exports = (function ()
 
         toString : function toString()
         {
-            var str = '{';
-    
+            var str = "{";
+
             str += "key";
             str += " : ";
             str += this.key;
-    
+
             str += ", ";
             str += "name";
             str += " : ";
             str += "\"" + this.name + "\"";
-    
+
             str += ", ";
             str += "regexText";
             str += " : ";
             str += "\"" + this.regexText + "\"";
-    
+
             str += ", ";
             str += "subRoutineOnly";
             str += " : ";
             str += this.subRoutineOnly;
-    
-            str += '}';
+
+            str += "}";
 
             return str;
         }
@@ -202,7 +216,8 @@ module.exports = (function ()
          */
         getTokenDefinition : function getToken(name)
         {
-            if(this._nameKeyMap.has(name)) {
+            if(this._nameKeyMap.has(name))
+            {
                 return this._keyTokenMap.get(this._nameKeyMap.get(name));
             }
         },
@@ -215,7 +230,8 @@ module.exports = (function ()
         defineToken : function defineToken(name, regexText)
         {
             var tokenKey = this._nameKeyMap.get(name);
-            if(isUndefined(tokenKey)) {
+            if(isUndefined(tokenKey))
+            {
                 tokenKey = this._keySeq;
                 ++this._keySeq;
 
@@ -226,7 +242,8 @@ module.exports = (function ()
                 regexText,
                 tokenKey, this._nameKeyMap
             );
-            if(null === astRootNode) {
+            if(null === astRootNode)
+            {
                 this._nameKeyMap.remove(name);
                 --this._keySeq;
 
@@ -274,13 +291,15 @@ module.exports = (function ()
                 {
                     var token = pair[1];
                     regexStr += (regexStr === "" ? "" : "|||");
-                    if(token._subRoutineOnly) {
-                        regexStr += "(@{subRoutineOnly}" + token._regexText + ')';
+                    if(token._subRoutineOnly)
+                    {
+                        regexStr += "(@{subRoutineOnly}" + token._regexText + ")";
                     }
-                    else {
+                    else
+                    {
                         regexStr += token._regexText;
                     }
-                    regexStr += "(@{accept}{" + token._key + '})';
+                    regexStr += "(@{accept}{" + token._key + "})";
                     rootNode.addChild(token._astRootNode);
                 },
                 this
@@ -344,34 +363,34 @@ module.exports = (function ()
 
         toString : function toString()
         {
-            var str = '{';
+            var str = "{";
 
             str += "key";
             str += " : ";
             str += this._key;
-    
+
             str += ", ";
             str += "name";
             str += " : ";
             str += this._name;
-    
+
             str += ", ";
             str += "regex";
             str += " : ";
             str += this._regexText;
-    
+
             str += ", ";
             str += "subRoutineOnly";
             str += " : ";
             str += this._subRoutineOnly;
-    
+
             str += ", ";
             str += "ast";
             str += " : ";
             str += this._astRootNode;
-    
-            str += '}';
-    
+
+            str += "}";
+
             return str;
         }
     };

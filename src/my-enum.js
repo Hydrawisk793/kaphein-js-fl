@@ -49,14 +49,16 @@ module.exports = (function ()
     /**
      *  @returns {number}
      */
-    MyEnum.prototype[MyEnum.getIndex] = function () {
+    MyEnum.prototype[MyEnum.getIndex] = function ()
+    {
         return this[_pSymMemberIndex];
     };
 
     /**
      *  @returns {String|Symbol}
      */
-    MyEnum.prototype[MyEnum.getKey] = function () {
+    MyEnum.prototype[MyEnum.getKey] = function ()
+    {
         return this[_pSymMemberKey];
     };
 
@@ -82,16 +84,20 @@ module.exports = (function ()
      *  @param {iterable} pairs
      *  @returns {karbonator.util.Enum}
      */
-    MyEnum.create = function (protoHandler, ctor, pairs) {
-        if(!isFunction(protoHandler)) {
+    MyEnum.create = function (protoHandler, ctor, pairs)
+    {
+        if(!isFunction(protoHandler))
+        {
             throw new TypeError("The parameter 'protoHandler' must be a function.");
         }
 
-        if(!isFunction(ctor)) {
+        if(!isFunction(ctor))
+        {
             throw new TypeError("The parameter 'ctor' must be a function.");
         }
 
-        if(!isIterable(pairs)) {
+        if(!isIterable(pairs))
+        {
             throw new TypeError(
                 "The parameter "
                 + "'pairs'"
@@ -110,12 +116,15 @@ module.exports = (function ()
             var i = pairs[Symbol.iterator](), iP = i.next(), ndx = 0;
             !iP.done;
             iP = i.next(), ++ndx
-        ) {
+        )
+        {
             var key = iP.value[0];
-            if(!isString(key) && !isSymbol(key)) {
+            if(!isString(key) && !isSymbol(key))
+            {
                 throw new TypeError("Keys of enum members must be strings or symbols.");
             }
-            if(_hasOwnProperty.call(EnumType, key)) {
+            if(_hasOwnProperty.call(EnumType, key))
+            {
                 throw new Error(
                     "The key '"
                     + key
@@ -130,18 +139,21 @@ module.exports = (function ()
         }
         EnumType[_pSymStaticKeys] = keys;
 
-        EnumType[Symbol.iterator] = function () {
+        EnumType[Symbol.iterator] = function ()
+        {
             return ({
                 _keys : EnumType[_pSymStaticKeys],
 
                 _index : 0,
 
-                next : function () {
+                next : function ()
+                {
                     var result = {
                         done : this._index >= this._keys.length
                     };
 
-                    if(!result.done) {
+                    if(!result.done)
+                    {
                         var key = this._keys[this._index];
                         result.value = [
                             this._keys[this._index],
@@ -163,7 +175,8 @@ module.exports = (function ()
      *  @param {Function} enumType
      *  @returns {Array.<String|Symbol>}
      */
-    MyEnum.getKeys = function (enumType) {
+    MyEnum.getKeys = function (enumType)
+    {
         MyEnum._assertIsEnumType(enumType);
 
         return enumType[_pSymStaticKeys].slice();
@@ -174,7 +187,8 @@ module.exports = (function ()
      *  @param {number} index
      *  @returns {String|Symbol}
      */
-    MyEnum.getKeyAt = function (enumType, index) {
+    MyEnum.getKeyAt = function (enumType, index)
+    {
         MyEnum._assertIsEnumType(enumType);
 
         return enumType[_pSymStaticKeys][index];
@@ -185,7 +199,8 @@ module.exports = (function ()
      *  @param {number} index
      *  @returns {*}
      */
-    MyEnum.getValueAt = function (enumType, index) {
+    MyEnum.getValueAt = function (enumType, index)
+    {
         MyEnum._assertIsEnumType(enumType);
 
         return MyEnum.findByKey(enumType, MyEnum.getKeyAt(enumType, index));
@@ -195,7 +210,8 @@ module.exports = (function ()
      *  @param {Function} enumType
      *  @returns {number}
      */
-    MyEnum.getCount = function (enumType) {
+    MyEnum.getCount = function (enumType)
+    {
         MyEnum._assertIsEnumType(enumType);
 
         return enumType[_pSymStaticKeys].length;
@@ -206,10 +222,12 @@ module.exports = (function ()
      *  @param {String|Symbol} key
      *  @returns {karbonator.util.Enum}
      */
-    MyEnum.findByKey = function (enumType, key) {
+    MyEnum.findByKey = function (enumType, key)
+    {
         MyEnum._assertIsEnumType(enumType);
 
-        if(!_hasOwnProperty.call(enumType, key)) {
+        if(!_hasOwnProperty.call(enumType, key))
+        {
             throw new Error(
                 "The enum member '"
                 + key
@@ -224,8 +242,10 @@ module.exports = (function ()
      *  @param {Object} enumType
      *  @returns {Object}
      */
-    MyEnum._assertIsEnumType = function (enumType) {
-        if(!isFunction(enumType)) {
+    MyEnum._assertIsEnumType = function (enumType)
+    {
+        if(!isFunction(enumType))
+        {
             throw new TypeError(
                 "The paramter 'enumType'"
                 + " must be a derived type of "

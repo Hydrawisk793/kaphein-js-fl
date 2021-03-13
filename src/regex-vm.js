@@ -102,13 +102,13 @@ module.exports = (function ()
 
             proto.toString = function ()
             {
-                var str = '{';
+                var str = "{";
 
                 str += "name";
                 str += " : ";
                 str += this[MyEnum.getKey]();
 
-                str += '}';
+                str += "}";
 
                 return str;
             };
@@ -164,7 +164,8 @@ module.exports = (function ()
                 if(
                     !isNonNegativeSafeInteger(index)
                     || index >= this._operandTypes.length
-                ) {
+                )
+                {
                     throw new RangeError("Index out of range.");
                 }
 
@@ -188,7 +189,8 @@ module.exports = (function ()
             proto.getSize = function ()
             {
                 return 1 + this._operandTypes.reduce(
-                    function (acc, current) {
+                    function (acc, current)
+                    {
                         return acc + current.getByteCount();
                     },
                     0
@@ -233,13 +235,16 @@ module.exports = (function ()
         },
         function (mnemonic, opCode, operandTypes)
         {
-            if(!isString(mnemonic)) {
+            if(!isString(mnemonic))
+            {
                 throw new TypeError("The parameter 'mnemonic' must be a string.");
             }
-            if(!isNonNegativeSafeInteger(opCode)) {
+            if(!isNonNegativeSafeInteger(opCode))
+            {
                 throw new TypeError("The parameter 'opCode' must be a non-negative safe integer.");
             }
-            if(null !== operandTypes && !Array.isArray(operandTypes)) {
+            if(null !== operandTypes && !Array.isArray(operandTypes))
+            {
                 throw new TypeError("The parameter 'operandTypes' must be an array of type meta objects.");
             }
 
@@ -397,12 +402,14 @@ module.exports = (function ()
      */
     RegexVm.findInstructionByOpCode = function (opCode)
     {
-        if(!isNonNegativeSafeInteger(opCode)) {
+        if(!isNonNegativeSafeInteger(opCode))
+        {
             throw new TypeError("'opCode' must be a non-negative safe integer.");
         }
 
         var inst = RegexVm._opCodeInstMap.get(opCode);
-        if(isUndefined(inst)) {
+        if(isUndefined(inst))
+        {
             throw new Error(
                 "The opcode '"
                 + opCode.toString(16)
@@ -430,20 +437,24 @@ module.exports = (function ()
      */
     RegexVm.prototype.find = function (str)
     {
-        if(isUndefinedOrNull(this._bytecode)) {
+        if(isUndefinedOrNull(this._bytecode))
+        {
             throw new Error("Set the bytecode of the regex first.");
         }
 
-        if(!isString(str)) {
+        if(!isString(str))
+        {
             throw new TypeError("'str' must be a string.");
-        }        
+        }
         this._inStr = str;
 
         var start = arguments[1];
-        if(isUndefined(start)) {
+        if(isUndefined(start))
+        {
             start = 0;
         }
-        else if(!isNonNegativeSafeInteger(start)) {
+        else if(!isNonNegativeSafeInteger(start))
+        {
             throw new TypeError("'start' must be a non-negative safe integer.");
         }
 
@@ -459,39 +470,48 @@ module.exports = (function ()
      */
     RegexVm.prototype.findAll = function (str)
     {
-        if(isUndefinedOrNull(this._bytecode)) {
+        if(isUndefinedOrNull(this._bytecode))
+        {
             throw new Error("Set the bytecode of the regex first.");
         }
 
-        if(!isString(str)) {
+        if(!isString(str))
+        {
             throw new TypeError("'str' must be a string.");
         }
         this._inStr = str;
 
         var start = arguments[1];
-        if(isUndefined(start)) {
+        if(isUndefined(start))
+        {
             start = 0;
         }
-        else if(!isNonNegativeSafeInteger(start)) {
+        else if(!isNonNegativeSafeInteger(start))
+        {
             throw new TypeError("'start' must be a non-negative safe integer.");
         }
 
         var end = arguments[2];
-        if(isUndefined(end)) {
+        if(isUndefined(end))
+        {
             end = this._inStr.length;
         }
-        else if(!isNonNegativeSafeInteger(end)) {
+        else if(!isNonNegativeSafeInteger(end))
+        {
             throw new TypeError("'end' must be a non-negative safe integer.");
         }
 
         var results = [];
-        for(var i = start; ; ) {
+        for(var i = start; ; )
+        {
             var result = this._run(i);
-            if(null !== result) {
+            if(null !== result)
+            {
                 if(
                     results.length > 0
                     && result.equals(results[results.length - 1])
-                ) {
+                )
+                {
                     break;
                 }
 
@@ -499,10 +519,12 @@ module.exports = (function ()
 
                 i = result.range.getMaximum();
             }
-            else {
+            else
+            {
                 ++i;
 
-                if(i >= end) {
+                if(i >= end)
+                {
                     break;
                 }
             }
@@ -538,48 +560,61 @@ module.exports = (function ()
             ;
             this._ctxts.length > 0 && !finalMatchThreadFound;//;//
             ++this._cursor
-        ) {
-            for(i = 0; i < this._ctxts.length; ++i) {
+        )
+        {
+            for(i = 0; i < this._ctxts.length; ++i)
+            {
                 th = this._ctxts[i];
-                while(!th.isDead()) {
+                while(!th.isDead())
+                {
                     th.execute();
                     this._logStr += this.createExecInfoDebugMessage(th) + "\r\n";
 
-                    if(((th._lastOpCode & 0xF0) >>> 4) === 1) {
+                    if(((th._lastOpCode & 0xF0) >>> 4) === 1)
+                    {
                         break;
                     }
                 }
 
-                if(th.isDead()) {
-                    if(null === th._matchResult){
+                if(th.isDead())
+                {
+                    if(null === th._matchResult)
+                    {
                         deadThreads.push(th);
                     }
-                    else {
+                    else
+                    {
                         acceptedThreads.push(th);
                     }
                 }
-                else {
+                else
+                {
                     var addCurrent = true;
-                    for(j = aliveThreads.length; j > 0; ) {
+                    for(j = aliveThreads.length; j > 0; )
+                    {
                         --j;
 
                         var aliveThread = aliveThreads[j];
-                        if(th.hasSamePathPostfixWith(aliveThread)) {
-                            if(th.isPriorTo(aliveThread)) {
+                        if(th.hasSamePathPostfixWith(aliveThread))
+                        {
+                            if(th.isPriorTo(aliveThread))
+                            {
                                 aliveThreads.splice(j, 1);
                             }
-                            else {
+                            else
+                            {
                                 addCurrent = false;
                                 break;
                             }
                         }
                     }
 
-                    if(addCurrent) {
+                    if(addCurrent)
+                    {
                         aliveThreads.push(th);
                     }
 
-//                    aliveThreads.push(th);
+                    //                    aliveThreads.push(th);
                 }
 
                 this._logStr += ".............................." + "\r\n";
@@ -593,20 +628,23 @@ module.exports = (function ()
             aliveThreads.length = 0;
 
             this._logStr += "threads(" + this._ctxts.length + ") === [" + "\r\n";
-            for(i = 0; i < this._ctxts.length; ++i) {
+            for(i = 0; i < this._ctxts.length; ++i)
+            {
                 th = this._ctxts[i];
-                this._logStr += 'T' + th._id + '(' + '[' + _createConsumedValuesDebugString(th._consumedValues) + ']' + ')' + "\r\n";
+                this._logStr += "T" + th._id + "(" + "[" + _createConsumedValuesDebugString(th._consumedValues) + "]" + ")" + "\r\n";
             }
-            this._logStr += ']';
-            if(this._ctxts.length < 1) {
+            this._logStr += "]";
+            if(this._ctxts.length < 1)
+            {
                 this._logStr += "\r\n";
             }
 
-//            if(acceptedThreads.length > 0) {
-//                debugger;
-//            }
+            //            if(acceptedThreads.length > 0) {
+            //                debugger;
+            //            }
 
-            for(i = acceptedThreads.length; i > 0; ) {
+            for(i = acceptedThreads.length; i > 0; )
+            {
                 --i;
 
                 th = acceptedThreads[i];
@@ -615,43 +653,52 @@ module.exports = (function ()
                     + "\r\n"
                 ;
 
-                if(null === matchThread) {
+                if(null === matchThread)
+                {
                     matchThread = th;
 
                     finalMatchThreadFound = true;
-                    for(j = this._ctxts.length; finalMatchThreadFound && j > 0; ) {
+                    for(j = this._ctxts.length; finalMatchThreadFound && j > 0; )
+                    {
                         --j;
 
                         finalMatchThreadFound = !this._ctxts[j].isPriorTo(th);
                     }
                 }
-                else {
-                    if(th.isPriorTo(matchThread)) {
+                else
+                {
+                    if(th.isPriorTo(matchThread))
+                    {
                         matchThread = th;
 
-                        this._logStr += 'T' + th._id + " is prior to the selected thread." + "\r\n";
+                        this._logStr += "T" + th._id + " is prior to the selected thread." + "\r\n";
                     }
 
                     var priorToAlivingThs = true;
-                    for(j = 0; priorToAlivingThs && j < this._ctxts.length; ++j) {
+                    for(j = 0; priorToAlivingThs && j < this._ctxts.length; ++j)
+                    {
                         priorToAlivingThs = th.isPriorTo(this._ctxts[j]);
                     }
-                    if(priorToAlivingThs) {
+                    if(priorToAlivingThs)
+                    {
                         finalMatchThreadFound = true;
 
-                        this._logStr += 'T' + th._id + " is prior to aliving threads." + "\r\n";
+                        this._logStr += "T" + th._id + " is prior to aliving threads." + "\r\n";
                     }
                 }
             }
             acceptedThreads.length = 0;
             deadThreads.length = 0;
 
-            if(null !== matchThread) {
-                for(i = this._ctxts.length; i > 0; ) {
+            if(null !== matchThread)
+            {
+                for(i = this._ctxts.length; i > 0; )
+                {
                     --i;
 
                     th = this._ctxts[i];
-                    if(th.comparePriorityTo(matchThread) >= 0) {
+                    if(th.comparePriorityTo(matchThread) >= 0)
+                    {
                         aliveThreads.push(th);
                     }
                 }
@@ -689,22 +736,24 @@ module.exports = (function ()
     {
         var str = "";
 
-        for(var i = 0; i < values.length; ++i) {
+        for(var i = 0; i < values.length; ++i)
+        {
             var value = values[i];
 
-            switch(value[0]) {
+            switch(value[0])
+            {
             case 0:
-                str += '\'' + String.fromCharCode(value[1]) + '\'';
-            break;
+                str += "'" + String.fromCharCode(value[1]) + "'";
+                break;
             case 1:
-                str += '{' + (value[1] >= 0 ? '+' : '') + value[1] + '}';
-            break;
+                str += "{" + (value[1] >= 0 ? "+" : "") + value[1] + "}";
+                break;
             case 2:
-                str += '(' + value[1];
-            break;
+                str += "(" + value[1];
+                break;
             case 3:
-                str += ')' + value[1];
-            break;
+                str += ")" + value[1];
+                break;
             }
         }
 
@@ -726,13 +775,13 @@ module.exports = (function ()
 
         var newThread = (
             !isUndefinedOrNull(parent)
-            ? new RegexVmThread(
-                this, newThreadId, pc,
-                parent,
-                parent._pc - RegexVmInstruction.fork.getSize(),
-                arguments[2]
-            )
-            : new RegexVmThread(this, newThreadId, pc)
+                ? new RegexVmThread(
+                    this, newThreadId, pc,
+                    parent,
+                    parent._pc - RegexVmInstruction.fork.getSize(),
+                    arguments[2]
+                )
+                : new RegexVmThread(this, newThreadId, pc)
         );
         this._ctxts.push(newThread);
 
@@ -755,7 +804,8 @@ module.exports = (function ()
      */
     RegexVm.prototype.inputIsInRange = function (index)
     {
-        if(index >= this._bytecode._ranges.length) {
+        if(index >= this._bytecode._ranges.length)
+        {
             return false;
         }
 
@@ -770,15 +820,18 @@ module.exports = (function ()
      */
     RegexVm.prototype.inputIsInRangeSet = function (index)
     {
-        if(index >= this._bytecode._rangeIndexSets.length) {
+        if(index >= this._bytecode._rangeIndexSets.length)
+        {
             return false;
         }
 
         var current = this.getCurrentCharacterCode();
         var rangeIndexSet = this._bytecode._rangeIndexSets[index];
-        for(var i = 0; i < rangeIndexSet.length; ++i) {
+        for(var i = 0; i < rangeIndexSet.length; ++i)
+        {
             var range = this._bytecode._ranges[rangeIndexSet[i]];
-            if(range.contains(current)) {
+            if(range.contains(current))
+            {
                 return true;
             }
         }
@@ -793,8 +846,8 @@ module.exports = (function ()
     {
         var code = (
             this._cursor < this._inStr.length
-            ? this._inStr.charCodeAt(this._cursor)
-            : -1
+                ? this._inStr.charCodeAt(this._cursor)
+                : -1
         );
 
         return code;
@@ -806,8 +859,8 @@ module.exports = (function ()
      */
     RegexVm.prototype.createMatchResultDebugMessage = function (matchThread)
     {
-        return 'T' + matchThread._id
-            + '(' + '[' + _createConsumedValuesDebugString(matchThread._consumedValues) + ']' + ')'
+        return "T" + matchThread._id
+            + "(" + "[" + _createConsumedValuesDebugString(matchThread._consumedValues) + "]" + ")"
             + "."
             + "result === "
             + matchThread._matchResult.toString()
@@ -821,27 +874,30 @@ module.exports = (function ()
     RegexVm.prototype.createExecInfoDebugMessage = function (th)
     {
         var inst = RegexVm.findInstructionByOpCode(th._lastOpCode);
-        if(isUndefined(inst)) {
+        if(isUndefined(inst))
+        {
             throw new Error("An invalid opcode has been found.");
         }
 
-        var debugStr = 'T' + th._id;
-        debugStr += '(';
-        debugStr += '[' + _createConsumedValuesDebugString(th._consumedValues) + ']';
-        debugStr += ')';
+        var debugStr = "T" + th._id;
+        debugStr += "(";
+        debugStr += "[" + _createConsumedValuesDebugString(th._consumedValues) + "]";
+        debugStr += ")";
 
         var mnemonic = inst.getMnemonic();
         debugStr += " " + (th._instAddr) + ":";
         debugStr += "\t" + mnemonic;
 
-        if(mnemonic.endsWith("fork")) {
+        if(mnemonic.endsWith("fork"))
+        {
             debugStr += " " + "parent : T" + th._id;
-            debugStr += '(' + th._pc + ')';
+            debugStr += "(" + th._pc + ")";
             var childTh = th._vm._ctxts[th._vm._ctxts.length - 1];
             debugStr += ", child : T" + childTh._id;
-            debugStr += '(' + childTh._pc + ')';
+            debugStr += "(" + childTh._pc + ")";
         }
-        else if(mnemonic.startsWith("test")) {
+        else if(mnemonic.startsWith("test"))
+        {
             var cursor = th._vm._cursor;
             debugStr += "\t" + "at " + cursor + " " + th._vm._inStr.charAt(cursor);
         }
@@ -860,13 +916,16 @@ module.exports = (function ()
      */
     function RegexVmThread(vm, id, pc)
     {
-        if(!(vm instanceof RegexVm)) {
+        if(!(vm instanceof RegexVm))
+        {
             throw new TypeError("'vm' must be an instance of 'RegexVm'.");
         }
-        if(!isNonNegativeSafeInteger(id)) {
+        if(!isNonNegativeSafeInteger(id))
+        {
             throw new TypeError("'id' must be a non-negative safe integer.");
         }
-        if(!isNonNegativeSafeInteger(pc)) {
+        if(!isNonNegativeSafeInteger(pc))
+        {
             throw new TypeError("'pc' must be a non-negative safe integer.");
         }
 
@@ -881,11 +940,13 @@ module.exports = (function ()
         if(
             (parent instanceof RegexVmThread)
             && isNonNegativeSafeInteger(forkKey)
-        ) {
+        )
+        {
             var parentFrameStack = parent._frameStack;
             var i = parentFrameStack.length;
             var newThFrameStack = new Array(i);
-            while(i > 0) {
+            while(i > 0)
+            {
                 --i;
                 newThFrameStack[i] = new RegexVmFrame(
                     parentFrameStack[i]
@@ -911,7 +972,8 @@ module.exports = (function ()
             this._instAddr = parent._instAddr;
             this._lastOpCode = parent._lastOpCode;
         }
-        else {
+        else
+        {
             this._frameStack = [new RegexVmFrame(0)];
             this._path = [];
             this._consumeRanges = [vm._cursor];
@@ -952,16 +1014,19 @@ module.exports = (function ()
         var lenDiff = thisPathLen - rhsPathLen;
         var minLen = (lenDiff < 0 ? thisPathLen : rhsPathLen);
 
-        for(var i = 0; i < minLen; ++i) {
+        for(var i = 0; i < minLen; ++i)
+        {
             var lhsPoint = thisPath[i];
             var rhsPoint = rhsPath[i];
 
-            if(lhsPoint[0] !== rhsPoint[0]) {
+            if(lhsPoint[0] !== rhsPoint[0])
+            {
                 break;
             }
 
             var priorityDiff = lhsPoint[1] - rhsPoint[1];
-            if(priorityDiff !== 0) {
+            if(priorityDiff !== 0)
+            {
                 return priorityDiff;
             }
         }
@@ -969,7 +1034,8 @@ module.exports = (function ()
         switch(
             (this._frameStack.length < 1 ? 0x02 : 0)
             | (rhs._frameStack.length < 1 ? 0x01 : 0)
-        ) {
+        )
+        {
         case 0x00:
             //Select the shortest path.
             return -lenDiff;
@@ -986,7 +1052,8 @@ module.exports = (function ()
             switch(
                 (null !== lhsResult ? 0x02 : 0)
                 | (null !== rhsResult ? 0x01 : 0)
-            ) {
+            )
+            {
             case 0:
                 return lenDiff;
             //break;
@@ -999,7 +1066,8 @@ module.exports = (function ()
             case 3:
                 //Select the longest matched one.
                 var matchedTextDiff = lhsResult.text.length - rhsResult.text.length;
-                if(matchedTextDiff !== 0) {
+                if(matchedTextDiff !== 0)
+                {
                     return matchedTextDiff;
                 }
 
@@ -1036,7 +1104,8 @@ module.exports = (function ()
         for(
             var l = lhsPathLen, r = rhsPathLen;
             l > 0 && r > 0;
-        ) {
+        )
+        {
             --l;
             --r;
 
@@ -1046,7 +1115,8 @@ module.exports = (function ()
                 lhsPoint[0] !== rhsPoint[0]
                 || lhsPoint[1] !== rhsPoint[1]
                 || lhsPoint[2] !== rhsPoint[2]
-            ) {
+            )
+            {
                 break;
             }
 
@@ -1062,10 +1132,11 @@ module.exports = (function ()
     RegexVmThread.prototype.execute = function ()
     {
         var opCode = this.readOpCode();
-        switch(opCode) {
+        switch(opCode)
+        {
         case 0x00:
             this.branch();
-        break;
+            break;
         case 0x01:
             throw new Error("A not implemented opcode has been found.");
         // break;
@@ -1078,43 +1149,43 @@ module.exports = (function ()
         // break;
         case 0x05:
             this.jumpToSubroutine();
-        break;
+            break;
         case 0x06:
             this.returnFromSubroutine();
-        break;
+            break;
         case 0x07:
             this.accept();
-        break;
+            break;
         case 0x08:
         case 0x09:
             this.fork((opCode & 0x01) !== 0);
-        break;
+            break;
         case 0x0A:
         case 0x0B:
             this.moveConsumePointer((opCode & 0x01) !== 0);
-        break;
+            break;
         case 0x0C:
         case 0x0D:
             throw new Error("An invalid opcode has been found.");
         // break;
         case 0x0E:
             this.beginGroup();
-        break;
+            break;
         case 0x0F:
             this.endGroup();
-        break;
+            break;
         case 0x10:
             this.testCode();
-        break;
+            break;
         case 0x11:
             throw new Error("An invalid opcode has been found.");
         // break;
         case 0x12:
             this.testRange();
-        break;
+            break;
         case 0x13:
             this.testRanges();
-        break;
+            break;
         default:
             throw new Error("An invalid opcode has been found.");
         }
@@ -1166,8 +1237,10 @@ module.exports = (function ()
     /**
      *  @returns {RegexVmFrame}
      */
-    RegexVmThread.prototype.getCurrentFrame = function () {
-        if(this.isDead()) {
+    RegexVmThread.prototype.getCurrentFrame = function ()
+    {
+        if(this.isDead())
+        {
             throw new Error("The thread has been already dead.");
         }
 
@@ -1204,15 +1277,18 @@ module.exports = (function ()
         var newThreadPcOffset = this.readInteger(true, 2);
 
         var forkPc = this._instAddr;
-        for(var i = this._path.length; i > 0; ) {
+        for(var i = this._path.length; i > 0; )
+        {
             --i;
 
             var point = this._path[i];
-            if(point[2] > 0) {
+            if(point[2] > 0)
+            {
                 break;
             }
 
-            if(point[0] === forkPc) {
+            if(point[0] === forkPc)
+            {
                 this._frameStack.length = 0;
                 return;
             }
@@ -1242,17 +1318,21 @@ module.exports = (function ()
 
         var cursorStart = this._consumeRanges[0];
         var start = cursorStart;
-        for(var i = 1; i < this._consumeRanges.length; ++i) {
+        for(var i = 1; i < this._consumeRanges.length; ++i)
+        {
             var end = this._consumeRanges[i];
-            if(RegexVmThread._skipDelimiter === end) {
+            if(RegexVmThread._skipDelimiter === end)
+            {
                 ++i;
-                if(i >= this._consumeRanges.length) {
+                if(i >= this._consumeRanges.length)
+                {
                     break;
                 }
 
                 start = this._consumeRanges[i];
             }
-            else {
+            else
+            {
                 this._matchResult.text += this._vm._inStr.substring(start, end);
 
                 start = end;
@@ -1273,7 +1353,8 @@ module.exports = (function ()
      */
     RegexVmThread.prototype.moveConsumePointer = function (consume)
     {
-        if(!consume) {
+        if(!consume)
+        {
             this._consumeRanges.push(RegexVmThread._skipDelimiter);
         }
         this._consumeRanges.push(this._vm._cursor);
@@ -1308,11 +1389,14 @@ module.exports = (function ()
     {
         var charCode = this.readInteger(false, 4);
 
-        if(!this._vm.inputMatchesCode(charCode)) {
+        if(!this._vm.inputMatchesCode(charCode))
+        {
             this._frameStack.length = 0;
         }
-        else {
-            if(this._path.length > 0) {
+        else
+        {
+            if(this._path.length > 0)
+            {
                 ++this._path[this._path.length - 1][2];
             }
 
@@ -1327,11 +1411,14 @@ module.exports = (function ()
     {
         var rangeIndex = this.readInteger(false, 4);
 
-        if(!this._vm.inputIsInRange(rangeIndex)) {
+        if(!this._vm.inputIsInRange(rangeIndex))
+        {
             this._frameStack.length = 0;
         }
-        else {
-            if(this._path.length > 0) {
+        else
+        {
+            if(this._path.length > 0)
+            {
                 ++this._path[this._path.length - 1][2];
             }
 
@@ -1346,11 +1433,14 @@ module.exports = (function ()
     {
         var rangeSetIndex = this.readInteger(false, 4);
 
-        if(!this._vm.inputIsInRangeSet(rangeSetIndex)) {
+        if(!this._vm.inputIsInRangeSet(rangeSetIndex))
+        {
             this._frameStack.length = 0;
         }
-        else {
-            if(this._path.length > 0) {
+        else
+        {
+            if(this._path.length > 0)
+            {
                 ++this._path[this._path.length - 1][2];
             }
 
@@ -1364,15 +1454,18 @@ module.exports = (function ()
      */
     function RegexVmFrame(arg0)
     {
-        if(arg0 instanceof RegexVmFrame) {
+        if(arg0 instanceof RegexVmFrame)
+        {
             this._returnAddress = arg0._returnAddress;
             this._repStack = utils._copyIntArray(arg0._repStack);
         }
-        else if(isNonNegativeSafeInteger(arg0)) {
+        else if(isNonNegativeSafeInteger(arg0))
+        {
             this._returnAddress = arg0;
             this._repStack = [];
         }
-        else {
+        else
+        {
             throw new TypeError("An invalid argument.");
         }
     }
@@ -1390,13 +1483,16 @@ module.exports = (function ()
         littleEndian, codeBlock
     )
     {
-        if(!isIterable(rangeSet)) {
+        if(!isIterable(rangeSet))
+        {
             throw new TypeError("The parameter 'ranges' must have the property 'Symbol.iterator'.");
         }
-        if(!isIterable(rangeIndexSets)) {
+        if(!isIterable(rangeIndexSets))
+        {
             throw new TypeError("The parameter 'rangeIndexSets' must have the property 'Symbol.iterator'.");
         }
-        if(!(codeBlock instanceof ByteArray)) {
+        if(!(codeBlock instanceof ByteArray))
+        {
             throw new TypeError("The parameter 'codeBlock' must be an instance of 'karbonator.ByteArray'.");
         }
 
@@ -1405,7 +1501,8 @@ module.exports = (function ()
         this._littleEndian = !!littleEndian;
         this._codeBlock = ByteArray.from(codeBlock);
         this._sourceCodeForDebug = arguments[4];
-        if(isUndefined(this._sourceCodeForDebug)) {
+        if(isUndefined(this._sourceCodeForDebug))
+        {
             this._sourceCodeForDebug = "";
         }
     }

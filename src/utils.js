@@ -10,8 +10,8 @@ module.exports = (function ()
     {
         return (
             !isUndefined(preferred)
-            ? preferred
-            : alternative
+                ? preferred
+                : alternative
         );
     }
 
@@ -30,23 +30,28 @@ module.exports = (function ()
      */
     function stringComparator(l, r)
     {
-        if(!isString(l) || !isString(r)) {
+        if(!isString(l) || !isString(r))
+        {
             throw new TypeError("Both 'l' and 'r' must be strings.");
         }
 
         var minLen = (l.length < r.length ? l.length : r.length);
         var i = 0;
-        for(; i < minLen; ++i) {
+        for(; i < minLen; ++i)
+        {
             var diff = l.charCodeAt(i) - r.charCodeAt(i);
-            if(diff !== 0) {
+            if(diff !== 0)
+            {
                 return diff;
             }
         }
 
-        if(l.length > minLen) {
+        if(l.length > minLen)
+        {
             return l.charCodeAt(i);
         }
-        else if(r.length > minLen) {
+        else if(r.length > minLen)
+        {
             return r.charCodeAt(i);
         }
 
@@ -62,35 +67,43 @@ module.exports = (function ()
      *  @param {*} [thisArg]
      *  @returns {Object}
      */
-    function _arrayFromFunctionBody(arr, traitAssertionFunc, pushBackMethodKey, arrayLike) {
+    function _arrayFromFunctionBody(arr, traitAssertionFunc, pushBackMethodKey, arrayLike)
+    {
         traitAssertionFunc = (
             isUndefinedOrNull(traitAssertionFunc)
-            ? (function (v) {return v;})
-            : traitAssertionFunc
+                ? (function (v)
+                {
+                    return v;
+                })
+                : traitAssertionFunc
         );
         var mapFn = arguments[4];
         var mapFnExist = isFunction(mapFn);
         var thisArg = arguments[5];
 
-        if(arrayLike[global.Symbol.iterator]) {
+        if(arrayLike[global.Symbol.iterator])
+        {
             for(
                 var i = arrayLike[global.Symbol.iterator](), iP = i.next(), j = 0;
                 !iP.done;
                 iP = i.next(), ++j
-            ) {
+            )
+            {
                 var elem = traitAssertionFunc(iP.value);
-                if(mapFnExist) {
+                if(mapFnExist)
+                {
                     arr[pushBackMethodKey](mapFn.call(thisArg, elem, j));
                 }
-                else {
+                else
+                {
                     arr[pushBackMethodKey](elem);
                 }
             }
         }
         //TODO : 코드 작성...?
-//        else if (isArrayLike(arrayLike)) {
-//            
-//        }
+        //        else if (isArrayLike(arrayLike)) {
+        //            
+        //        }
 
         return arr;
     }
@@ -120,7 +133,8 @@ module.exports = (function ()
     {
         var i = src.length;
         var cloneOfSrc = new Array(i);
-        while(i > 0) {
+        while(i > 0)
+        {
             --i;
             cloneOfSrc[i] = src[i];
         }
@@ -136,13 +150,15 @@ module.exports = (function ()
     {
         var i = src.length;
         var cloneOfSrc = new Array(i);
-        while(i > 0) {
+        while(i > 0)
+        {
             --i;
 
             var srcElem = src[i];
             var j = srcElem.length;
             var clonedElem = new Array(j);
-            while(j > 0) {
+            while(j > 0)
+            {
                 --j;
                 clonedElem[j] = srcElem[j];
             }
@@ -158,7 +174,8 @@ module.exports = (function ()
      */
     function _assertIsNonNegativeSafeInteger(v)
     {
-        if(!isNonNegativeSafeInteger(v)) {
+        if(!isNonNegativeSafeInteger(v))
+        {
             throw new TypeError("The value must be a non-negative safe integer.");
         }
 
@@ -173,17 +190,18 @@ module.exports = (function ()
          */
         isTrue : function (boolExpr)
         {
-            if(!boolExpr) {
+            if(!boolExpr)
+            {
                 var errorClass = (
                     isFunction(arguments[2])
-                    ? arguments[2] :
-                    Error
+                        ? arguments[2] :
+                        Error
                 );
 
                 throw new errorClass((
                     isUndefinedOrNull(arguments[1])
-                    ? "Assertion Failed" :
-                    arguments[1].toString()
+                        ? "Assertion Failed" :
+                        arguments[1].toString()
                 ));
             }
         },
@@ -209,7 +227,8 @@ module.exports = (function ()
          */
         isNotUndefined : function (o)
         {
-            if(isUndefined(o)) {
+            if(isUndefined(o))
+            {
                 throw new TypeError(arguments[1]);
             }
 
@@ -224,7 +243,8 @@ module.exports = (function ()
          */
         isInstanceOf : function (o, klass)
         {
-            if(!(o instanceof klass)) {
+            if(!(o instanceof klass))
+            {
                 throw new TypeError(arguments[2]);
             }
 
@@ -240,10 +260,12 @@ module.exports = (function ()
         {
             var message = arguments[1];
 
-            if(Number.isSafeInteger(n)) {
+            if(Number.isSafeInteger(n))
+            {
                 throw new TypeError(message);
             }
-            else if(n < 0) {
+            else if(n < 0)
+            {
                 throw new RangeError(message);
             }
 
@@ -253,23 +275,28 @@ module.exports = (function ()
 
     function _areEqual(lhs, rhs)
     {
-        if(lhs === rhs) {
+        if(lhs === rhs)
+        {
             return true;
         }
 
         if(
             Array.isArray(lhs)
             && Array.isArray(rhs)
-        ) {
-            if(lhs.length !== rhs.length) {
+        )
+        {
+            if(lhs.length !== rhs.length)
+            {
                 return false;
             }
 
             var count = lhs.length;
-            for(var i = count; i > 0; ) {
+            for(var i = count; i > 0; )
+            {
                 --i;
 
-                if(!_areEqual(lhs[i], rhs[i])) {
+                if(!_areEqual(lhs[i], rhs[i]))
+                {
                     return false;
                 }
             }
@@ -280,14 +307,16 @@ module.exports = (function ()
         if(
             !isUndefinedOrNull(lhs)
             && "equals" in lhs && isCallable(lhs.equals)
-        ) {
+        )
+        {
             return lhs.equals(rhs);
         }
 
         if(
             !isUndefinedOrNull(rhs)
             && "equals" in rhs && isCallable(rhs.equals)
-        ) {
+        )
+        {
             return rhs.equals(lhs);
         }
 
