@@ -71,9 +71,3 @@ export declare class LexerGenerator
 
     public generate() : Lexer;
 }
-
-export {
-    LexerTokenDefinition,
-    Lexer,
-    LexerGenerator,
-};
