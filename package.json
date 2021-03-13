@@ -19,6 +19,8 @@
     },
     "homepage": "https://github.com/Hydrawisk793/kaphein-js-fl#readme",
     "scripts": {
+        "lint": "tsc --project tsconfig.dts.json && eslint src/**/*.js",
+        "lint:fix": "npm run lint -- --fix",
         "build": "rm -rf dist && npm test && webpack --mode=production --config webpack.config.js",
         "test": "eslint src && eslint src -c src/.eslintrc.ts.json --ext '.d.ts'",
         "prepublishOnly": "npm run build"
