@@ -1,9 +1,8 @@
 {
-    "root": true,
     "env": {
-        "commonjs": true,
         "es6": true,
-        "node": true
+        "node": true,
+        "commonjs": true
     },
     "extends": [
         "eslint:recommended"
@@ -13,12 +12,96 @@
         "SharedArrayBuffer": "readonly"
     },
     "parserOptions": {
-        "ecmaVersion": 3
+        "ecmaVersion": 2020
     },
-    "ignorePatterns": [
-        "dist/",
-        "node_modules/"
-    ],
+    "plugins": [],
+    "settings": {},
     "rules": {
+        "no-trailing-spaces" : [
+            "error",
+            {
+                "ignoreComments" : true
+            }
+        ],
+        "quotes": ["error", "double"],
+        "brace-style": ["error", "allman"],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 0,
+                "CallExpression": {
+                    "arguments": 1
+                }
+            }
+        ],
+        "no-tabs": "error",
+        "no-mixed-spaces-and-tabs": "error",
+        "template-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "comma-spacing": "error",
+        "comma-style": "error",
+        "func-call-spacing": "error",
+        "arrow-spacing": "error",
+        "computed-property-spacing": "error",
+        "array-bracket-spacing": "error",
+        "space-before-blocks": "error",
+        "space-infix-ops": "error",
+        "object-curly-spacing": ["error", "always"],
+        "key-spacing": [
+            "error",
+            {
+                "beforeColon": true,
+                "afterColon": true,
+                "mode": "strict"
+            }
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true,
+                "overrides": {
+                    "if": {
+                        "before": false,
+                        "after": false
+                    },
+                    "else": {
+                        "before": false,
+                        "after": true
+                    },
+                    "for": {
+                        "before": false,
+                        "after": false
+                    },
+                    "while": {
+                        "before": false,
+                        "after": false
+                    },
+                    "do": {
+                        "before": false,
+                        "after": false
+                    },
+                    "try": {
+                        "before": false,
+                        "after": true
+                    },
+                    "catch": {
+                        "before": false,
+                        "after": false
+                    },
+                    "finally": {
+                        "before": false,
+                        "after": true
+                    },
+                    "switch": {
+                        "before": false,
+                        "after": false
+                    }
+                }
+            }
+        ]
     }
 }
