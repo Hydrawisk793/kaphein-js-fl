@@ -21,8 +21,8 @@
     "scripts": {
         "lint": "tsc --project tsconfig.dts.json && eslint src/**/*.js",
         "lint:fix": "npm run lint -- --fix",
+        "test": "mocha tests/index.test.js",
         "build": "rm -rf dist && npm run lint && npm run test && webpack --mode production --config webpack.config.js",
-        "test": "eslint src && eslint src -c src/.eslintrc.ts.json --ext '.d.ts'",
         "prepublishOnly": "npm run build"
     },
     "bundledDependencies": [],
@@ -32,9 +32,11 @@
         "kaphein-js-type-trait": "~0.1.0"
     },
     "devDependencies": {
+        "chai": "^4.3.4",
         "copy-webpack-plugin": "^8.0.0",
         "eslint": "^7.22.0",
         "husky": "^2.7.0",
+        "mocha": "^8.3.2",
         "typescript": "^4.2.3",
         "webpack": "^5.25.0",
         "webpack-cli": "^4.5.0",
