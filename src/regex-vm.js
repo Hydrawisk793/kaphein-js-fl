@@ -1,9 +1,12 @@
-var isUndefined = require("kaphein-js").isUndefined;
-var isUndefinedOrNull = require("kaphein-js").isUndefinedOrNull;
-var isIterable = require("kaphein-js").isIterable;
-var isString = require("kaphein-js").isString;
-var RbTreeMap = require("kaphein-js").RbTreeMap;
-var Interval = require("kaphein-js-math").Interval;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isUndefined = kapheinJsTypeTrait.isUndefined;
+var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
+var isIterable = kapheinJsTypeTrait.isIterable;
+var isString = kapheinJsTypeTrait.isString;
+var kapheinJsCollection = require("kaphein-js-collection");
+var RbTreeMap = kapheinJsCollection.RbTreeMap;
+var kapheinJsMath = require("kaphein-js-math");
+var Interval = kapheinJsMath.Interval;
 
 var isNonNegativeSafeInteger = require("./utils").isNonNegativeSafeInteger;
 var integerComparator = require("./utils").integerComparator;
@@ -437,7 +440,7 @@ module.exports = (function ()
      */
     RegexVm.prototype.find = function (str)
     {
-        if(isUndefinedOrNull(this._bytecode))
+        if(!isDefinedAndNotNull(this._bytecode))
         {
             throw new Error("Set the bytecode of the regex first.");
         }
@@ -470,7 +473,7 @@ module.exports = (function ()
      */
     RegexVm.prototype.findAll = function (str)
     {
-        if(isUndefinedOrNull(this._bytecode))
+        if(!isDefinedAndNotNull(this._bytecode))
         {
             throw new Error("Set the bytecode of the regex first.");
         }
@@ -774,7 +777,7 @@ module.exports = (function ()
         ++this._thIdSeq;
 
         var newThread = (
-            !isUndefinedOrNull(parent)
+            isDefinedAndNotNull(parent)
                 ? new RegexVmThread(
                     this, newThreadId, pc,
                     parent,

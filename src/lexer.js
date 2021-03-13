@@ -1,9 +1,11 @@
-var isUndefined = require("kaphein-js").isUndefined;
-var isString = require("kaphein-js").isString;
-var isFunction = require("kaphein-js").isFunction;
-var forOf = require("kaphein-js").forOf;
-var RbTreeMap = require("kaphein-js").RbTreeMap;
-var ArrayMap = require("kaphein-js").ArrayMap;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isUndefined = kapheinJsTypeTrait.isUndefined;
+var isString = kapheinJsTypeTrait.isString;
+var isFunction = kapheinJsTypeTrait.isFunction;
+var kapheinJsCollection = require("kaphein-js-collection");
+var forOf = kapheinJsCollection.forOf;
+var RbTreeMap = kapheinJsCollection.RbTreeMap;
+var ArrayMap = kapheinJsCollection.ArrayMap;
 
 var integerComparator = require("./utils").integerComparator;
 // var stringComparator = require("./utils").stringComparator;

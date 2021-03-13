@@ -27,8 +27,9 @@
     },
     "bundledDependencies": [],
     "dependencies": {
-        "kaphein-js": "^0.2.0",
-        "kaphein-js-math": "^0.1.2"
+        "kaphein-js-collection": "~0.1.0",
+        "kaphein-js-math": "~0.2.0",
+        "kaphein-js-type-trait": "~0.1.0"
     },
     "devDependencies": {
         "copy-webpack-plugin": "^8.0.0",

@@ -1,14 +1,17 @@
-var isUndefined = require("kaphein-js").isUndefined;
-var isUndefinedOrNull = require("kaphein-js").isUndefinedOrNull;
-var isNumber = require("kaphein-js").isNumber;
-var isString = require("kaphein-js").isString;
-var isCallable = require("kaphein-js").isCallable;
-var isIterable = require("kaphein-js").isIterable;
-var RbTreeMap = require("kaphein-js").RbTreeMap;
-var ArraySet = require("kaphein-js").ArraySet;
-var ArrayMap = require("kaphein-js").ArrayMap;
-var relativelyEquals = require("kaphein-js").relativelyEquals;
-var Interval = require("kaphein-js-math").Interval;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isUndefined = kapheinJsTypeTrait.isUndefined;
+var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
+var isNumber = kapheinJsTypeTrait.isNumber;
+var isString = kapheinJsTypeTrait.isString;
+var isCallable = kapheinJsTypeTrait.isCallable;
+var isIterable = kapheinJsTypeTrait.isIterable;
+var kapheinJsCollection = require("kaphein-js-collection");
+var RbTreeMap = kapheinJsCollection.RbTreeMap;
+var ArraySet = kapheinJsCollection.ArraySet;
+var ArrayMap = kapheinJsCollection.ArrayMap;
+var kapheinJsMath = require("kaphein-js-math");
+var relativelyEquals = kapheinJsMath.relativelyEquals;
+var Interval = kapheinJsMath.Interval;
 
 var integerComparator = require("./utils").integerComparator;
 var isNonNegativeSafeInteger = require("./utils").isNonNegativeSafeInteger;
@@ -140,7 +143,7 @@ module.exports = (function ()
             return true;
         }
 
-        if(isUndefinedOrNull(rhs))
+        if(!isDefinedAndNotNull(rhs))
         {
             return false;
         }
@@ -209,7 +212,7 @@ module.exports = (function ()
             return true;
         }
 
-        if(isUndefinedOrNull(rhs))
+        if(!isDefinedAndNotNull(rhs))
         {
             return false;
         }
@@ -642,7 +645,7 @@ module.exports = (function ()
             return true;
         }
 
-        if(isUndefinedOrNull(rhs))
+        if(!isDefinedAndNotNull(rhs))
         {
             return false;
         }
@@ -771,13 +774,13 @@ module.exports = (function ()
     function ScannerError()
     {
         this.code = arguments[0];
-        if(isUndefinedOrNull(this.code))
+        if(!isDefinedAndNotNull(this.code))
         {
             this.code = 0;
         }
 
         this.message = arguments[1];
-        if(isUndefinedOrNull(this.message))
+        if(!isDefinedAndNotNull(this.message))
         {
             this.message = "";
         }
@@ -797,7 +800,7 @@ module.exports = (function ()
         this.range = range;
 
         this.error = arguments[3];
-        if(isUndefinedOrNull(this.error))
+        if(!isDefinedAndNotNull(this.error))
         {
             this.error = new ScannerError();
         }
@@ -919,7 +922,7 @@ module.exports = (function ()
             return true;
         }
 
-        if(isUndefinedOrNull(rhs))
+        if(!isDefinedAndNotNull(rhs))
         {
             return false;
         }
@@ -1041,7 +1044,7 @@ module.exports = (function ()
             return true;
         }
 
-        if(isUndefinedOrNull(rhs))
+        if(!isDefinedAndNotNull(rhs))
         {
             return false;
         }
@@ -2119,7 +2122,7 @@ module.exports = (function ()
         this.textRange = textRange;
 
         this.error = arguments[3];
-        if(isUndefinedOrNull(this.error))
+        if(!isDefinedAndNotNull(this.error))
         {
             this.error = new ScannerError();
         }
@@ -2598,7 +2601,7 @@ module.exports = (function ()
         }
 
         var opType = _opTypeMap.get(opKey);
-        if(isUndefinedOrNull(opType))
+        if(!isDefinedAndNotNull(opType))
         {
             throw new Error("A fatal error has occured. Cannot find the operator type information.");
         }

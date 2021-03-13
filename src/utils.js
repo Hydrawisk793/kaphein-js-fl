@@ -1,8 +1,9 @@
-var isUndefined = require("kaphein-js").isUndefined;
-var isUndefinedOrNull = require("kaphein-js").isUndefinedOrNull;
-var isString = require("kaphein-js").isString;
-var isFunction = require("kaphein-js").isFunction;
-var isCallable = require("kaphein-js").isCallable;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isUndefined = kapheinJsTypeTrait.isUndefined;
+var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
+var isString = kapheinJsTypeTrait.isString;
+var isFunction = kapheinJsTypeTrait.isFunction;
+var isCallable = kapheinJsTypeTrait.isCallable;
 
 module.exports = (function ()
 {
@@ -70,7 +71,7 @@ module.exports = (function ()
     function _arrayFromFunctionBody(arr, traitAssertionFunc, pushBackMethodKey, arrayLike)
     {
         traitAssertionFunc = (
-            isUndefinedOrNull(traitAssertionFunc)
+            !isDefinedAndNotNull(traitAssertionFunc)
                 ? (function (v)
                 {
                     return v;
@@ -199,7 +200,7 @@ module.exports = (function ()
                 );
 
                 throw new errorClass((
-                    isUndefinedOrNull(arguments[1])
+                    !isDefinedAndNotNull(arguments[1])
                         ? "Assertion Failed" :
                         arguments[1].toString()
                 ));
@@ -305,7 +306,7 @@ module.exports = (function ()
         }
 
         if(
-            !isUndefinedOrNull(lhs)
+            isDefinedAndNotNull(lhs)
             && "equals" in lhs && isCallable(lhs.equals)
         )
         {
@@ -313,7 +314,7 @@ module.exports = (function ()
         }
 
         if(
-            !isUndefinedOrNull(rhs)
+            isDefinedAndNotNull(rhs)
             && "equals" in rhs && isCallable(rhs.equals)
         )
         {

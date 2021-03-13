@@ -1,6 +1,7 @@
-var isUndefined = require("kaphein-js").isUndefined;
-var isUndefinedOrNull = require("kaphein-js").isUndefinedOrNull;
-var isIterable = require("kaphein-js").isIterable;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isUndefined = kapheinJsTypeTrait.isUndefined;
+var isDefinedAndNotNull = kapheinJsTypeTrait.isDefinedAndNotNull;
+var isIterable = kapheinJsTypeTrait.isIterable;
 
 var isUint8 = require("./utils").isUint8;
 var isNonNegativeSafeInteger = require("./utils").isNonNegativeSafeInteger;
@@ -471,7 +472,7 @@ module.exports = (function ()
             return true;
         }
 
-        if(isUndefinedOrNull(rhs))
+        if(!isDefinedAndNotNull(rhs))
         {
             return false;
         }

@@ -1,6 +1,7 @@
-var isString = require("kaphein-js").isString;
-var isFunction = require("kaphein-js").isFunction;
-var isIterable = require("kaphein-js").isIterable;
+var kapheinJsTypeTrait = require("kaphein-js-type-trait");
+var isString = kapheinJsTypeTrait.isString;
+var isFunction = kapheinJsTypeTrait.isFunction;
+var isIterable = kapheinJsTypeTrait.isIterable;
 
 module.exports = (function ()
 {
