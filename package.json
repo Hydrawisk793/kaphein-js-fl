@@ -23,7 +23,7 @@
         "lint:fix": "npm run lint -- --fix",
         "test": "mocha tests/index.test.js",
         "build": "rm -rf dist && npm run lint && npm run test && webpack --mode production --config webpack.config.js",
-        "prepublishOnly": "npm run build"
+        "prepack": "npm install && npm run build"
     },
     "bundledDependencies": [],
     "dependencies": {
