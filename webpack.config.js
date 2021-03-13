@@ -1,8 +1,6 @@
-var path = require("path");
-
-var CopyWebpackPlugin = require("copy-webpack-plugin");
-var TerserPlugin = require("terser-webpack-plugin");
-var nodeExternals = require('webpack-node-externals');
+const path = require("path");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const nodeExternals = require("webpack-node-externals");
 
 module.exports = (function ()
 {
@@ -16,19 +14,18 @@ module.exports = (function ()
             path : path.resolve(__dirname, outputDirectoryName),
             library : "kapheinJsFl",
             libraryTarget : "umd",
-            globalObject: "this"
-        },
-        optimization : {
-            minimizer : [new TerserPlugin()]
+            globalObject : "this"
         },
         plugins : [
-            new CopyWebpackPlugin([
-                {
-                    context : "src",
-                    from : "**/*.d.ts",
-                    to : ""
-                }
-            ]),
+            new CopyWebpackPlugin({
+                patterns : [
+                    {
+                        context : "src",
+                        from : "**/*.d.ts",
+                        to : ""
+                    }
+                ]
+            }),
         ],
         module : {
 
